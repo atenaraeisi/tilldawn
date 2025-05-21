@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Color;
 import com.tilldawn.Control.SettingsMenuController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.GameAssetManager;
 
 public class SettingsMenuView implements Screen {
     private Stage stage;
@@ -55,7 +56,7 @@ public class SettingsMenuView implements Screen {
         // Volume Slider
         volumeLabel = new Label("Volume", skin);
         volumeSlider = new Slider(0f, 1f, 0.01f, false, skin);
-        volumeSlider.setValue(0.5f); // Default
+        volumeSlider.setValue(GameAssetManager.getGameAssetManager().getBackgroundMusic().getVolume()); // Default
 
         // Music Toggle
         changeMusic = new Label("Music", skin);
@@ -204,5 +205,21 @@ public class SettingsMenuView implements Screen {
 
     public TextButton getBackButton() {
         return backButton;
+    }
+
+    public SelectBox<String> getDownButtons() {
+        return downButtons;
+    }
+
+    public SelectBox<String> getLeftButtons() {
+        return leftButtons;
+    }
+
+    public SelectBox<String> getRightButtons() {
+        return rightButtons;
+    }
+
+    public SelectBox<String> getUpButtons() {
+        return upButtons;
     }
 }

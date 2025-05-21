@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.View.EntryMenuView;
+import com.tilldawn.View.MainMenuView;
 import com.tilldawn.View.SettingsMenuView;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -15,12 +16,11 @@ public class SettingsMenuController {
     private float lastVolume = -1f;
 
 
-    private boolean lastMusicButtonState = false;
     private boolean lastSfxButtonState = false;
-    private boolean lastControlsButtonState = false;
     private boolean lastAutoReloadState = false;
     private boolean lastBWState = false;
     private boolean lastBackButtonState = false;
+    private String lastMusicSelected = "music 1";
 
     public void setView(SettingsMenuView view) {
         this.view = view;
@@ -39,7 +39,31 @@ public class SettingsMenuController {
             }
         }
 
-        // Handle Play/Pause Music Button
+        // Handle choose musics
+        String musicNumber = view.getMusics().getSelected();
+        GameAssetManager assetManager = GameAssetManager.getGameAssetManager();
+
+        if (!musicNumber.equals(lastMusicSelected)) {
+            lastMusicSelected = musicNumber;
+
+            switch (musicNumber) {
+                case "music 1":
+                    assetManager.changeMusic("musics/alex-productions-epic-cinematic-gaming-cyberpunk-reset(chosic.com).mp3", lastVolume);
+                    break;
+                case "music 2":
+                    assetManager.changeMusic("musics/DRIVE(chosic.com).mp3", lastVolume);
+                    break;
+                case "music 3":
+                    assetManager.changeMusic("musics/Sneaky-Snitch(chosic.com).mp3", lastVolume);
+                    break;
+                case "music 4":
+                    assetManager.changeMusic("musics/Warfare-chosic.com_.mp3", lastVolume);
+                    break;
+                case "music 5":
+                    assetManager.changeMusic("musics/Arman Garshasbi - Benshin Tamashayat Konam (320).mp3", lastVolume);
+                    break;
+            }
+        }
 
 
         // Handle Toggle SFX Button
@@ -70,7 +94,7 @@ public class SettingsMenuController {
         // Handle Back Button
         if (view.getBackButton().isChecked() && !lastBackButtonState) {
             Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+            Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             lastBackButtonState = true;
         } else if (!view.getBackButton().isChecked()) {
             lastBackButtonState = false;
