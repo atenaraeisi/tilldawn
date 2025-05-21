@@ -1,11 +1,17 @@
 package com.tilldawn.Model;
 
+import com.badlogic.gdx.Input;
+
 import java.util.ArrayList;
 
 public class Game {
     private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
     private static Player currentPlayer;
+    private static int upButton = Input.Keys.W;
+    private static int downButton = Input.Keys.S;
+    private static int leftButton = Input.Keys.A;
+    private static int rightButton = Input.Keys.D;
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -50,7 +56,43 @@ public class Game {
         Game.currentPlayer = currentPlayer;
     }
 
+    public static Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public static void setCurrentUser(User currentUser) {
         Game.currentUser = currentUser;
+    }
+
+    public static int getRightButton() {
+        return rightButton;
+    }
+
+    public static void setRightButton(int rightButton) {
+        Game.rightButton = rightButton;
+    }
+
+    public static int getLeftButton() {
+        return leftButton;
+    }
+
+    public static void setLeftButton(int leftButton) {
+        Game.leftButton = leftButton;
+    }
+
+    public static int getDownButton() {
+        return downButton;
+    }
+
+    public static void setDownButton(int downButton) {
+        Game.downButton = downButton;
+    }
+
+    public static int getUpButton() {
+        return upButton;
+    }
+
+    public static void setUpButton(int upButton) {
+        Game.upButton = upButton;
     }
 }

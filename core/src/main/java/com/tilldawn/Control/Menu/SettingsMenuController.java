@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.View.Menu.MainMenuView;
 import com.tilldawn.View.Menu.SettingsMenuView;
@@ -58,8 +59,8 @@ public class SettingsMenuController {
                 case "music 4":
                     assetManager.changeMusic("musics/Warfare-chosic.com_.mp3", lastVolume);
                     break;
-                case "music 5":
-                    assetManager.changeMusic("musics/Arman Garshasbi - Benshin Tamashayat Konam (320).mp3", lastVolume);
+                case "atena":
+                    assetManager.changeMusic("musics/Salam Hello Marhaba.mp3", lastVolume);
                     break;
             }
         }
@@ -74,7 +75,20 @@ public class SettingsMenuController {
         }
 
         // Handle Change Controls Button
+        String selectedUp = view.getUpButtons().getSelected();
+        String selectedDown = view.getDownButtons().getSelected();
+        String selectedLeft = view.getLeftButtons().getSelected();
+        String selectedRight = view.getRightButtons().getSelected();
 
+        int upKeyCode = getKeyCodeFromString(selectedUp);
+        int downKeyCode = getKeyCodeFromString(selectedDown);
+        int leftKeyCode = getKeyCodeFromString(selectedLeft);
+        int rightKeyCode = getKeyCodeFromString(selectedRight);
+
+        if (upKeyCode != -1) Game.setUpButton(upKeyCode);
+        if (downKeyCode != -1) Game.setDownButton(downKeyCode);
+        if (leftKeyCode != -1) Game.setLeftButton(leftKeyCode);
+        if (rightKeyCode != -1) Game.setRightButton(rightKeyCode);
 
         // Handle Auto-Reload Checkbox
         CheckBox autoReloadCheck = view.getAutoReloadCheckBox();
@@ -122,4 +136,19 @@ public class SettingsMenuController {
     public void toggleBlackAndWhiteMode() {
         // Implement display mode toggle logic
     }
+
+    private int getKeyCodeFromString(String keyName) {
+        switch (keyName) {
+            case "W": return com.badlogic.gdx.Input.Keys.W;
+            case "A": return com.badlogic.gdx.Input.Keys.A;
+            case "S": return com.badlogic.gdx.Input.Keys.S;
+            case "D": return com.badlogic.gdx.Input.Keys.D;
+            case "Up arrow": return com.badlogic.gdx.Input.Keys.UP;
+            case "Down arrow": return com.badlogic.gdx.Input.Keys.DOWN;
+            case "Left arrow": return com.badlogic.gdx.Input.Keys.LEFT;
+            case "Right arrow": return com.badlogic.gdx.Input.Keys.RIGHT;
+            default: return -1; // خطای ناشناس
+        }
+    }
+
 }

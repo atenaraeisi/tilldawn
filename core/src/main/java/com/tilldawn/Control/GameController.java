@@ -1,5 +1,6 @@
 package com.tilldawn.Control;
 
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
 import com.tilldawn.Model.Weapon;
 import com.tilldawn.View.GameView;
@@ -13,17 +14,21 @@ public class GameController {
 
     public void setView(GameView view) {
         this.view = view;
-        playerController = new PlayerController(new Player());
+        Game.setCurrentPlayer(new Player());
+        playerController = new PlayerController(Game.getCurrentPlayer());
         worldController = new WorldController(playerController);
         weaponController = new WeaponController(new Weapon());
     }
 
     public void updateGame() {
         if (view != null) {
-            worldController.update();
             playerController.update();
             weaponController.update();
         }
+    }
+
+    public WorldController getWorldController() {
+        return worldController;
     }
 
     public PlayerController getPlayerController() {

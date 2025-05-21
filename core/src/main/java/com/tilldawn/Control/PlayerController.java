@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.MathUtils;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.Player;
 
@@ -27,19 +29,51 @@ public class PlayerController {
 
 
     public void handlePlayerInput(){
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            player.setPosY(player.getPosY() - player.getSpeed());
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            player.setPosX(player.getPosX() - player.getSpeed());
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.setPosY(player.getPosY() + player.getSpeed());
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            player.setPosX(player.getPosX() + player.getSpeed());
+        float nextX = player.getPosX();
+        float nextY = player.getPosY();
+
+        if (Gdx.input.isKeyPressed(Game.getUpButton()) && Gdx.input.isKeyPressed(Game.getLeftButton())) {
+            nextY += player.getSpeed();
+            nextX -= player.getSpeed();
             player.getPlayerSprite().flip(true, false);
         }
+        else if (Gdx.input.isKeyPressed(Game.getUpButton()) && Gdx.input.isKeyPressed(Game.getRightButton())) {
+            nextY += player.getSpeed();
+            nextX += player.getSpeed();
+        }
+        else if (Gdx.input.isKeyPressed(Game.getDownButton()) && Gdx.input.isKeyPressed(Game.getLeftButton())) {
+            nextX -= player.getSpeed();
+            player.getPlayerSprite().flip(true, false);
+            nextY -= player.getSpeed();
+        }
+        else if ((Gdx.input.isKeyPressed(Game.getDownButton()) && Gdx.input.isKeyPressed(Game.getRightButton()))) {
+            nextX += player.getSpeed();
+            nextY -= player.getSpeed();
+        }
+        else if (Gdx.input.isKeyPressed(Game.getUpButton())){
+            nextY += player.getSpeed();
+        }
+        else if (Gdx.input.isKeyPressed(Game.getRightButton())){
+            nextX += player.getSpeed();
+        }
+        else if (Gdx.input.isKeyPressed(Game.getDownButton())){
+            nextY -= player.getSpeed();
+        }
+        else if (Gdx.input.isKeyPressed(Game.getLeftButton())){
+            nextX -= player.getSpeed();
+            player.getPlayerSprite().flip(true, false);
+        }
+
+        nextX = MathUtils.clamp(nextX, 0, 3776 - player.getRect().getWidth());
+        nextY = MathUtils.clamp(nextY, 0, 2688 - player.getRect().getHeight());
+
+        player.setPosX(nextX);
+        player.setPosY(nextY);
+
+        player.getPlayerSprite().setPosition(nextX, nextY);
+
+
+
     }
 
 

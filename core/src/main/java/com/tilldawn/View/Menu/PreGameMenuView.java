@@ -20,7 +20,7 @@ public class PreGameMenuView implements Screen {
     private PreGameMenuController controller;
 
     public PreGameMenuView(PreGameMenuController controller, Skin skin) {
-        this.gameTitle = new Label("Pregame Menu", skin);
+        this.gameTitle = new Label("Pregame Menu", skin.get("title", Label.LabelStyle.class));
         this.selectHero = new SelectBox<>(skin);
         this.playButton = new TextButton("Play", skin);
         this.table = new Table();
@@ -44,7 +44,7 @@ public class PreGameMenuView implements Screen {
         table.setFillParent(true);
         table.center();
         table.row().pad(10, 0 , 10 , 0);
-        table.add(gameTitle);
+        table.add(gameTitle).width(100);
         table.row().pad(10, 0 , 10 , 0);
         table.add(selectHero);
         table.row().pad(10, 0 , 10 , 0);
@@ -88,4 +88,11 @@ public class PreGameMenuView implements Screen {
 
     }
 
+    public SelectBox getSelectHero() {
+        return selectHero;
+    }
+
+    public TextButton getPlayButton() {
+        return playButton;
+    }
 }

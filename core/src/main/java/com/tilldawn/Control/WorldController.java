@@ -1,6 +1,7 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.tilldawn.Main;
 
 public class WorldController {
@@ -18,6 +19,11 @@ public class WorldController {
         backgroundX = playerController.getPlayer().getPosX();
         backgroundY = playerController.getPlayer().getPosY();
         Main.getBatch().draw(backgroundTexture, backgroundX, backgroundY);
+
+
     }
 
+    public Texture getBackgroundTexture() {
+        return backgroundTexture;
+    }
 }
