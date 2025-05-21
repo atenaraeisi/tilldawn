@@ -40,12 +40,7 @@ public class SettingsMenuController {
         }
 
         // Handle Play/Pause Music Button
-        if (view.getToggleMusicButton().isChecked() && !lastMusicButtonState) {
-            toggleMusic();
-            lastMusicButtonState = true;
-        } else if (!view.getToggleMusicButton().isChecked()) {
-            lastMusicButtonState = false;
-        }
+
 
         // Handle Toggle SFX Button
         if (view.getToggleSfxButton().isChecked() && !lastSfxButtonState) {
@@ -56,12 +51,7 @@ public class SettingsMenuController {
         }
 
         // Handle Change Controls Button
-        if (view.getChangeControlsButton().isChecked() && !lastControlsButtonState) {
-            changeControls();
-            lastControlsButtonState = true;
-        } else if (!view.getChangeControlsButton().isChecked()) {
-            lastControlsButtonState = false;
-        }
+
 
         // Handle Auto-Reload Checkbox
         CheckBox autoReloadCheck = view.getAutoReloadCheckBox();
