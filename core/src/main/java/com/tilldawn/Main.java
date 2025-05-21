@@ -1,21 +1,10 @@
 package com.tilldawn;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.tilldawn.Control.EntryMenuController;
-import com.tilldawn.Control.MainMenuController;
-import com.tilldawn.Control.RegisterMenuController;
+import com.tilldawn.Control.Menu.EntryMenuController;
 import com.tilldawn.Model.GameAssetManager;
-import com.tilldawn.View.EntryMenuView;
-import com.tilldawn.View.MainMenuView;
-import com.tilldawn.View.RegisterMenuView;
+import com.tilldawn.View.Menu.EntryMenuView;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends Game {

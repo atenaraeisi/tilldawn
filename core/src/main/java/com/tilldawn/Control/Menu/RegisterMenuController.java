@@ -1,13 +1,13 @@
-package com.tilldawn.Control;
+package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.User;
-import com.tilldawn.View.EntryMenuView;
-import com.tilldawn.View.MainMenuView;
-import com.tilldawn.View.RegisterMenuView;
+import com.tilldawn.View.Menu.EntryMenuView;
+import com.tilldawn.View.Menu.MainMenuView;
+import com.tilldawn.View.Menu.RegisterMenuView;
 
 public class RegisterMenuController {
     private RegisterMenuView view;

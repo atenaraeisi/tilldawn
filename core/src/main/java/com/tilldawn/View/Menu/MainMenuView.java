@@ -1,4 +1,4 @@
-package com.tilldawn.View;
+package com.tilldawn.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.tilldawn.Control.MainMenuController;
+import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
 
 public class MainMenuView implements Screen {

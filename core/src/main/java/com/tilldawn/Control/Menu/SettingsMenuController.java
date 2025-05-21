@@ -1,4 +1,4 @@
-package com.tilldawn.Control;
+package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -6,9 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
-import com.tilldawn.View.EntryMenuView;
-import com.tilldawn.View.MainMenuView;
-import com.tilldawn.View.SettingsMenuView;
+import com.tilldawn.View.Menu.MainMenuView;
+import com.tilldawn.View.Menu.SettingsMenuView;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SettingsMenuController {

@@ -1,14 +1,13 @@
-package com.tilldawn.Control;
+package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
-import com.tilldawn.Model.Pregame;
-import com.tilldawn.View.EntryMenuView;
-import com.tilldawn.View.MainMenuView;
-import com.tilldawn.View.PreGameMenuView;
-import com.tilldawn.View.SettingsMenuView;
+import com.tilldawn.View.Menu.EntryMenuView;
+import com.tilldawn.View.Menu.MainMenuView;
+import com.tilldawn.View.Menu.PreGameMenuView;
+import com.tilldawn.View.Menu.SettingsMenuView;
 
 public class MainMenuController {
     private MainMenuView view;

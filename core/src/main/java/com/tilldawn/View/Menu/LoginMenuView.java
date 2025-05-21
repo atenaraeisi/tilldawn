@@ -1,4 +1,4 @@
-package com.tilldawn.View;
+package com.tilldawn.View.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.tilldawn.Control.LoginMenuController;
+import com.tilldawn.Control.Menu.LoginMenuController;
 import com.tilldawn.Main;
 
 public class LoginMenuView implements Screen {
@@ -30,7 +30,7 @@ public class LoginMenuView implements Screen {
         this.loginButton = new TextButton("Login", skin);
         this.goBackButton = new TextButton("Go back", skin);
         this.forgetPasswordButton = new TextButton("Forget pass", skin);
-        this.title = new Label("R e g i s t e r    M e n u", skin.get("title", Label.LabelStyle.class));
+        this.title = new Label("L o g i n    M e n u", skin.get("title", Label.LabelStyle.class));
         this.errorLabel = new Label("", skin);
         errorLabel.setColor(1, 0, 0, 1); // رنگ قرمز برای خطا
         this.usernameField = new TextField("", skin);

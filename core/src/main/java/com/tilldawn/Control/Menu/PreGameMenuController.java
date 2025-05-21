@@ -1,10 +1,11 @@
-package com.tilldawn.Control;
+package com.tilldawn.Control.Menu;
 
+import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.Pregame;
 import com.tilldawn.View.GameView;
-import com.tilldawn.View.PreGameMenuView;
+import com.tilldawn.View.Menu.PreGameMenuView;
 
 public class PreGameMenuController {
     private PreGameMenuView view;
