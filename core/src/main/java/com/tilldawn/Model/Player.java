@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Player {
     private Texture playerTexture = new Texture(GameAssetManager.getGameAssetManager().getCharacter1_idle0());
     private Sprite playerSprite = new Sprite(playerTexture);
-    private float posX = 0;
-    private float posY = 0;
+    private float posX = Gdx.graphics.getWidth() / 2;
+    private float posY =  Gdx.graphics.getHeight() / 2;
     private float playerHealth = 100;
     private CollisionRect rect ;
     private float time = 0;
@@ -25,7 +25,7 @@ public class Player {
 
     public Player(){
         playerSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
-        playerSprite.setSize(playerTexture.getWidth() * 2, playerTexture.getHeight() * 2);
+        playerSprite.setSize(playerTexture.getWidth(), playerTexture.getHeight());
         rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight(), playerTexture.getWidth() * 3, playerTexture.getHeight() * 3);
     }
 

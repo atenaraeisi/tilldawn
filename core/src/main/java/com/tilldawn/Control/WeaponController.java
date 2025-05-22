@@ -23,7 +23,7 @@ public class WeaponController {
     public void update(){
         Player player = Game.getCurrentPlayer();
         weapon.getSmgSprite().draw(Main.getBatch());
-        weapon.getSmgSprite().setPosition(player.getPosX() + player.getRect().getWidth() / 2 , player.getPosY() + player.getRect().getHeight() / 4);
+        weapon.getSmgSprite().setPosition(player.getPosX() + (player.getPlayerSprite().getWidth() / 2), player.getPosY() + player.getPlayerSprite().getHeight() / 6);
         updateBullets();
     }
 

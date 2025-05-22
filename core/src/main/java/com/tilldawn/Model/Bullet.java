@@ -15,8 +15,9 @@ public class Bullet {
         sprite.setSize(20 , 20);
         this.x = x;
         this.y = y;
-        sprite.setX((float) Gdx.graphics.getWidth() / 2);
-        sprite.setY((float) Gdx.graphics.getHeight() / 2);
+        Player player = Game.getCurrentPlayer();
+        sprite.setX(player.getPlayerSprite().getX());
+        sprite.setY(player.getPlayerSprite().getY());
     }
 
     public Texture getTexture() {
