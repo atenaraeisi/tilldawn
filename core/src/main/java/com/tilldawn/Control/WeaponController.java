@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Bullet;
+import com.tilldawn.Model.Game;
+import com.tilldawn.Model.Player;
 import com.tilldawn.Model.Weapon;
 
 import java.util.ArrayList;
@@ -19,7 +21,9 @@ public class WeaponController {
     }
 
     public void update(){
+        Player player = Game.getCurrentPlayer();
         weapon.getSmgSprite().draw(Main.getBatch());
+        weapon.getSmgSprite().setPosition(player.getPosX() + player.getRect().getWidth() / 2 , player.getPosY() + player.getRect().getHeight() / 4);
         updateBullets();
     }
 

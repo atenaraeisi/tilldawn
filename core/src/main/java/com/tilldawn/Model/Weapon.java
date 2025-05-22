@@ -12,7 +12,7 @@ public class Weapon {
     public Weapon(){
         smgSprite.setX((float) Gdx.graphics.getWidth() / 2 );
         smgSprite.setY((float) Gdx.graphics.getHeight() / 2);
-        smgSprite.setSize(50,50);
+        smgSprite.setSize(25,25);
     }
 
     public Sprite getSmgSprite() {
