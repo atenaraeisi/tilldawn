@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.tilldawn.Main;
-import com.tilldawn.Model.Bullet;
-import com.tilldawn.Model.Game;
-import com.tilldawn.Model.Player;
-import com.tilldawn.Model.Weapon;
+import com.tilldawn.Model.*;
 
 import java.util.ArrayList;
 
@@ -39,7 +36,7 @@ public class WeaponController {
     }
 
     public void handleWeaponShoot(int x, int y){
-        bullets.add(new Bullet(x, y));
+        bullets.add(new Bullet(x, y, GameAssetManager.getGameAssetManager().getShotGun_idle_frames(), GameAssetManager.getGameAssetManager().getShotGun_idle0_tex()));
         weapon.setAmmo(weapon.getAmmo() - 1);
     }
 
@@ -53,7 +50,11 @@ public class WeaponController {
 
             b.getSprite().setX(b.getSprite().getX() - direction.x * 5);
             b.getSprite().setY(b.getSprite().getY() + direction.y * 5);
+            b.getRect().move(b.getSprite().getX(), b.getSprite().getY());
         }
     }
 
+    public ArrayList<Bullet> getBullets() {
+        return bullets;
+    }
 }

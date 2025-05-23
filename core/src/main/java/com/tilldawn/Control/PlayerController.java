@@ -72,8 +72,6 @@ public class PlayerController {
 
         player.getPlayerSprite().setPosition(nextX, nextY);
 
-
-
     }
 
 

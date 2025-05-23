@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
@@ -39,15 +40,15 @@ public class GameView implements Screen, InputProcessor {
         float viewportWidth = camera.viewportWidth;
         float viewportHeight = camera.viewportHeight;
 
-// ابعاد تصویر پس‌زمینه
+        // ابعاد تصویر پس‌زمینه
         float backgroundWidth = controller.getWorldController().getBackgroundTexture().getWidth();
         float backgroundHeight = controller.getWorldController().getBackgroundTexture().getHeight();
 
-// محاسبه موقعیت دوربین محدودشده
+        // محاسبه موقعیت دوربین محدودشده
         float cameraX = MathUtils.clamp(Game.getCurrentPlayer().getPosX(), viewportWidth / 2f, backgroundWidth - viewportWidth / 2f);
         float cameraY = MathUtils.clamp(Game.getCurrentPlayer().getPosY(), viewportHeight / 2f, backgroundHeight - viewportHeight / 2f);
 
-// تنظیم موقعیت دوربین
+        // تنظیم موقعیت دوربین
         camera.position.set(cameraX, cameraY, 0);
         camera.update();
 
@@ -57,6 +58,8 @@ public class GameView implements Screen, InputProcessor {
         Main.getBatch().begin();
         Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0); // بک‌گراند در (0,0) یا موقعیت واقعی خودش
         controller.updateGame();
+
+        EnemyController.render(Main.getBatch());
 
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

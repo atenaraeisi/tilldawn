@@ -3,6 +3,7 @@ package com.tilldawn.Model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class Player {
     public Player(){
         playerSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         playerSprite.setSize(playerTexture.getWidth(), playerTexture.getHeight());
-        rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight(), playerTexture.getWidth() * 3, playerTexture.getHeight() * 3);
+        rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2, playerTexture.getWidth() , playerTexture.getHeight() );
     }
 
     public Texture getPlayerTexture() {
@@ -100,6 +101,14 @@ public class Player {
 
     public void setTime(float time) {
         this.time = time;
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(posX, posY);
+    }
+
+    public void takeDamage(int damage) {
+        playerHealth -= damage;
     }
 
 }
