@@ -11,5 +11,7 @@ public interface Enemy {
     boolean isDead();
     Vector2 getPosition();
     CollisionRect getRect();
+    boolean hasDroppedSeed();
+    void setDroppedSeed();
 }
 

@@ -10,12 +10,14 @@ import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.tilldawn.Control.GameController.WIN_TIME;
 
 public class EnemyController {
     private static ArrayList<Enemy> enemies = new ArrayList<>();
     private static ArrayList<EnemyBullet> bullets = new ArrayList<>();
+    private static ArrayList<Seed> seeds = new ArrayList<>();
     private static float spawnTentacleTimer = 0;
     private static float spawnEyeBatTimer = 0;
     private static boolean isElderAttacking = false;
@@ -89,16 +91,36 @@ public class EnemyController {
                 timeSinceLastHit += delta;
                 if (timeSinceLastHit >= damageCooldown) {
                     player.takeDamage(2);
-                    System.out.println(player.getPlayerHealth());
                     timeSinceLastHit = 0f;
                 }
             }
+            if (enemy.isDead() && !enemy.hasDroppedSeed()) {
+                Vector2 vector = new Vector2(enemy.getPosition().x + 5, enemy.getPosition().y + 5);
+                seeds.add(new Seed(vector));
+                enemy.setDroppedSeed();
+            }
+
 
         }
         enemies.removeIf(Enemy::isDead);
 
+        Iterator<Seed> seedIterator = seeds.iterator();
+        while (seedIterator.hasNext()) {
+            Seed seed = seedIterator.next();
+            if (player.getRect().collidesWith(seed.getRect())) {
+                player.addXp(3);
+                seedIterator.remove();
+            }
+        }
+
         // تیرها
-        for (EnemyBullet b : bullets) b.update(delta);
+        for (EnemyBullet b : bullets) {
+            b.update(delta);
+            if (b.collidesWith(player)) {
+                player.takeDamage(b.getDamage());
+                b.setColliding(true);
+            }
+        }
         bullets.removeIf(EnemyBullet::isDestroyed);
     }
 
@@ -107,6 +129,10 @@ public class EnemyController {
             e.render(batch);
         }
         for (EnemyBullet b : bullets) b.render(batch);
+        for (Seed s : seeds) {
+            s.render(batch);
+        }
+
     }
 
     private static void spawnTentacleOnly() {
@@ -165,6 +191,10 @@ public class EnemyController {
 
     public static ArrayList<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public static ArrayList<EnemyBullet> getBullets() {
+        return bullets;
     }
 }
 

@@ -19,12 +19,15 @@ public class ElderBoss extends AbstractEnemy {
         this.enemyTexture = GameAssetManager.getGameAssetManager().getElderBoss_idle0_tex();
         this.sprite = new Sprite(enemyTexture);
         this.sprite.setSize((float) enemyTexture.getWidth() * 4 , (float) enemyTexture.getHeight() * 4);
+        deathSprite.setSize((float) enemyTexture.getWidth() * 4 , (float) enemyTexture.getHeight() * 4);
         this.animation = GameAssetManager.getGameAssetManager().getElderBoss_idle_frames();
         this.rect = new CollisionRect(pos.x, pos.y, sprite.getWidth(), sprite.getHeight());
     }
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+        if (hp <= 0) return;
         dashCooldown -= delta;
         if (dashCooldown <= 0) {
             dashToPlayer();

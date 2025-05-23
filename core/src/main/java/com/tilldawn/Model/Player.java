@@ -16,6 +16,7 @@ public class Player {
     private CollisionRect rect ;
     private float time = 0;
     private float speed = 5;
+    private int xp = 0;
 
     public float getSpeed() {
         return speed;
@@ -111,4 +112,11 @@ public class Player {
         playerHealth -= damage;
     }
 
+    public int getXp() {
+        return xp;
+    }
+
+    public void addXp(int xp) {
+        this.xp += xp;
+    }
 }

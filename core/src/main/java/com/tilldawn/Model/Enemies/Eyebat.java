@@ -23,6 +23,8 @@ public class Eyebat extends AbstractEnemy {
 
     @Override
     public void update(float delta) {
+        super.update(delta);
+        if (hp <= 0) return;
         Vector2 playerPos = Game.getCurrentPlayer().getPosition();
         velocity = new Vector2(playerPos).sub(position).nor().scl(50 * delta);
         position.add(velocity);

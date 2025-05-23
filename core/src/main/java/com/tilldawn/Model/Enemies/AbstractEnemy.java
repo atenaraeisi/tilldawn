@@ -11,6 +11,7 @@ import com.tilldawn.Model.GameAssetManager;
 
 public abstract class AbstractEnemy implements Enemy {
     protected Sprite sprite;
+    protected Sprite deathSprite;
     protected int hp;
     protected Vector2 position;
     protected Vector2 velocity;
@@ -18,13 +19,22 @@ public abstract class AbstractEnemy implements Enemy {
     protected boolean isEnemyRunning = false;
     private float time = 0;
     protected Animation<Texture> animation;
+    protected Animation<Texture> deathAnimation;
     protected Texture enemyTexture;
     protected CollisionRect rect ;
+    protected boolean isDying = false;
+    protected float deathTimer = 0f;
+    protected boolean hasDroppedSeed = false;
+    protected boolean dead = false;
+
 
 
     public AbstractEnemy(Vector2 position, int hp) {
         this.position = position;
         this.hp = hp;
+        this.deathSprite = new Sprite(GameAssetManager.getGameAssetManager().getFireExplosion_idle0_tex());
+        deathSprite.setSize(deathSprite.getWidth() / 2 , deathSprite.getHeight() / 2);
+        this.deathAnimation = GameAssetManager.getGameAssetManager().getFireExplosion_idle_frames();
     }
 
     public boolean isEnemyIdle() {
@@ -70,7 +80,7 @@ public abstract class AbstractEnemy implements Enemy {
 
     @Override
     public boolean isDead() {
-        return hp <= 0;
+        return dead;
     }
 
     @Override
@@ -81,9 +91,16 @@ public abstract class AbstractEnemy implements Enemy {
     @Override
     public void render(SpriteBatch batch) {
         sprite.setPosition(position.x, position.y);
-        sprite.draw(batch);
-        if (isEnemyIdle) {
-            idleAnimation();
+        if (isDying) {
+            Texture frame = deathAnimation.getKeyFrame(time, false);
+            batch.draw(frame, position.x, position.y);
+            time += Gdx.graphics.getDeltaTime();
+        } else {
+            sprite.setPosition(position.x, position.y);
+            sprite.draw(batch);
+            if (isEnemyIdle) {
+                idleAnimation();
+            }
         }
     }
     public void idleAnimation(){
@@ -97,6 +114,33 @@ public abstract class AbstractEnemy implements Enemy {
         }
 
         animation.setPlayMode(Animation.PlayMode.LOOP);
+    }
+
+    @Override
+    public void update(float delta) {
+        if (hp <= 0) {
+            if (!isDying) {
+                isDying = true;
+                time = 0; // شروع از فریم اول انیمیشن مرگ
+            }
+
+            deathTimer -= delta;
+            if (time >= 0.6f) {
+                dead = true;
+            }
+            return;
+        }
+
+        // سایر منطق زنده بودن
+    }
+
+    public boolean hasDroppedSeed() {
+        return hasDroppedSeed;
+    }
+
+    @Override
+    public void setDroppedSeed() {
+        hasDroppedSeed = true;
     }
 }
 
