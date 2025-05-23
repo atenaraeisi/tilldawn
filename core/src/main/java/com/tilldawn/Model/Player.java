@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 public class Player {
+    private User user;
     private Texture playerTexture = new Texture(GameAssetManager.getGameAssetManager().getCharacter1_idle0());
     private Sprite playerSprite = new Sprite(playerTexture);
     private float posX = Gdx.graphics.getWidth() / 2;
@@ -16,6 +17,7 @@ public class Player {
     private CollisionRect rect ;
     private float time = 0;
     private float speed = 5;
+    private int killCount = 0;
     private int xp = 0;
 
     public float getSpeed() {
@@ -25,7 +27,8 @@ public class Player {
     private boolean isPlayerIdle = true;
     private boolean isPlayerRunning = false;
 
-    public Player(){
+    public Player(User user) {
+        this.user = user;
         playerSprite.setPosition((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
         playerSprite.setSize(playerTexture.getWidth(), playerTexture.getHeight());
         rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2, playerTexture.getWidth() , playerTexture.getHeight() );
@@ -112,6 +115,17 @@ public class Player {
         playerHealth -= damage;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void addKill() {
+        killCount++;
+    }
+
+    public int getKillCount() {
+        return killCount;
+    }
     public int getXp() {
         return xp;
     }

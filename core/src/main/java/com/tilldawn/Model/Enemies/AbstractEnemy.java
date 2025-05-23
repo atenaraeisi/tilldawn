@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.tilldawn.Model.CollisionRect;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 
 public abstract class AbstractEnemy implements Enemy {
@@ -127,6 +128,7 @@ public abstract class AbstractEnemy implements Enemy {
             deathTimer -= delta;
             if (time >= 0.6f) {
                 dead = true;
+                Game.getCurrentPlayer().addKill();
             }
             return;
         }

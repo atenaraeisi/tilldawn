@@ -8,6 +8,7 @@ import com.tilldawn.Model.CollisionRect;
 import com.tilldawn.Model.Enemies.*;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.Player;
+import com.tilldawn.Model.User;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -116,7 +117,7 @@ public class EnemyController {
         // تیرها
         for (EnemyBullet b : bullets) {
             b.update(delta);
-            if (b.collidesWith(player)) {
+            if (b.collidesWith(player) && !b.isColliding()) {
                 player.takeDamage(b.getDamage());
                 b.setColliding(true);
             }

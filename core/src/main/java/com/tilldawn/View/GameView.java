@@ -3,9 +3,14 @@ package com.tilldawn.View;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -15,22 +20,58 @@ import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 
+import static com.tilldawn.Control.GameController.WIN_TIME;
+
 public class GameView implements Screen, InputProcessor {
     private Stage stage;
     private GameController controller;
     OrthographicCamera camera;
+    private ProgressBar timeProgressBar;
+    private float timeElapsed = 0f; // زمان سپری شده (ثانیه)
+    ProgressBar healthBar;
+    private Label killCountLabel;
+    private Label killCount;
+
 
     public GameView(GameController controller, Skin skin) {
         this.controller = controller;
         this.camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600); // ابعاد دوربین
         controller.setView(this);
+
+        ProgressBar.ProgressBarStyle style = skin.get("mana", ProgressBar.ProgressBarStyle.class);
+        timeProgressBar = new ProgressBar(0, WIN_TIME, 1, false, style); // 20 دقیقه = 1200 ثانیه
+        timeProgressBar.setValue(0);
+        timeProgressBar.setAnimateDuration(0.25f);
+        timeProgressBar.setSize(300, 5);
+
+        healthBar = new ProgressBar(0, 100, 10, false, skin.get("health", ProgressBar.ProgressBarStyle.class));
+        healthBar.setValue(100);
+        healthBar.setSize(300, 5);
+        healthBar.setAnimateDuration(0.2f);
+
+        killCountLabel = new Label("Kill:", skin);
+        killCountLabel.setColor(Color.WHITE);
+        killCount = new Label("", skin);
+        killCount.setColor(Color.WHITE);
+        killCount.setText(Game.getCurrentPlayer().getKillCount());
+
     }
 
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(this);
+        timeProgressBar.setPosition(0 , stage.getHeight() - 50);
+        healthBar.setPosition(320, stage.getHeight() - 50);
+        killCountLabel.setPosition(640, stage.getHeight() - 50);
+        killCount.setPosition(690, stage.getHeight() - 35);
+
+        stage.addActor(timeProgressBar);
+        stage.addActor(healthBar);
+        stage.addActor(killCountLabel);
+        stage.addActor(killCount);
+
     }
 
     @Override
@@ -62,6 +103,23 @@ public class GameView implements Screen, InputProcessor {
         EnemyController.render(Main.getBatch());
 
         Main.getBatch().end();
+
+        // آپدیت زمان
+        timeElapsed += delta;
+        timeProgressBar.setValue(timeElapsed);
+        healthBar.setValue(Game.getCurrentPlayer().getPlayerHealth());
+
+        killCount.setText(Game.getCurrentPlayer().getKillCount());
+
+        //TODO
+        if (Game.getCurrentPlayer().getPlayerHealth() <= 0) {
+            System.out.println("You lose");
+        }
+
+        //TODO
+        if (timeElapsed >= WIN_TIME) {
+            System.out.println("YOU WON");
+        }
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 

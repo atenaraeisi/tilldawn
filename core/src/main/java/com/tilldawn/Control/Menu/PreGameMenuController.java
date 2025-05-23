@@ -1,5 +1,7 @@
 package com.tilldawn.Control.Menu;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
@@ -20,7 +22,7 @@ public class PreGameMenuController {
     public void handlePreGameMenuButtons() {
         if (view != null) {
             Main.getMain().getScreen().dispose();
-            Main.getMain().setScreen(new GameView(new GameController(), GameAssetManager.getGameAssetManager().getSkin()));
+            Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
         }
     }
 

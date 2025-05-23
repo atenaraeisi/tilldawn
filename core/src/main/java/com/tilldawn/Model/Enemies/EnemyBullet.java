@@ -78,5 +78,9 @@ public class EnemyBullet {
         isColliding = colliding;
         time = 0;
     }
+
+    public boolean isColliding() {
+        return isColliding;
+    }
 }
 
