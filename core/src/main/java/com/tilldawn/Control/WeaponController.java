@@ -15,17 +15,27 @@ public class WeaponController {
     private Weapon weapon;
     private boolean isReloading = false;
     private float reloadTimer = 0f;
+    private boolean isDamageIncreased = false;
+    private float increaseTimer = 0f;
     private ArrayList<Bullet> bullets = new ArrayList<>();
 
     public WeaponController(Weapon weapon){
         this.weapon = weapon;
     }
 
+
     public void update(){
         Player player = Game.getCurrentPlayer();
         weapon.getSmgSprite().draw(Main.getBatch());
         weapon.getSmgSprite().setPosition(player.getPosX() + (player.getPlayerSprite().getWidth() / 2), player.getPosY() + player.getPlayerSprite().getHeight() / 6);
 
+        if (isDamageIncreased) {
+            increaseTimer -= Gdx.graphics.getDeltaTime();
+            if (increaseTimer <= 0) {
+                isDamageIncreased = false;
+                weapon.decreaseDamage();
+            }
+        }
         if (isReloading) {
             reloadTimer -= Gdx.graphics.getDeltaTime();
             if (reloadTimer <= 0) {
@@ -37,8 +47,12 @@ public class WeaponController {
             startReload();
         }
         updateBullets();
+    }
 
-
+    public void startIncrease() {
+        if (isDamageIncreased) return;
+        isDamageIncreased = true;
+        increaseTimer = 10f;
     }
 
     public void startReload() {

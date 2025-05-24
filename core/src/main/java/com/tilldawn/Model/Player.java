@@ -194,6 +194,10 @@ public class Player {
     }
 
     public void activateSpeedBoost(float speed) {
-        this.speed = speed;
+        this.speed += speed;
+    }
+
+    public void decreaseSpeedBoost() {
+        this.speed -= 10;
     }
 }

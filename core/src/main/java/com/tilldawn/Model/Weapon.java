@@ -49,6 +49,15 @@ public class Weapon {
         this.damage = damage;
     }
 
+    public void increaseDamage() {
+        this.damage += damage / 4;
+    }
+
+    public void decreaseDamage() {
+        this.damage = (this.damage * 4) / 5;
+    }
+
+
     public int getProjectilePerShot() {
         return projectilePerShot;
     }

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Control.GameController;
+import com.tilldawn.Control.WeaponController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Ability;
 import com.tilldawn.Model.Game;
@@ -36,7 +37,7 @@ public class GameView implements Screen, InputProcessor {
     private GameController controller;
     public static OrthographicCamera camera;
     private ProgressBar timeProgressBar;
-    private float timeElapsed = 0f; // زمان سپری شده (ثانیه)
+    private float timeElapsed = 0f;
     ProgressBar healthBar;
     private Label killCountLabel;
     private Label killCount;
@@ -58,7 +59,7 @@ public class GameView implements Screen, InputProcessor {
         controller.setView(this);
 
         ProgressBar.ProgressBarStyle style = skin.get("mana", ProgressBar.ProgressBarStyle.class);
-        timeProgressBar = new ProgressBar(0, WIN_TIME, 1, false, style); // 20 دقیقه = 1200 ثانیه
+        timeProgressBar = new ProgressBar(0, WIN_TIME, 1, false, style);
         timeProgressBar.setValue(0);
         timeProgressBar.setAnimateDuration(0.25f);
         timeProgressBar.setSize(300, 5);
@@ -75,15 +76,13 @@ public class GameView implements Screen, InputProcessor {
         killCount.setColor(Color.WHITE);
         killCount.setText(Game.getCurrentPlayer().getKillCount());
 
-        // نوار XP با استایل مثلا health یا یک استایل جدید "xp" در اسکین
         xpProgressBar = new ProgressBar(0, 100, 1, false, skin.get("default-horizontal", ProgressBar.ProgressBarStyle.class));
         xpProgressBar.setValue(0);
         xpProgressBar.setAnimateDuration(0.25f);
         xpProgressBar.setSize(300, 10);
 
-        // برچسب لول
-        levelLabel = new Label("Level: 1", skin); // فونت و رنگ را Skin کنترل می‌کند
-        levelLabel.setColor(Color.WHITE); // در صورت نیاز
+        levelLabel = new Label("Level: 1", skin);
+        levelLabel.setColor(Color.WHITE);
 
     }
 
@@ -249,7 +248,8 @@ public class GameView implements Screen, InputProcessor {
                 player.increaseMaxHp(20);
                 break;
             case DAMAGER :
-                player.getEquippedWeapon().setDamage(player.getEquippedWeapon().getDamage() * 125 / 100);
+                player.getEquippedWeapon().increaseDamage();
+                controller.getWeaponController().startIncrease();
                 break;
             case PROCREASE :
                 player.getEquippedWeapon().increaseProjectilePerShot(1);
@@ -259,6 +259,7 @@ public class GameView implements Screen, InputProcessor {
                 break;
             case SPEEDY :
                 player.activateSpeedBoost(10);
+                controller.getPlayerController().startBoost();
                 break;
         }
     }

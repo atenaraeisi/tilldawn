@@ -12,6 +12,8 @@ import com.tilldawn.Model.Player;
 
 public class PlayerController {
     private Player player;
+    private boolean isSpeedBoosted = false;
+    private float boostTimer = 0f;
 
     public PlayerController(Player player){
         this.player = player;
@@ -20,11 +22,24 @@ public class PlayerController {
     public void update(){
         player.getPlayerSprite().draw(Main.getBatch());
 
+        if (isSpeedBoosted) {
+            boostTimer -= Gdx.graphics.getDeltaTime();
+            if (boostTimer <= 0f) {
+                isSpeedBoosted = false;
+                player.decreaseSpeedBoost();
+            }
+        }
         if(player.isPlayerIdle()){
             idleAnimation();
         }
 
         handlePlayerInput();
+    }
+
+    public void startBoost() {
+        if (isSpeedBoosted) return;
+        isSpeedBoosted = true;
+        boostTimer = 10f;
     }
 
 
