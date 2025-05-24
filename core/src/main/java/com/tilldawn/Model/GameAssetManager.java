@@ -23,6 +23,62 @@ public class GameAssetManager {
     private final Texture character1_idle4_tex = new Texture(character1_idle4);
     private final Texture character1_idle5_tex = new Texture(character1_idle5);
 
+    private final String character2_idle0 = "2/Idle_0 #8329.png";
+    private final String character2_idle1 = "2/Idle_1 #8359.png";
+    private final String character2_idle2 = "2/Idle_2 #8818.png";
+    private final String character2_idle3 = "2/Idle_3 #8456.png";
+    private final String character2_idle4 = "2/Idle_4 #8317.png";
+    private final String character2_idle5 = "2/Idle_5 #8306.png";
+    private final Texture character2_idle0_tex = new Texture(character2_idle0);
+    private final Texture character2_idle1_tex = new Texture(character2_idle1);
+    private final Texture character2_idle2_tex = new Texture(character2_idle2);
+    private final Texture character2_idle3_tex = new Texture(character2_idle3);
+    private final Texture character2_idle4_tex = new Texture(character2_idle4);
+    private final Texture character2_idle5_tex = new Texture(character2_idle5);
+
+
+    private final String character3_idle0 = "3/Idle_0 #8326.png";
+    private final String character3_idle1 = "3/Idle_1 #8356.png";
+    private final String character3_idle2 = "3/Idle_2 #8815.png";
+    private final String character3_idle3 = "3/Idle_3 #8453.png";
+    private final String character3_idle4 = "3/Idle_4 #8314.png";
+    private final String character3_idle5 = "3/Idle_5 #8303.png";
+    private final Texture character3_idle0_tex = new Texture(character3_idle0);
+    private final Texture character3_idle1_tex = new Texture(character3_idle1);
+    private final Texture character3_idle2_tex = new Texture(character3_idle2);
+    private final Texture character3_idle3_tex = new Texture(character3_idle3);
+    private final Texture character3_idle4_tex = new Texture(character3_idle4);
+    private final Texture character3_idle5_tex = new Texture(character3_idle5);
+
+
+    private final String character4_idle0 = "4/Idle_0.png";
+    private final String character4_idle1 = "4/Idle_1.png";
+    private final String character4_idle2 = "4/Idle_2.png";
+    private final String character4_idle3 = "4/Idle_3.png";
+    private final String character4_idle4 = "4/Idle_4.png";
+    private final String character4_idle5 = "4/Idle_5.png";
+    private final Texture character4_idle0_tex = new Texture(character4_idle0);
+    private final Texture character4_idle1_tex = new Texture(character4_idle1);
+    private final Texture character4_idle2_tex = new Texture(character4_idle2);
+    private final Texture character4_idle3_tex = new Texture(character4_idle3);
+    private final Texture character4_idle4_tex = new Texture(character4_idle4);
+    private final Texture character4_idle5_tex = new Texture(character4_idle5);
+
+
+
+    private final String character5_idle0 = "5/Idle_0.png";
+    private final String character5_idle1 = "5/Idle_1.png";
+    private final String character5_idle2 = "5/Idle_2.png";
+    private final String character5_idle3 = "5/Idle_3.png";
+    private final String character5_idle4 = "5/Idle_4.png";
+    private final String character5_idle5 = "5/Idle_5.png";
+    private final Texture character5_idle0_tex = new Texture(character5_idle0);
+    private final Texture character5_idle1_tex = new Texture(character5_idle1);
+    private final Texture character5_idle2_tex = new Texture(character5_idle2);
+    private final Texture character5_idle3_tex = new Texture(character5_idle3);
+    private final Texture character5_idle4_tex = new Texture(character5_idle4);
+    private final Texture character5_idle5_tex = new Texture(character5_idle5);
+
     private final String tentacleEnemy_idle0 = "Sprite/BrainMonster/BrainMonster_0.png";
     private final String tentacleEnemy_idle1 = "Sprite/BrainMonster/BrainMonster_1.png";
     private final String tentacleEnemy_idle2 = "Sprite/BrainMonster/BrainMonster_2.png";
@@ -53,12 +109,15 @@ public class GameAssetManager {
     private final Texture elderBoss_idle0_tex = new Texture(elderBoss_idle0);
     private final Texture elderBoss_idle1_tex = new Texture(elderBoss_idle1);
 
-    private final String shotGun_idle0 = "Sprite/T/T_Gun_Reload_0.png";
-    private final String shotGun_idle1 = "Sprite/T/T_Gun_Reload_1.png";
-    private final String shotGun_idle2 = "Sprite/T/T_Gun_Reload_2.png";
-    private final Texture shotGun_idle0_tex = new Texture(shotGun_idle0);
-    private final Texture shotGun_idle1_tex = new Texture(shotGun_idle1);
-    private final Texture shotGun_idle2_tex = new Texture(shotGun_idle2);
+    private final String smgReload_idle0 = "smg/SMGReload_0.png";
+    private final String smgReload_idle1 = "smg/SMGReload_1.png";
+    private final String smgReload_idle2 = "smg/SMGReload_2.png";
+    private final String smgReload_idle3 = "smg/SMGReload_3.png";
+    private final Texture smgReload_idle0_tex = new Texture(smgReload_idle0);
+    private final Texture smgReload_idle1_tex = new Texture(smgReload_idle1);
+    private final Texture smgReload_idle2_tex = new Texture(smgReload_idle2);
+    private final Texture smgReload_idle3_tex = new Texture(smgReload_idle2);
+
 
     private final String fireExplosion_idle0 = "Sprite/T/T_FireExplosionSmall_0.png";
     private final String fireExplosion_idle1 = "Sprite/T/T_FireExplosionSmall_1.png";
@@ -84,17 +143,43 @@ public class GameAssetManager {
 
     private Music backgroundMusic;
     private final Animation<Texture> character1_idle_frames = new Animation<>(0.1f, character1_idle0_tex, character1_idle1_tex, character1_idle2_tex, character1_idle3_tex, character1_idle4_tex, character1_idle5_tex);
+    private final Animation<Texture> character2_idle_frames = new Animation<>(0.1f, character2_idle0_tex, character2_idle1_tex, character2_idle2_tex, character2_idle3_tex, character2_idle4_tex, character2_idle5_tex);
+    private final Animation<Texture> character3_idle_frames = new Animation<>(0.1f, character3_idle0_tex, character3_idle1_tex, character3_idle2_tex, character3_idle3_tex, character3_idle4_tex, character3_idle5_tex);
+    private final Animation<Texture> character4_idle_frames = new Animation<>(0.1f, character4_idle0_tex, character4_idle1_tex, character4_idle2_tex, character4_idle3_tex, character4_idle4_tex, character4_idle5_tex);
+    private final Animation<Texture> character5_idle_frames = new Animation<>(0.1f, character5_idle0_tex, character5_idle1_tex, character5_idle2_tex, character5_idle3_tex, character5_idle4_tex, character5_idle5_tex);
+
     private final Animation<Texture> tentacleEnemy_idle_frames = new Animation<>(0.2f, tentacleEnemy_idle0_tex, tentacleEnemy_idle1_tex, tentacleEnemy_idle2_tex, tentacleEnemy_idle3_tex);
     private final Animation<Texture> treeEnemy_idle_frames = new Animation<>(0.3f, treeEnemy_idle0_tex, treeEnemy_idle1_tex, treeEnemy_idle2_tex);
     private final Animation<Texture> eyeBat_idle_frames = new Animation<>(0.2f, eyeBat_idle0_tex, eyeBat_idle1_tex, eyeBat_idle2_tex);
     private final Animation<Texture> elderBoss_idle_frames = new Animation<>(0.1f, elderBoss_idle0_tex, elderBoss_idle1_tex);
-    private final Animation<Texture> shotGun_idle_frames = new Animation<>(0.1f, shotGun_idle0_tex, shotGun_idle1_tex, shotGun_idle2_tex);
+    private final Animation<Texture> smgReload_idle_frames = new Animation<>(0.1f, smgReload_idle0_tex, smgReload_idle1_tex, smgReload_idle2_tex, smgReload_idle3_tex);
     private final Animation<Texture> fireExplosion_idle_frames = new Animation<>(0.1f, fireExplosion_idle0_tex, fireExplosion_idle1_tex, fireExplosion_idle2_tex, fireExplosion_idle3_tex, fireExplosion_idle4_tex, fireExplosion_idle5_tex);
     private final Animation<Texture> flash_idle_frames = new Animation<>(0.2f, flash_idle0_tex, flash_idle1_tex, flash_idle2_tex, flash_idle3_tex);
 
 
     private final String smg = "smg/SMGStill.png";
     private final Texture smgTexture = new Texture(smg);
+
+    private final String shotGun = "smg/RevolverStill.png";
+    private final Texture shotGunTexture = new Texture(shotGun);
+
+    private final String smgDual = "smg/T_DualSMGs_Icon.png";
+    private final Texture smgDualTexture = new Texture(smgDual);
+
+    private final String vitality = "Sprite/Icon/Icon_Vitality.png";
+    private final Texture vitalityTexture = new Texture(vitality);
+
+    private final String damager = "Sprite/Icon/Icon_Miniclip.png";
+    private final Texture damagerTexture = new Texture(damager);
+
+    private final String proCrease = "Sprite/Icon/Icon_Make_It_Rain.png";
+    private final Texture proCreaseTexture = new Texture(proCrease);
+
+    private final String amoCrease = "Sprite/Icon/Icon_Recharge.png";
+    private final Texture amoCreaseTexture = new Texture(amoCrease);
+
+    private final String speedy = "Sprite/Icon/Icon_Generator.png";
+    private final Texture speedyTexture = new Texture(speedy);
 
     private final String bullet = "bullet.png";
 
@@ -170,12 +255,52 @@ public class GameAssetManager {
         return eyeBat_idle_frames;
     }
 
-    public Animation<Texture> getShotGun_idle_frames() {
-        return shotGun_idle_frames;
+    public Animation<Texture> getSmgReload_idle_frames() {
+        return smgReload_idle_frames;
     }
 
-    public Texture getShotGun_idle0_tex() {
-        return shotGun_idle0_tex;
+    public String getCharacter1_idle3() {
+        return character1_idle3;
+    }
+
+    public Animation<Texture> getCharacter3_idle_frames() {
+        return character3_idle_frames;
+    }
+
+    public Animation<Texture> getCharacter4_idle_frames() {
+        return character4_idle_frames;
+    }
+
+    public Animation<Texture> getCharacter5_idle_frames() {
+        return character5_idle_frames;
+    }
+
+    public Animation<Texture> getCharacter2_idle_frames() {
+        return character2_idle_frames;
+    }
+
+    public Texture getCharacter1_idle0_tex() {
+        return character1_idle0_tex;
+    }
+
+    public Texture getCharacter2_idle0_tex() {
+        return character2_idle0_tex;
+    }
+
+    public Texture getCharacter3_idle0_tex() {
+        return character3_idle0_tex;
+    }
+
+    public Texture getCharacter4_idle0_tex() {
+        return character4_idle0_tex;
+    }
+
+    public Texture getCharacter5_idle0_tex() {
+        return character5_idle0_tex;
+    }
+
+    public Texture getSmgReload_idle0_tex() {
+        return smgReload_idle0_tex;
     }
 
     public Texture getFireExplosion_idle0_tex() {
@@ -184,6 +309,30 @@ public class GameAssetManager {
 
     public Animation<Texture> getFireExplosion_idle_frames() {
         return fireExplosion_idle_frames;
+    }
+
+    public String getCharacter1_idle4() {
+        return character1_idle4;
+    }
+
+    public Texture getAmoCreaseTexture() {
+        return amoCreaseTexture;
+    }
+
+    public Texture getProCreaseTexture() {
+        return proCreaseTexture;
+    }
+
+    public Texture getDamagerTexture() {
+        return damagerTexture;
+    }
+
+    public Texture getVitalityTexture() {
+        return vitalityTexture;
+    }
+
+    public Texture getSpeedyTexture() {
+        return speedyTexture;
     }
 
     public String getCharacter1_idle2() {
@@ -204,6 +353,14 @@ public class GameAssetManager {
 
     public String getSmg(){
         return smg;
+    }
+
+    public Texture getShotGunTexture() {
+        return shotGunTexture;
+    }
+
+    public Texture getSmgDualTexture() {
+        return smgDualTexture;
     }
 
     public String getBullet(){

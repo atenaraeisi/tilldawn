@@ -1,41 +1,59 @@
 package com.tilldawn.View;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Ability;
 import com.tilldawn.Model.Game;
+import com.tilldawn.Model.GameState;
+import com.tilldawn.Model.Player;
+
+import javax.swing.event.ChangeEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static com.tilldawn.Control.GameController.WIN_TIME;
 
 public class GameView implements Screen, InputProcessor {
     private Stage stage;
     private GameController controller;
-    OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private ProgressBar timeProgressBar;
     private float timeElapsed = 0f; // زمان سپری شده (ثانیه)
     ProgressBar healthBar;
     private Label killCountLabel;
     private Label killCount;
+    private Label levelLabel;
+    private ProgressBar xpProgressBar;
+    private boolean isAbilitySelectionActive = false;
+    private List<Ability> randomAbilities;
+    private Dialog abilityDialog;
+    private Skin skin;
+
+
 
 
     public GameView(GameController controller, Skin skin) {
+        this.skin = skin;
         this.controller = controller;
-        this.camera = new OrthographicCamera();
+        camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600); // ابعاد دوربین
         controller.setView(this);
 
@@ -45,7 +63,8 @@ public class GameView implements Screen, InputProcessor {
         timeProgressBar.setAnimateDuration(0.25f);
         timeProgressBar.setSize(300, 5);
 
-        healthBar = new ProgressBar(0, 100, 10, false, skin.get("health", ProgressBar.ProgressBarStyle.class));
+        Player player = Game.getCurrentPlayer();
+        healthBar = new ProgressBar(0, player.getMaxHp(), 10, false, skin.get("health", ProgressBar.ProgressBarStyle.class));
         healthBar.setValue(100);
         healthBar.setSize(300, 5);
         healthBar.setAnimateDuration(0.2f);
@@ -56,21 +75,41 @@ public class GameView implements Screen, InputProcessor {
         killCount.setColor(Color.WHITE);
         killCount.setText(Game.getCurrentPlayer().getKillCount());
 
+        // نوار XP با استایل مثلا health یا یک استایل جدید "xp" در اسکین
+        xpProgressBar = new ProgressBar(0, 100, 1, false, skin.get("default-horizontal", ProgressBar.ProgressBarStyle.class));
+        xpProgressBar.setValue(0);
+        xpProgressBar.setAnimateDuration(0.25f);
+        xpProgressBar.setSize(300, 10);
+
+        // برچسب لول
+        levelLabel = new Label("Level: 1", skin); // فونت و رنگ را Skin کنترل می‌کند
+        levelLabel.setColor(Color.WHITE); // در صورت نیاز
+
     }
 
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
-        Gdx.input.setInputProcessor(this);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);       // برای دیالوگ و دکمه‌ها
+        multiplexer.addProcessor(this);        // برای کنترل شلیک، موس، کیبورد
+        Gdx.input.setInputProcessor(multiplexer);
+
         timeProgressBar.setPosition(0 , stage.getHeight() - 50);
         healthBar.setPosition(320, stage.getHeight() - 50);
         killCountLabel.setPosition(640, stage.getHeight() - 50);
         killCount.setPosition(690, stage.getHeight() - 35);
 
+        // موقعیت نوار XP و لول
+        xpProgressBar.setPosition(stage.getWidth() - 320, stage.getHeight() - 60);
+        levelLabel.setPosition(stage.getWidth() - 320, stage.getHeight() - 40);
+
         stage.addActor(timeProgressBar);
         stage.addActor(healthBar);
         stage.addActor(killCountLabel);
         stage.addActor(killCount);
+        stage.addActor(xpProgressBar);
+        stage.addActor(levelLabel);
 
     }
 
@@ -98,7 +137,10 @@ public class GameView implements Screen, InputProcessor {
 
         Main.getBatch().begin();
         Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0); // بک‌گراند در (0,0) یا موقعیت واقعی خودش
-        controller.updateGame();
+        if (!isAbilitySelectionActive) {
+            controller.updateGame();
+        }
+
 
         EnemyController.render(Main.getBatch());
 
@@ -111,19 +153,117 @@ public class GameView implements Screen, InputProcessor {
 
         killCount.setText(Game.getCurrentPlayer().getKillCount());
 
+        // به‌روزرسانی نوار XP و لول
+        int currentXP = Game.getCurrentPlayer().getXp();
+        int level = Game.getCurrentPlayer().getLevel();
+        int xpForNextLevel = Game.getCurrentPlayer().getXPForNextLevel();
+
+        if (currentXP >= xpForNextLevel && !isAbilitySelectionActive) {
+            Game.getCurrentPlayer().addLevel(1);
+            Game.getCurrentPlayer().setXp(0);
+            Game.setGameState(GameState.PAUSED);
+            showAbilitySelectionDialog();
+        }
+
+
+        xpProgressBar.setRange(0, xpForNextLevel); // مقدار مورد نیاز برای لول بعدی
+        xpProgressBar.setValue(currentXP);
+        levelLabel.setText("Level: " + level);
+
         //TODO
         if (Game.getCurrentPlayer().getPlayerHealth() <= 0) {
-            System.out.println("You lose");
+            //System.out.println("You lose");
         }
 
         //TODO
         if (timeElapsed >= WIN_TIME) {
-            System.out.println("YOU WON");
+            //System.out.println("YOU WON");
         }
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
     }
+
+    private void showAbilitySelectionDialog() {
+        isAbilitySelectionActive = true;
+
+        // انتخاب ۳ ابیلیتی تصادفی
+        List<Ability> abilities = new ArrayList<>(List.of(Ability.values()));
+        Collections.shuffle(abilities);
+        randomAbilities = abilities.subList(0, 3);
+
+        abilityDialog = new Dialog("Choose Your Ability\n", skin) {
+            protected void result(Object object) {
+                if (object instanceof Ability) {
+                    Ability chosen = (Ability) object;
+                    applyAbility(chosen);
+                    isAbilitySelectionActive = false;
+                    System.out.println("Ability selected: " + chosen.getDescription());
+                    this.hide();
+                }
+
+            }
+        };
+        VerticalGroup abilityGroup = new VerticalGroup();
+        abilityGroup.columnAlign(Align.center);
+
+        for (Ability ability : randomAbilities) {
+            Texture texture = ability.getTexture();
+            ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+            style.imageUp = new TextureRegionDrawable(new TextureRegion(texture));
+            ImageButton button = new ImageButton(style);
+            Label label = new Label(ability.name(), skin);
+
+            VerticalGroup singleAbilityGroup = new VerticalGroup();
+            singleAbilityGroup.addActor(button);
+            singleAbilityGroup.addActor(label);
+
+            Button button2 = new Button(skin);
+            button2.add(singleAbilityGroup);
+
+            abilityDialog.button(button2, ability);
+            button2.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Game.setGameState(GameState.PLAYING);
+                    System.out.println("Button Pressed");
+                }
+            });
+
+
+        }
+
+
+        // جلوگیری از بسته‌شدن دیالوگ با کلیک بیرون
+        abilityDialog.setModal(true);
+        abilityDialog.setMovable(false);
+        abilityDialog.setResizable(false);
+
+        abilityDialog.show(stage); // نمایش دیالوگ
+    }
+
+    private void applyAbility(Ability ability) {
+        Player player = Game.getCurrentPlayer();
+        switch (ability) {
+            case VITALITY:
+                player.increaseMaxHp(20);
+                break;
+            case DAMAGER :
+                player.getEquippedWeapon().setDamage(player.getEquippedWeapon().getDamage() * 125 / 100);
+                break;
+            case PROCREASE :
+                player.getEquippedWeapon().increaseProjectilePerShot(1);
+                break;
+            case AMOCREASE :
+                player.getEquippedWeapon().increaseMaxAmmo(5);
+                break;
+            case SPEEDY :
+                player.activateSpeedBoost(10);
+                break;
+        }
+    }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -151,7 +291,10 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        if (keycode == Game.getReloadButton()) {
+            controller.getWeaponController().startReload();
+        }
+        return true;
     }
 
     @Override

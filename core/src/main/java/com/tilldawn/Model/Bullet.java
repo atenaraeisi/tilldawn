@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.tilldawn.Model.Enemies.AbstractEnemy;
 import com.tilldawn.Model.Enemies.Enemy;
 
@@ -12,9 +13,10 @@ public class Bullet {
     private Animation<Texture> animation;
     private CollisionRect rect;
     private Sprite sprite;
-    private int damage = 5;
     private int x;
     private int y;
+    private Vector2 direction;
+
 
     public Bullet(int x, int y, Animation<Texture> animation, Texture texture) {
         this.texture = texture;
@@ -27,6 +29,15 @@ public class Bullet {
         sprite.setY(player.getPlayerSprite().getY());
         this.rect = new CollisionRect(sprite.getX(), sprite.getY(), sprite.getWidth(), sprite.getHeight());
         this.animation = animation;
+        this.direction = new Vector2();
+    }
+
+    public void setDirection(Vector2 direction) {
+        this.direction = direction;
+    }
+
+    public Vector2 getDirection() {
+        return direction;
     }
 
     public CollisionRect getRect() {
@@ -44,10 +55,6 @@ public class Bullet {
 
     public Sprite getSprite() {
         return sprite;
-    }
-
-    public int getDamage() {
-        return damage;
     }
 
     public int getX() {

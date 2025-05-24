@@ -12,6 +12,9 @@ public class Game {
     private static int downButton = Input.Keys.S;
     private static int leftButton = Input.Keys.A;
     private static int rightButton = Input.Keys.D;
+    private static int reloadButton = Input.Keys.R;
+    private static boolean autoReload = false;
+    private static GameState gameState = GameState.PLAYING;
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -84,12 +87,36 @@ public class Game {
         return downButton;
     }
 
+    public static void setReloadButton(int reloadButton) {
+        Game.reloadButton = reloadButton;
+    }
+
+    public static int getReloadButton() {
+        return reloadButton;
+    }
+
     public static void setDownButton(int downButton) {
         Game.downButton = downButton;
     }
 
     public static int getUpButton() {
         return upButton;
+    }
+
+    public static boolean isAutoReload() {
+        return autoReload;
+    }
+
+    public static void setAutoReload(boolean autoReload) {
+        Game.autoReload = autoReload;
+    }
+
+    public static GameState getGameState() {
+        return gameState;
+    }
+
+    public static void setGameState(GameState gameState) {
+        Game.gameState = gameState;
     }
 
     public static void setUpButton(int upButton) {

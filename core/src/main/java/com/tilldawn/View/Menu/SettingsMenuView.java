@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.tilldawn.Control.Menu.SettingsMenuController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 
 public class SettingsMenuView implements Screen {
@@ -31,6 +32,8 @@ public class SettingsMenuView implements Screen {
     private SelectBox<String> leftButtons;
     private Label rightButton;
     private SelectBox<String> rightButtons;
+    private Label reloadButton;
+    private SelectBox<String> reloadButtons;
     private CheckBox autoReloadCheckBox;
     private CheckBox bwModeCheckBox;
     private TextButton backButton;
@@ -77,6 +80,12 @@ public class SettingsMenuView implements Screen {
         downButton = new Label("Down:", skin);
         leftButton = new Label("Left:", skin);
         rightButton = new Label("Right:", skin);
+        reloadButton = new Label("Reload:", skin);
+        reloadButtons = new SelectBox<>(skin);
+        reloadButtons.setItems(
+            "R",
+            "Space"
+        );
         upButtons = new SelectBox<>(skin);
         upButtons.setItems(
             "W",
@@ -139,13 +148,19 @@ public class SettingsMenuView implements Screen {
         controlsRow.add(leftButtons).width(150).padRight(40);
         controlsRow.add(rightButton).padRight(10);
         controlsRow.add(rightButtons).width(150).padRight(40);
+        controlsRow.add(reloadButton).padRight(10);
+        controlsRow.add(reloadButtons).width(150).padRight(40);
         table.add(controlsRow).colspan(1).padBottom(50);
         table.add();
         table.row();
         table.add();
-        table.add(autoReloadCheckBox).pad(10).row();
+        Table checkBoxRow = new Table();
+        autoReloadCheckBox.setChecked(Game.isAutoReload());
+        checkBoxRow.add(autoReloadCheckBox).pad(20, 0, 10, 50);
+        checkBoxRow.add(bwModeCheckBox).pad(20, 10, 10, 0);
+        table.add(checkBoxRow).colspan(1).padBottom(50);
         table.add();
-        table.add(bwModeCheckBox).pad(10).row();
+        table.row();
         table.add();
         table.add(backButton).padTop(30).width(150);
 
@@ -219,5 +234,9 @@ public class SettingsMenuView implements Screen {
 
     public SelectBox<String> getUpButtons() {
         return upButtons;
+    }
+
+    public SelectBox<String> getReloadButtons() {
+        return reloadButtons;
     }
 }

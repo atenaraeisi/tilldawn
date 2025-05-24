@@ -17,7 +17,7 @@ public class SettingsMenuController {
 
 
     private boolean lastSfxButtonState = false;
-    private boolean lastAutoReloadState = false;
+    private static boolean lastAutoReloadState = false;
     private boolean lastBWState = false;
     private boolean lastBackButtonState = false;
     private String lastMusicSelected = "music 1";
@@ -79,16 +79,19 @@ public class SettingsMenuController {
         String selectedDown = view.getDownButtons().getSelected();
         String selectedLeft = view.getLeftButtons().getSelected();
         String selectedRight = view.getRightButtons().getSelected();
+        String selectedReload = view.getReloadButtons().getSelected();
 
         int upKeyCode = getKeyCodeFromString(selectedUp);
         int downKeyCode = getKeyCodeFromString(selectedDown);
         int leftKeyCode = getKeyCodeFromString(selectedLeft);
         int rightKeyCode = getKeyCodeFromString(selectedRight);
+        int reloadKeyCode = getKeyCodeFromString(selectedReload);
 
         if (upKeyCode != -1) Game.setUpButton(upKeyCode);
         if (downKeyCode != -1) Game.setDownButton(downKeyCode);
         if (leftKeyCode != -1) Game.setLeftButton(leftKeyCode);
         if (rightKeyCode != -1) Game.setRightButton(rightKeyCode);
+        if (reloadKeyCode != -1) Game.setReloadButton(reloadKeyCode);
 
         // Handle Auto-Reload Checkbox
         CheckBox autoReloadCheck = view.getAutoReloadCheckBox();
@@ -112,6 +115,7 @@ public class SettingsMenuController {
         } else if (!view.getBackButton().isChecked()) {
             lastBackButtonState = false;
         }
+
     }
 
     // Sample Methods:
@@ -130,7 +134,7 @@ public class SettingsMenuController {
     }
 
     public void toggleAutoReload() {
-        // Implement auto-reload toggle logic
+        Game.setAutoReload(!Game.isAutoReload());
     }
 
     public void toggleBlackAndWhiteMode() {
@@ -147,6 +151,8 @@ public class SettingsMenuController {
             case "Down arrow": return com.badlogic.gdx.Input.Keys.DOWN;
             case "Left arrow": return com.badlogic.gdx.Input.Keys.LEFT;
             case "Right arrow": return com.badlogic.gdx.Input.Keys.RIGHT;
+            case "R" : return com.badlogic.gdx.Input.Keys.R;
+            case "Space": return com.badlogic.gdx.Input.Keys.SPACE;
             default: return -1; // خطای ناشناس
         }
     }
