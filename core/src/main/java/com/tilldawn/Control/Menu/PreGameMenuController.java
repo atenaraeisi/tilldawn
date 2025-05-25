@@ -22,6 +22,7 @@ public class PreGameMenuController {
     public void handlePreGameMenuButtons() {
         if (view != null) {
             Main.getMain().getScreen().dispose();
+            Game.setGameState(GameState.PLAYING);
             Game.setCurrentPlayer(new Player(Game.getCurrentUser(), Character.DASHER));
             Game.getCurrentPlayer().setEquippedWeapon(new Weapon(WeaponType.REVOLVER));
             Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));

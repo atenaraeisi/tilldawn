@@ -4,11 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.tilldawn.Model.CollisionRect;
+import com.tilldawn.Model.*;
 import com.tilldawn.Model.Enemies.*;
-import com.tilldawn.Model.Game;
-import com.tilldawn.Model.Player;
-import com.tilldawn.Model.User;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,14 +13,14 @@ import java.util.Iterator;
 import static com.tilldawn.Control.GameController.WIN_TIME;
 
 public class EnemyController {
-    private static ArrayList<Enemy> enemies = new ArrayList<>();
-    private static ArrayList<EnemyBullet> bullets = new ArrayList<>();
-    private static ArrayList<Seed> seeds = new ArrayList<>();
-    private static float spawnTentacleTimer = 0;
-    private static float spawnEyeBatTimer = 0;
-    private static boolean isElderAttacking = false;
-    private static float damageCooldown = 1.0f;
-    private static float timeSinceLastHit = 0f;
+    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<EnemyBullet> bullets = new ArrayList<>();
+    private ArrayList<Seed> seeds = new ArrayList<>();
+    private float spawnTentacleTimer = 0;
+    private float spawnEyeBatTimer = 0;
+    private boolean isElderAttacking = false;
+    private float damageCooldown = 1.0f;
+    private float timeSinceLastHit = 0f;
 
     public EnemyController() {
         // ساخت Tree Enemies در موقعیت‌های مشخص
@@ -50,7 +47,7 @@ public class EnemyController {
         enemies.add(new TreeEnemy(new Vector2(3700, 2600)));
     }
 
-    public static void update(float delta) {
+    public void update(float delta) {
         spawnTentacleTimer -= delta;
 
         if (spawnTentacleTimer <= 0) {
@@ -92,6 +89,9 @@ public class EnemyController {
                 timeSinceLastHit += delta;
                 if (timeSinceLastHit >= damageCooldown) {
                     player.takeDamage(2);
+                    if (Game.isSfx_enabled()) {
+                        GameAssetManager.getGameAssetManager().getDamageSound().play();
+                    }
                     timeSinceLastHit = 0f;
                 }
             }
@@ -100,8 +100,9 @@ public class EnemyController {
                 seeds.add(new Seed(vector));
                 enemy.setDroppedSeed();
             }
-
-
+            if (enemy.isDead() && Game.isSfx_enabled()) {
+                GameAssetManager.getGameAssetManager().getExplosionSound().play();
+            }
         }
         enemies.removeIf(Enemy::isDead);
 
@@ -109,6 +110,7 @@ public class EnemyController {
         while (seedIterator.hasNext()) {
             Seed seed = seedIterator.next();
             if (player.getRect().collidesWith(seed.getRect())) {
+                if (Game.isSfx_enabled()) GameAssetManager.getGameAssetManager().getGainPointSound().play();
                 player.addXp(3);
                 seedIterator.remove();
             }
@@ -125,7 +127,7 @@ public class EnemyController {
         bullets.removeIf(EnemyBullet::isDestroyed);
     }
 
-    public static void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch) {
         for (Enemy e : enemies) {
             e.render(batch);
         }
@@ -136,42 +138,23 @@ public class EnemyController {
 
     }
 
-    private static void spawnTentacleOnly() {
+    private void spawnTentacleOnly() {
         Vector2 pos = getRandomEdgePosition();
         enemies.add(new TentacleMonster(pos));
     }
 
-    private static void spawnEyeBat() {
+    private void spawnEyeBat() {
         Vector2 pos = getRandomEdgePosition();
-        enemies.add(new Eyebat(pos));
+        enemies.add(new Eyebat(pos, this));
     }
 
-    private static void spawnElderBoss() {
+    private void spawnElderBoss() {
         Vector2 pos = getRandomEdgePosition();
         enemies.add(new ElderBoss(pos));
     }
 
 
-    private static void spawnRandomEnemy() {
-        Vector2 pos = getRandomEdgePosition();
-
-        // مثلاً رندوم بین Tentacle و Eyebat
-        float t = GameController.getTotalGameTime();
-        if (t < 30) {
-            enemies.add(new TentacleMonster(pos));
-        } else if (t < 60) {
-            enemies.add(Math.random() < 0.5 ? new TentacleMonster(pos) : new Eyebat(pos));
-        } else {
-            enemies.add(new Eyebat(pos));
-        }
-    }
-
-    private static float calculateSpawnRate() {
-        float t = GameController.getTotalGameTime();
-        return Math.max(1, 30 - t); // تا سرعت اسپاون زیاد شه
-    }
-
-    private static Vector2 getRandomEdgePosition() {
+    private Vector2 getRandomEdgePosition() {
         // لبه‌های صفحه
         int side = MathUtils.random(3);
         float x = 0, y = 0;
@@ -186,15 +169,15 @@ public class EnemyController {
         return new Vector2(x, y);
     }
 
-    public static void addBullet(EnemyBullet b) {
+    public void addBullet(EnemyBullet b) {
         bullets.add(b);
     }
 
-    public static ArrayList<Enemy> getEnemies() {
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
-    public static ArrayList<EnemyBullet> getBullets() {
+    public ArrayList<EnemyBullet> getBullets() {
         return bullets;
     }
 }

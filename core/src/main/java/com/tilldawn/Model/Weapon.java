@@ -15,7 +15,7 @@ public class Weapon {
 
     public Weapon(WeaponType type) {
         this.type = type;
-        this.ammoMax = type.getAmmoMax() * 3;
+        this.ammoMax = type.getAmmoMax();
         this.ammo = ammoMax;
         this.projectilePerShot = type.getProjectilesPerShot();
         this.damage = type.getDamage();

@@ -25,6 +25,7 @@ public class Player {
     private int xp = 0;
     private int level = 1;
     private int maxHp;
+    private ArrayList<Ability> gainAbilities;
 
     public float getSpeed() {
         return speed;
@@ -34,6 +35,7 @@ public class Player {
     private boolean isPlayerRunning = false;
 
     public Player(User user, Character character) {
+        this.gainAbilities = new ArrayList<>();
         this.user = user;
         this.character = character;
         this.animation = character.getAnimation();
@@ -199,5 +201,17 @@ public class Player {
 
     public void decreaseSpeedBoost() {
         this.speed -= 10;
+    }
+
+    public ArrayList<Ability> getGainAbilities() {
+        return gainAbilities;
+    }
+
+    public void addAbility(Ability ability) {
+        gainAbilities.add(ability);
+    }
+
+    public boolean hasAbility(Ability ability) {
+        return gainAbilities.contains(ability);
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
+import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.User;
 import com.tilldawn.View.Menu.EntryMenuView;
 import com.tilldawn.View.Menu.MainMenuView;
@@ -24,10 +25,12 @@ public class LoginMenuController {
             String newPassword = view.getNewPasswordField().getText();
 
             if (view.getGoBackButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
             else if (view.getLoginButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
 
                 if (!Game.isUsernameExist(username)) {
                     view.showError("Username not found");
@@ -44,6 +47,7 @@ public class LoginMenuController {
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
             else if (view.getForgetPasswordButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 if (username == null || username.trim().isEmpty()) {
                     view.showError("Please enter your username!");
                     view.getForgetPasswordButton().setChecked(false);
@@ -59,6 +63,7 @@ public class LoginMenuController {
                 view.getForgetPasswordButton().setChecked(false);
             }
             else if (view.getConfirmResetButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 if (username == null || username.trim().isEmpty()) {
                     view.showError("Please enter your username!");
                     view.getConfirmResetButton().setChecked(false);

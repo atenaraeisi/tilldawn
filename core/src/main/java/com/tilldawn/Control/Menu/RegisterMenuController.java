@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
+import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.User;
 import com.tilldawn.View.Menu.EntryMenuView;
 import com.tilldawn.View.Menu.MainMenuView;
@@ -19,10 +20,12 @@ public class RegisterMenuController {
     public void handleRegisterMenuButtons() {
         if (view != null) {
             if (view.getGoBackButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
             else if (view.getRegisterButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 String username = view.getUsernameField().getText();
                 String password = view.getPasswordField().getText();

@@ -68,6 +68,7 @@ public class SettingsMenuController {
 
         // Handle Toggle SFX Button
         if (view.getToggleSfxButton().isChecked() && !lastSfxButtonState) {
+            GameAssetManager.getGameAssetManager().getClickSound().play();
             toggleSfx();
             lastSfxButtonState = true;
         } else if (!view.getToggleSfxButton().isChecked()) {
@@ -96,6 +97,7 @@ public class SettingsMenuController {
         // Handle Auto-Reload Checkbox
         CheckBox autoReloadCheck = view.getAutoReloadCheckBox();
         if (autoReloadCheck.isChecked() != lastAutoReloadState) {
+            GameAssetManager.getGameAssetManager().getClickSound().play();
             toggleAutoReload();
             lastAutoReloadState = autoReloadCheck.isChecked();
         }
@@ -109,6 +111,7 @@ public class SettingsMenuController {
 
         // Handle Back Button
         if (view.getBackButton().isChecked() && !lastBackButtonState) {
+            GameAssetManager.getGameAssetManager().getClickSound().play();
             Main.getMain().getScreen().dispose();
             Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             lastBackButtonState = true;
@@ -126,7 +129,7 @@ public class SettingsMenuController {
     }
 
     public void toggleSfx() {
-        // Toggle SFX enabled/disabled (implement based on your SFX system)
+        Game.setSfx_enabled(!Game.isSfx_enabled());
     }
 
     public void changeControls() {

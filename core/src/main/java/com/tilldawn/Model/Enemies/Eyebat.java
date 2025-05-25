@@ -11,9 +11,11 @@ import com.tilldawn.Model.GameAssetManager;
 
 public class Eyebat extends AbstractEnemy {
     private float shootCooldown = 3f;
+    private EnemyController controller;
 
-    public Eyebat(Vector2 pos) {
+    public Eyebat(Vector2 pos, EnemyController enemyController) {
         super(pos, 50);
+        this.controller = enemyController;
         this.enemyTexture = GameAssetManager.getGameAssetManager().getEyeBat_idle0_tex();
         this.sprite = new Sprite(enemyTexture);
         this.sprite.setSize((float) enemyTexture.getWidth() / 2 , (float) enemyTexture.getHeight() / 2);
@@ -39,6 +41,6 @@ public class Eyebat extends AbstractEnemy {
     private void shootAtPlayer() {
         Vector2 dir = new Vector2(Game.getCurrentPlayer().getPosition()).sub(position).nor();
         EnemyBullet bullet = new EnemyBullet(position.cpy(), dir);
-        EnemyController.addBullet(bullet);
+        controller.addBullet(bullet);
     }
 }

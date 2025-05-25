@@ -15,6 +15,7 @@ public class Game {
     private static int reloadButton = Input.Keys.R;
     private static boolean autoReload = false;
     private static GameState gameState = GameState.PLAYING;
+    private static boolean sfx_enabled = true;
 
     public static ArrayList<User> getUsers() {
         return users;
@@ -121,5 +122,13 @@ public class Game {
 
     public static void setUpButton(int upButton) {
         Game.upButton = upButton;
+    }
+
+    public static boolean isSfx_enabled() {
+        return sfx_enabled;
+    }
+
+    public static void setSfx_enabled(boolean sfx_enabled) {
+        Game.sfx_enabled = sfx_enabled;
     }
 }

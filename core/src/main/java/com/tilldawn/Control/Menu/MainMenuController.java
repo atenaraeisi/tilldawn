@@ -19,14 +19,17 @@ public class MainMenuController {
     public void handleMainMenuButtons() {
         if (view != null) {
             if (view.getPregameButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
             }
             if (view.getExitButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
             if (view.getSettingsButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new SettingsMenuView(new SettingsMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }

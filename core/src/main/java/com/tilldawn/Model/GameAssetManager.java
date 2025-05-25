@@ -2,6 +2,7 @@ package com.tilldawn.Model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -184,6 +185,22 @@ public class GameAssetManager {
     private final String bullet = "bullet.png";
 
 
+    //sounds
+    private final Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Standard_Weapon_Whoosh_02.wav"));
+    private final Sound explosionSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Explosion_Blood_01.wav"));
+    private final Sound healthAlarmSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/sfx_lowhealth_alarmloop1.wav"));
+    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-camera-shutter-click-1133.wav"));
+    private final Sound wonSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/You Win (2).wav"));
+    private final Sound loseSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/fail-234710.mp3"));
+    private final Sound abilitySound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Buff_Positive.wav"));
+    private final Sound footStepSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Footsteps_Casual_Grass_01.wav"));
+    private final Sound gainPointSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Obtain_Points_01.wav"));
+    private final Sound levelUpSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Special & Powerup (13).wav"));
+    private final Sound ShotGunSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Weapon_Shotgun_Reload.wav"));
+    private final Sound damageSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-falling-hit-757.wav"));
+    private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-shotgun-long-pump-1666.wav"));
+
+
     private GameAssetManager(){
         // بارگذاری و پخش آهنگ
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("musics/alex-productions-epic-cinematic-gaming-cyberpunk-reset(chosic.com).mp3"));
@@ -201,6 +218,58 @@ public class GameAssetManager {
 
     public Skin getSkin() {
         return skin;
+    }
+
+    public Sound getReloadingSound() {
+        return reloadingSound;
+    }
+
+    public Sound getDamageSound() {
+        return damageSound;
+    }
+
+    public Sound getShotGunSound() {
+        return ShotGunSound;
+    }
+
+    public Sound getLevelUpSound() {
+        return levelUpSound;
+    }
+
+    public Sound getGainPointSound() {
+        return gainPointSound;
+    }
+
+    public Sound getFootStepSound() {
+        return footStepSound;
+    }
+
+    public Sound getAbilitySound() {
+        return abilitySound;
+    }
+
+    public Sound getWonSound() {
+        return wonSound;
+    }
+
+    public Sound getClickSound() {
+        return clickSound;
+    }
+
+    public Sound getLoseSound() {
+        return loseSound;
+    }
+
+    public Sound getHealthAlarmSound() {
+        return healthAlarmSound;
+    }
+
+    public Sound getExplosionSound() {
+        return explosionSound;
+    }
+
+    public Sound getShootSound() {
+        return shootSound;
     }
 
     public Animation<Texture> getCharacter1_idle_animation() {

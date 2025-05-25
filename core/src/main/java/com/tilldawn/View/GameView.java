@@ -5,27 +5,21 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Control.GameController;
-import com.tilldawn.Control.WeaponController;
+import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
-import com.tilldawn.Model.Ability;
+import com.tilldawn.Model.*;
 import com.tilldawn.Model.Game;
-import com.tilldawn.Model.GameState;
-import com.tilldawn.Model.Player;
+import com.tilldawn.View.Menu.MainMenuView;
 
-import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,9 +38,22 @@ public class GameView implements Screen, InputProcessor {
     private Label levelLabel;
     private ProgressBar xpProgressBar;
     private boolean isAbilitySelectionActive = false;
+    private TextButton pauseButton;
+    private Table pauseMenu;
+    private Image pauseOverlay;
     private List<Ability> randomAbilities;
     private Dialog abilityDialog;
     private Skin skin;
+    private Image vitalityImage;
+    private Image damagerImage;
+    private Image procreaseImage;
+    private Image amocreaseImage;
+    private Image speedyImage;
+    Texture bulletTexture;
+    private final ArrayList<Image> bulletIcons = new ArrayList<>();
+    private Table bulletTable;
+    private int lastAmmo;
+    private Image darknessOverlay;
 
 
 
@@ -65,7 +72,7 @@ public class GameView implements Screen, InputProcessor {
         timeProgressBar.setSize(300, 5);
 
         Player player = Game.getCurrentPlayer();
-        healthBar = new ProgressBar(0, player.getMaxHp(), 10, false, skin.get("health", ProgressBar.ProgressBarStyle.class));
+        healthBar = new ProgressBar(0, player.getMaxHp(), 2, false, skin.get("health", ProgressBar.ProgressBarStyle.class));
         healthBar.setValue(100);
         healthBar.setSize(300, 5);
         healthBar.setAnimateDuration(0.2f);
@@ -83,6 +90,124 @@ public class GameView implements Screen, InputProcessor {
 
         levelLabel = new Label("Level: 1", skin);
         levelLabel.setColor(Color.WHITE);
+
+        pauseButton = new TextButton("Pause", skin);
+        pauseButton.setSize(200, 100);
+
+        pauseButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Game.setGameState(GameState.PAUSED);
+                pauseOverlay.setVisible(true);
+                pauseMenu.setVisible(true);
+            }
+        });
+
+        Texture vitality = GameAssetManager.getGameAssetManager().getVitalityTexture();
+        vitalityImage = new Image(new TextureRegionDrawable(new TextureRegion(vitality)));
+        vitalityImage.setSize(vitality.getWidth(), vitality.getHeight());
+        vitalityImage.setColor(0, 0, 0, 1);
+
+
+        Texture damager = GameAssetManager.getGameAssetManager().getDamagerTexture();
+        damagerImage = new Image(new TextureRegionDrawable(new TextureRegion(damager)));
+        damagerImage.setSize(damager.getWidth(), damager.getHeight());
+        damagerImage.setColor(0, 0, 0, 1);
+
+        Texture procrease = GameAssetManager.getGameAssetManager().getProCreaseTexture();
+        procreaseImage = new Image(new TextureRegionDrawable(new TextureRegion(procrease)));
+        procreaseImage.setSize(procrease.getWidth(), procrease.getHeight());
+        procreaseImage.setColor(0, 0, 0, 1);
+
+        Texture amocrease = GameAssetManager.getGameAssetManager().getAmoCreaseTexture();
+        amocreaseImage = new Image(new TextureRegionDrawable(new TextureRegion(amocrease)));
+        amocreaseImage.setSize(amocrease.getWidth(), amocrease.getHeight());
+        amocreaseImage.setColor(0, 0, 0, 1);
+
+        Texture speedy = GameAssetManager.getGameAssetManager().getSpeedyTexture();
+        speedyImage = new Image(new TextureRegionDrawable(new TextureRegion(speedy)));
+        speedyImage.setSize(speedy.getWidth(), speedy.getHeight());
+        speedyImage.setColor(0, 0, 0, 1);
+
+
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        Texture whiteTex = new Texture(pixmap);
+        pixmap.dispose(); // پس از ساخت texture دیگه لازم نیست
+
+        pauseOverlay = new Image(new TextureRegionDrawable(new TextureRegion(whiteTex)));
+        pauseOverlay.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        pauseOverlay.setColor(0, 0, 0, 0.7f);
+        pauseOverlay.setVisible(false);
+
+        pauseMenu = new Table();
+        pauseMenu.setFillParent(true);
+        pauseMenu.setVisible(false); // ابتدا مخفی باشد
+
+        TextButton resumeButton = new TextButton("Resume", skin);
+        resumeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Game.setGameState(GameState.PLAYING);
+                pauseOverlay.setVisible(false);
+                pauseMenu.setVisible(false);
+            }
+        });
+
+        // Header
+        pauseMenu.add(new Label("Game Paused", skin, "title")).padBottom(30).colspan(2).center().row();
+
+// Icon row
+        Table iconRow = new Table();
+        iconRow.add(vitalityImage).size(40).pad(5);
+        iconRow.add(damagerImage).size(40).pad(5);
+        iconRow.add(procreaseImage).size(40).pad(5);
+        iconRow.add(amocreaseImage).size(40).pad(5);
+        iconRow.add(speedyImage).size(40).pad(5);
+        pauseMenu.add(iconRow).colspan(2).padBottom(20).row();
+
+// Buttons
+        pauseMenu.add(resumeButton).pad(10).fillX().colspan(2).row();
+
+        TextButton cheatButton = new TextButton("Cheat Codes", skin);
+        cheatButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                //TODO
+                // نمایش دیالوگ یا صفحه‌ی کدهای تقلب
+            }
+        });
+        pauseMenu.add(cheatButton).pad(10).fillX().colspan(2).row();
+
+        TextButton grayscaleButton = new TextButton("Toggle Grayscale", skin);
+        grayscaleButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                //TODO
+//                controller.toggleGrayscale(); // تابعی در کنترلر برای تغییر رنگ
+            }
+        });
+        pauseMenu.add(grayscaleButton).pad(10).fillX().colspan(2).row();
+
+        TextButton saveExitButton = new TextButton("Save & Exit", skin);
+        saveExitButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                //TODO
+                // controller.saveGame();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+            }
+        });
+        pauseMenu.add(saveExitButton).pad(10).fillX().colspan(2).row();
+
+        TextButton giveUpButton = new TextButton("Give Up", skin);
+        giveUpButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Game.setGameState(GameState.GAME_OVER);
+            }
+        });
+        pauseMenu.add(giveUpButton).pad(10).fillX().colspan(2).row();
+
+        lastAmmo = Game.getCurrentPlayer().getEquippedWeapon().getAmmo();
 
     }
 
@@ -103,14 +228,49 @@ public class GameView implements Screen, InputProcessor {
         xpProgressBar.setPosition(stage.getWidth() - 320, stage.getHeight() - 60);
         levelLabel.setPosition(stage.getWidth() - 320, stage.getHeight() - 40);
 
+        pauseButton.setPosition(stage.getWidth() - 220, 50);
+
+
+        bulletIcons.clear(); // برای اطمینان از پاک شدن لیست قبلی
+        bulletTable = new Table();
+        bulletTable.setName("bulletTable"); // برای یافتن راحت در Stage
+
+        bulletTexture = GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex();
+        for (int i = 0; i < Game.getCurrentPlayer().getEquippedWeapon().getAmmo(); i++) {
+            Image bulletIcon = new Image(new TextureRegionDrawable(new TextureRegion(bulletTexture)));
+            bulletIcon.setSize(16, 16);
+            bulletTable.add(bulletIcon).pad(2);
+            bulletIcons.add(bulletIcon);
+        }
+        bulletTable.pack();
+        bulletTable.setPosition(stage.getWidth() - 320, stage.getHeight() - 100);
+        stage.addActor(bulletTable);
+
+        Texture maskTexture = new Texture(Gdx.files.internal("mask.png"));
+        darknessOverlay = new Image(new TextureRegionDrawable(new TextureRegion(maskTexture)));
+        darknessOverlay.setColor(0, 0, 0, 0.5f);
+        darknessOverlay.setSize(stage.getWidth(), stage.getHeight()); // اندازه ماسک
+        darknessOverlay.setTouchable(Touchable.disabled);
+        darknessOverlay.setZIndex(1000); // بالاتر از همه چیز باشه
+
+        stage.addActor(darknessOverlay);
+
+
+
+
         stage.addActor(timeProgressBar);
         stage.addActor(healthBar);
         stage.addActor(killCountLabel);
         stage.addActor(killCount);
         stage.addActor(xpProgressBar);
         stage.addActor(levelLabel);
+        stage.addActor(pauseButton);
+        stage.addActor(pauseOverlay);
+        stage.addActor(pauseMenu);
 
     }
+
+
 
     @Override
     public void render(float delta) {
@@ -136,12 +296,21 @@ public class GameView implements Screen, InputProcessor {
 
         Main.getBatch().begin();
         Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0); // بک‌گراند در (0,0) یا موقعیت واقعی خودش
+
+        Player player = Game.getCurrentPlayer();
+        darknessOverlay.setPosition(
+            player.getPosX() + player.getRect().getWidth() / 2f - darknessOverlay.getWidth() / 2f,
+            player.getPosY() + player.getRect().getHeight() / 2f - darknessOverlay.getHeight() / 2f
+        );
+
+
+
         if (!isAbilitySelectionActive) {
             controller.updateGame();
         }
 
 
-        EnemyController.render(Main.getBatch());
+        controller.getEnemyController().render(Main.getBatch());
 
         Main.getBatch().end();
 
@@ -149,8 +318,16 @@ public class GameView implements Screen, InputProcessor {
         timeElapsed += delta;
         timeProgressBar.setValue(timeElapsed);
         healthBar.setValue(Game.getCurrentPlayer().getPlayerHealth());
+        if (Game.getCurrentPlayer().getPlayerHealth() <= 10 && Game.isSfx_enabled()) {
+            GameAssetManager.getGameAssetManager().getHealthAlarmSound().play();
+        }
 
         killCount.setText(Game.getCurrentPlayer().getKillCount());
+
+        if (lastAmmo > Game.getCurrentPlayer().getEquippedWeapon().getAmmo()) {
+            removeBulletIconOnShoot();
+            refillBulletIcons(Game.getCurrentPlayer().getEquippedWeapon().getAmmo());
+        }
 
         // به‌روزرسانی نوار XP و لول
         int currentXP = Game.getCurrentPlayer().getXp();
@@ -158,6 +335,7 @@ public class GameView implements Screen, InputProcessor {
         int xpForNextLevel = Game.getCurrentPlayer().getXPForNextLevel();
 
         if (currentXP >= xpForNextLevel && !isAbilitySelectionActive) {
+            if (Game.isSfx_enabled()) GameAssetManager.getGameAssetManager().getLevelUpSound().play();
             Game.getCurrentPlayer().addLevel(1);
             Game.getCurrentPlayer().setXp(0);
             Game.setGameState(GameState.PAUSED);
@@ -171,12 +349,12 @@ public class GameView implements Screen, InputProcessor {
 
         //TODO
         if (Game.getCurrentPlayer().getPlayerHealth() <= 0) {
-            //System.out.println("You lose");
+            Game.setGameState(GameState.GAME_OVER);
         }
 
         //TODO
         if (timeElapsed >= WIN_TIME) {
-            //System.out.println("YOU WON");
+            Game.setGameState(GameState.WINNING);
         }
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -197,7 +375,6 @@ public class GameView implements Screen, InputProcessor {
                     Ability chosen = (Ability) object;
                     applyAbility(chosen);
                     isAbilitySelectionActive = false;
-                    System.out.println("Ability selected: " + chosen.getDescription());
                     this.hide();
                 }
 
@@ -242,28 +419,54 @@ public class GameView implements Screen, InputProcessor {
     }
 
     private void applyAbility(Ability ability) {
+        if (Game.isSfx_enabled()) GameAssetManager.getGameAssetManager().getAbilitySound().play();
         Player player = Game.getCurrentPlayer();
         switch (ability) {
             case VITALITY:
+                vitalityImage.setColor(1, 1, 1, 1);
+                player.addAbility(Ability.VITALITY);
                 player.increaseMaxHp(20);
                 break;
             case DAMAGER :
+                damagerImage.setColor(1, 1, 1, 1);
+                player.addAbility(Ability.DAMAGER);
                 player.getEquippedWeapon().increaseDamage();
                 controller.getWeaponController().startIncrease();
                 break;
             case PROCREASE :
+                procreaseImage.setColor(1, 1, 1, 1);
+                player.addAbility(Ability.PROCREASE);
                 player.getEquippedWeapon().increaseProjectilePerShot(1);
                 break;
             case AMOCREASE :
+                amocreaseImage.setColor(1, 1, 1, 1);
+                player.addAbility(Ability.AMOCREASE);
                 player.getEquippedWeapon().increaseMaxAmmo(5);
                 break;
             case SPEEDY :
+                speedyImage.setColor(1, 1, 1, 1);
+                player.addAbility(Ability.SPEEDY);
                 player.activateSpeedBoost(10);
                 controller.getPlayerController().startBoost();
                 break;
         }
     }
 
+    public void removeBulletIconOnShoot() {
+        int childrenCount = bulletTable.getChildren().size;
+        if (childrenCount > 0) {
+            bulletTable.removeActorAt(childrenCount - 1, true); // حذف آخرین آیکون
+        }
+    }
+
+    public void refillBulletIcons(int ammoCount) {
+        bulletTable.clear();
+        for (int i = 0; i < ammoCount; i++) {
+            Image bulletIcon = new Image(new TextureRegionDrawable(new TextureRegion(GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex())));
+            bulletIcon.setSize(16, 16);
+            bulletTable.add(bulletIcon).pad(2);
+        }
+    }
 
 
     @Override
@@ -293,6 +496,9 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Game.getReloadButton()) {
+            if (Game.isSfx_enabled()) GameAssetManager.getGameAssetManager().getReloadingSound().play();
+            removeBulletIconOnShoot();
+            refillBulletIcons(Game.getCurrentPlayer().getEquippedWeapon().getAmmo());
             controller.getWeaponController().startReload();
         }
         return true;
@@ -339,4 +545,7 @@ public class GameView implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
+
+
+
 }

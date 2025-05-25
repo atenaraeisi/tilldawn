@@ -74,7 +74,7 @@ public class WeaponController {
     }
 
     public void handleWeaponShoot(int x, int y) {
-        if (isReloading || weapon.getAmmo() <= 0) return;
+        if (isReloading) return;
         if (weapon.getAmmo() <= 0){
             if (Game.isAutoReload()){
                 weapon.setAmmo(weapon.getAmmoMax());
@@ -86,7 +86,7 @@ public class WeaponController {
         float playerY = player.getPosY() + player.getPlayerSprite().getHeight() / 2f;
         Vector2 origin = new Vector2(playerX, playerY);
 
-        // ⬇ تبدیل مختصات کلیک از screen به world:
+
         Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
         Vector2 target = new Vector2(worldClick.x, worldClick.y);
 
@@ -109,8 +109,11 @@ public class WeaponController {
                 bullet.setDirection(direction);
 
                 bullets.add(bullet);
+                if (Game.isSfx_enabled()) {
+                    if (weapon.getType().equals(WeaponType.SHOTGUN)) GameAssetManager.getGameAssetManager().getShotGunSound().play();
+                    else GameAssetManager.getGameAssetManager().getShootSound().play();
+                }
             }
-
             weapon.setAmmo(weapon.getAmmo() - 1);
         } else {
             Bullet bullet = new Bullet(x, y,
@@ -124,6 +127,10 @@ public class WeaponController {
             bullet.setDirection(direction);
 
             bullets.add(bullet);
+            if (Game.isSfx_enabled()) {
+                if (weapon.getType().equals(WeaponType.SHOTGUN)) GameAssetManager.getGameAssetManager().getShotGunSound().play();
+                else GameAssetManager.getGameAssetManager().getShootSound().play();
+            }
             weapon.setAmmo(weapon.getAmmo() - 1);
         }
     }

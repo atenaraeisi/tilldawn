@@ -1,11 +1,15 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.tilldawn.Main;
 import com.tilldawn.Model.*;
 import com.tilldawn.Model.Character;
 import com.tilldawn.Model.Enemies.AbstractEnemy;
 import com.tilldawn.Model.Enemies.Enemy;
+import com.tilldawn.View.GameOverPage;
 import com.tilldawn.View.GameView;
+import com.tilldawn.View.WinningPage;
 
 import java.util.ArrayList;
 
@@ -15,7 +19,7 @@ public class GameController {
     private WorldController worldController;
     private WeaponController weaponController;
     private EnemyController enemyController;
-    public static final float WIN_TIME = 20f; //TODO
+    public static final float WIN_TIME = 1200f;
     private static float totalGameTime = 0f;
 
 
@@ -29,19 +33,26 @@ public class GameController {
     }
 
     public void updateGame() {
-        if (view != null && Game.getGameState() != GameState.PAUSED) {
+        if (Game.getGameState().equals(GameState.WINNING)) {
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new WinningPage(new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+        }
+        else if (Game.getGameState().equals(GameState.GAME_OVER)) {
+            Main.getMain().getScreen().dispose();
+            Main.getMain().setScreen(new GameOverPage( new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+        }
+        if (view != null && Game.getGameState() == GameState.PLAYING) {
             totalGameTime += Gdx.graphics.getDeltaTime();
             playerController.update();
             weaponController.update();
-            EnemyController.update(Gdx.graphics.getDeltaTime());
+            enemyController.update(Gdx.graphics.getDeltaTime());
             ArrayList<Bullet> bulletsToRemove = new ArrayList<>();
             for (Bullet bullet : weaponController.getBullets()) {
-                for (Enemy enemy : EnemyController.getEnemies()) {
+                for (Enemy enemy : enemyController.getEnemies()) {
                     if (bullet.collidesWith(enemy)) {
                         enemy.takeDamage(Game.getCurrentPlayer().getEquippedWeapon().getDamage());
-                        // می‌تونی گلوله رو حذف کنی
                         bulletsToRemove.add(bullet);
-                        break; // چون این گلوله فقط به یه دشمن برخورد می‌کنه
+                        break;
                     }
                 }
             }
@@ -66,5 +77,9 @@ public class GameController {
 
     public WeaponController getWeaponController() {
         return weaponController;
+    }
+
+    public EnemyController getEnemyController() {
+        return enemyController;
     }
 }
