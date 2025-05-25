@@ -32,7 +32,7 @@ public class LoginMenuView implements Screen {
         this.forgetPasswordButton = new TextButton("Forget pass", skin);
         this.title = new Label("L o g i n    M e n u", skin.get("title", Label.LabelStyle.class));
         this.errorLabel = new Label("", skin);
-        errorLabel.setColor(1, 0, 0, 1); // رنگ قرمز برای خطا
+        errorLabel.setColor(1, 0, 0, 1);
         this.usernameField = new TextField("", skin);
         usernameField.setMessageText("Enter your username");
         this.passwordField = new TextField("", skin);

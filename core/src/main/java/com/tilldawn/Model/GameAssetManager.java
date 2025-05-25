@@ -198,7 +198,7 @@ public class GameAssetManager {
     private final Sound levelUpSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Special & Powerup (13).wav"));
     private final Sound ShotGunSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Weapon_Shotgun_Reload.wav"));
     private final Sound damageSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-falling-hit-757.wav"));
-    private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-shotgun-long-pump-1666.wav"));
+    private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Buff_Positive.wav"));
 
 
     private GameAssetManager(){
