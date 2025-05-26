@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
-import com.tilldawn.View.Menu.EntryMenuView;
-import com.tilldawn.View.Menu.MainMenuView;
-import com.tilldawn.View.Menu.PreGameMenuView;
-import com.tilldawn.View.Menu.SettingsMenuView;
+import com.tilldawn.View.Menu.*;
 
 public class MainMenuController {
     private MainMenuView view;
@@ -32,6 +29,11 @@ public class MainMenuController {
                 GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new SettingsMenuView(new SettingsMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+            }
+            if (view.getProfileButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new ProfileMenuView(new ProfileMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
         }
     }

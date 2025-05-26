@@ -1,5 +1,7 @@
 package com.tilldawn.Model;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
 import java.util.regex.Pattern;
 
 public class User {
@@ -16,6 +18,8 @@ public class User {
     private String selectedQuestion;
     private String answer;
     private Player player;
+    private int score;
+    private Image avatar;
 
 
 
@@ -24,6 +28,15 @@ public class User {
         this.password = password;
         this.selectedQuestion = selectedQuestion;
         this.answer = answer;
+        this.avatar = new Image(GameAssetManager.getGameAssetManager().getAvatarDrawables()[0]);
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public static String[] getSecurityQuestions() {
@@ -72,5 +85,17 @@ public class User {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

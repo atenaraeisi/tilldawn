@@ -5,8 +5,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class GameAssetManager {
     private static GameAssetManager gameAssetManager;
@@ -202,10 +204,55 @@ public class GameAssetManager {
     private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-shotgun-long-pump-1666.wav"));
 
 
+    //B&W Shader
     private boolean blackAndWhiteEnabled = false;
     private ShaderProgram grayscaleShader;
 
 
+    //avatars
+    private final String avatar1 = "avatars/T_Abby_Portrait.png";
+    private final Texture avatar1Texture = new Texture(avatar1);
+    private final String avatar2 = "avatars/T_Dasher_Portrait.png";
+    private final Texture avatar2Texture = new Texture(avatar2);
+    private final String avatar3 = "avatars/T_Diamond_Portrait.png";
+    private final Texture avatar3Texture = new Texture(avatar3);
+    private final String avatar4 = "avatars/T_Hastur_Portrait.png";
+    private final Texture avatar4Texture = new Texture(avatar4);
+    private final String avatar5 = "avatars/T_Hina_Portrait.png";
+    private final Texture avatar5Texture = new Texture(avatar5);
+    private final String avatar6 = "avatars/T_Lilith_Portrait.png";
+    private final Texture avatar6Texture = new Texture(avatar6);
+    private final String avatar7 = "avatars/T_Luna_Portrait.png";
+    private final Texture avatar7Texture = new Texture(avatar7);
+    private final String avatar8 = "avatars/T_Raven_Portrait.png";
+    private final Texture avatar8Texture = new Texture(avatar8);
+    private final String avatar9 = "avatars/T_Scarlett_Portrait.png";
+    private final Texture avatar9Texture = new Texture(avatar9);
+    private final String avatar10 = "avatars/T_Shana_Portrait.png";
+    private final Texture avatar10Texture = new Texture(avatar10);
+    private final String avatar11 = "avatars/T_Spark_Portrait.png";
+    private final Texture avatar11Texture = new Texture(avatar11);
+    private final String avatar12 = "avatars/T_Yuki_Portrait.png";
+    private final Texture avatar12Texture = new Texture(avatar12);
+    private final TextureRegionDrawable[] avatarDrawables = new TextureRegionDrawable[] {
+        new TextureRegionDrawable(new TextureRegion(avatar1Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar2Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar3Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar4Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar5Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar6Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar7Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar8Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar9Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar10Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar11Texture)),
+        new TextureRegionDrawable(new TextureRegion(avatar12Texture)),
+    };
+
+
+    public TextureRegionDrawable[] getAvatarDrawables() {
+        return avatarDrawables;
+    }
 
     private GameAssetManager(){
         // بارگذاری و پخش آهنگ
@@ -248,6 +295,55 @@ public class GameAssetManager {
 
     public Skin getSkin() {
         return skin;
+    }
+
+
+    public Texture getAvatar12Texture() {
+        return avatar12Texture;
+    }
+
+    public Texture getAvatar11Texture() {
+        return avatar11Texture;
+    }
+
+    public Texture getAvatar10Texture() {
+        return avatar10Texture;
+    }
+
+    public Texture getAvatar9Texture() {
+        return avatar9Texture;
+    }
+
+    public Texture getAvatar8Texture() {
+        return avatar8Texture;
+    }
+
+    public Texture getAvatar6Texture() {
+        return avatar6Texture;
+    }
+
+    public Texture getAvatar7Texture() {
+        return avatar7Texture;
+    }
+
+    public Texture getAvatar5Texture() {
+        return avatar5Texture;
+    }
+
+    public Texture getAvatar4Texture() {
+        return avatar4Texture;
+    }
+
+    public Texture getAvatar3Texture() {
+        return avatar3Texture;
+    }
+
+    public Texture getAvatar2Texture() {
+        return avatar2Texture;
+    }
+
+    public Texture getAvatar1Texture() {
+        return avatar1Texture;
     }
 
     public Sound getReloadingSound() {
