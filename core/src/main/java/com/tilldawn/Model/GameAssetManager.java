@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class GameAssetManager {
@@ -198,7 +199,12 @@ public class GameAssetManager {
     private final Sound levelUpSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Special & Powerup (13).wav"));
     private final Sound ShotGunSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Weapon_Shotgun_Reload.wav"));
     private final Sound damageSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-falling-hit-757.wav"));
-    private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/Buff_Positive.wav"));
+    private final Sound reloadingSound = Gdx.audio.newSound(Gdx.files.internal("SFX/AudioClip/mixkit-shotgun-long-pump-1666.wav"));
+
+
+    private boolean blackAndWhiteEnabled = false;
+    private ShaderProgram grayscaleShader;
+
 
 
     private GameAssetManager(){
@@ -214,6 +220,30 @@ public class GameAssetManager {
             gameAssetManager = new GameAssetManager();
         }
         return gameAssetManager;
+    }
+
+    public void loadShaders() {
+        ShaderProgram.pedantic = false;
+        grayscaleShader = new ShaderProgram(
+            Gdx.files.internal("shaders/grayscale.vert"),
+            Gdx.files.internal("shaders/grayscale.frag")
+        );
+
+        if (!grayscaleShader.isCompiled()) {
+            System.err.println("Shader compile error: " + grayscaleShader.getLog());
+        }
+    }
+
+    public ShaderProgram getGrayscaleShader() {
+        return grayscaleShader;
+    }
+
+    public boolean isBlackAndWhiteEnabled() {
+        return blackAndWhiteEnabled;
+    }
+
+    public void toggleBlackAndWhite() {
+        blackAndWhiteEnabled = !blackAndWhiteEnabled;
     }
 
     public Skin getSkin() {

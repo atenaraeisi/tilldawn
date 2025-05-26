@@ -121,19 +121,8 @@ public class SettingsMenuController {
 
     }
 
-    // Sample Methods:
-    public void toggleMusic() {
-        Music music = GameAssetManager.getGameAssetManager().getBackgroundMusic();
-        if (music.isPlaying()) music.pause();
-        else music.play();
-    }
-
     public void toggleSfx() {
         Game.setSfx_enabled(!Game.isSfx_enabled());
-    }
-
-    public void changeControls() {
-        // Logic to open control configuration screen
     }
 
     public void toggleAutoReload() {
@@ -141,7 +130,7 @@ public class SettingsMenuController {
     }
 
     public void toggleBlackAndWhiteMode() {
-        // Implement display mode toggle logic
+        GameAssetManager.getGameAssetManager().toggleBlackAndWhite();
     }
 
     private int getKeyCodeFromString(String keyName) {

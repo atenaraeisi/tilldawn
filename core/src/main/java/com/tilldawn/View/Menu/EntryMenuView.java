@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.EntryMenuController;
+import com.tilldawn.Main;
+import com.tilldawn.Model.GameAssetManager;
 
 public class EntryMenuView implements Screen {
     private Stage stage;
@@ -51,6 +53,7 @@ public class EntryMenuView implements Screen {
 
     @Override
     public void show() {
+        GameAssetManager.getGameAssetManager().loadShaders();
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
@@ -77,6 +80,13 @@ public class EntryMenuView implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
+        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
+            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+        } else {
+            Main.getBatch().setShader(null);
+            stage.getBatch().setShader(null);
+        }
         stage.getBatch().begin();
         stage.getBatch().draw(logo, 551, 580, 818, 450);
         stage.getBatch().draw(leftSide, 0, 0, 590, Gdx.graphics.getHeight());

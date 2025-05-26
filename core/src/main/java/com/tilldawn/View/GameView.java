@@ -2,6 +2,7 @@ package com.tilldawn.View;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -53,7 +54,7 @@ public class GameView implements Screen, InputProcessor {
     private final ArrayList<Image> bulletIcons = new ArrayList<>();
     private Table bulletTable;
     private int lastAmmo;
-    private Image darknessOverlay;
+    private Sprite darknessOverlay;
 
 
 
@@ -182,9 +183,7 @@ public class GameView implements Screen, InputProcessor {
         TextButton grayscaleButton = new TextButton("Toggle Grayscale", skin);
         grayscaleButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                //TODO
-//                controller.toggleGrayscale(); // تابعی در کنترلر برای تغییر رنگ
-            }
+                GameAssetManager.getGameAssetManager().toggleBlackAndWhite();            }
         });
         pauseMenu.add(grayscaleButton).pad(10).fillX().colspan(2).row();
 
@@ -247,14 +246,9 @@ public class GameView implements Screen, InputProcessor {
         stage.addActor(bulletTable);
 
         Texture maskTexture = new Texture(Gdx.files.internal("mask.png"));
-        darknessOverlay = new Image(new TextureRegionDrawable(new TextureRegion(maskTexture)));
+        darknessOverlay = new Sprite(maskTexture);
         darknessOverlay.setColor(0, 0, 0, 0.5f);
-        darknessOverlay.setSize(stage.getWidth(), stage.getHeight()); // اندازه ماسک
-        darknessOverlay.setTouchable(Touchable.disabled);
-        darknessOverlay.setZIndex(1000); // بالاتر از همه چیز باشه
-
-        stage.addActor(darknessOverlay);
-
+        darknessOverlay.setSize(1500, 800);
 
 
 
@@ -274,7 +268,7 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        camera.position.set(Game.getCurrentPlayer().getPosX(), Game.getCurrentPlayer().getPosY(), 0); // دوربین دنبال بازیکن
+        camera.position.set(Game.getCurrentPlayer().getPosX(), Game.getCurrentPlayer().getPosY(), 0);
         // ابعاد دوربین
         float viewportWidth = camera.viewportWidth;
         float viewportHeight = camera.viewportHeight;
@@ -291,24 +285,33 @@ public class GameView implements Screen, InputProcessor {
         camera.position.set(cameraX, cameraY, 0);
         camera.update();
 
-        camera.update();
+
         Main.getBatch().setProjectionMatrix(camera.combined); // اتصال دوربین به Main.getBatch()
+
+        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
+            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+        } else {
+            Main.getBatch().setShader(null);
+            stage.getBatch().setShader(null);
+        }
 
         Main.getBatch().begin();
         Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0); // بک‌گراند در (0,0) یا موقعیت واقعی خودش
 
-        Player player = Game.getCurrentPlayer();
-        darknessOverlay.setPosition(
-            player.getPosX() + player.getRect().getWidth() / 2f - darknessOverlay.getWidth() / 2f,
-            player.getPosY() + player.getRect().getHeight() / 2f - darknessOverlay.getHeight() / 2f
-        );
+
 
 
 
         if (!isAbilitySelectionActive) {
             controller.updateGame();
         }
-
+        Player player = Game.getCurrentPlayer();
+        darknessOverlay.setPosition(
+            player.getPlayerSprite().getX() + player.getRect().getWidth() / 2f - darknessOverlay.getWidth() / 2f,
+            player.getPlayerSprite().getY() + player.getRect().getHeight() / 2f - darknessOverlay.getHeight() / 2f
+        );
+        darknessOverlay.draw(Main.getBatch());
 
         controller.getEnemyController().render(Main.getBatch());
 
@@ -347,12 +350,10 @@ public class GameView implements Screen, InputProcessor {
         xpProgressBar.setValue(currentXP);
         levelLabel.setText("Level: " + level);
 
-        //TODO
         if (Game.getCurrentPlayer().getPlayerHealth() <= 0) {
             Game.setGameState(GameState.GAME_OVER);
         }
 
-        //TODO
         if (timeElapsed >= WIN_TIME) {
             Game.setGameState(GameState.WINNING);
         }
@@ -364,7 +365,6 @@ public class GameView implements Screen, InputProcessor {
     private void showAbilitySelectionDialog() {
         isAbilitySelectionActive = true;
 
-        // انتخاب ۳ ابیلیتی تصادفی
         List<Ability> abilities = new ArrayList<>(List.of(Ability.values()));
         Collections.shuffle(abilities);
         randomAbilities = abilities.subList(0, 3);

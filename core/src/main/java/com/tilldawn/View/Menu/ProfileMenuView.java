@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.ProfileMenuController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.GameAssetManager;
 
 public class ProfileMenuView implements Screen {
     private Stage stage;
@@ -32,7 +33,14 @@ public class ProfileMenuView implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1); // آبی تیره جذاب
+        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
+        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
+            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+        } else {
+            Main.getBatch().setShader(null);
+            stage.getBatch().setShader(null);
+        }
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

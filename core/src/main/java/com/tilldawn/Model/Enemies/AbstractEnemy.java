@@ -125,12 +125,10 @@ public abstract class AbstractEnemy implements Enemy {
                 time = 0; // شروع از فریم اول انیمیشن مرگ
             }
 
-            deathTimer -= delta;
             if (time >= 0.6f) {
                 dead = true;
                 Game.getCurrentPlayer().addKill();
             }
-            return;
         }
 
         // سایر منطق زنده بودن

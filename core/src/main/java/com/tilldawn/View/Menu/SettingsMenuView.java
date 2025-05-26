@@ -157,6 +157,7 @@ public class SettingsMenuView implements Screen {
         Table checkBoxRow = new Table();
         autoReloadCheckBox.setChecked(Game.isAutoReload());
         checkBoxRow.add(autoReloadCheckBox).pad(20, 0, 10, 50);
+        bwModeCheckBox.setChecked(GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled());
         checkBoxRow.add(bwModeCheckBox).pad(20, 10, 10, 0);
         table.add(checkBoxRow).colspan(1).padBottom(50);
         table.add();
@@ -169,7 +170,14 @@ public class SettingsMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1); // آبی تیره جذاب
+        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
+        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
+            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+        } else {
+            Main.getBatch().setShader(null);
+            stage.getBatch().setShader(null);
+        }
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

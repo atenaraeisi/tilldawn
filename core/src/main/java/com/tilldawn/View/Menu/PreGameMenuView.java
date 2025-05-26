@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.PreGameMenuController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.GameAssetManager;
 
 public class PreGameMenuView implements Screen {
 
@@ -56,6 +57,13 @@ public class PreGameMenuView implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
+            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
+        } else {
+            Main.getBatch().setShader(null);
+            stage.getBatch().setShader(null);
+        }
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
