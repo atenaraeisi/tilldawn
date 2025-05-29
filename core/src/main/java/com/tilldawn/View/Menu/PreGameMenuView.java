@@ -50,15 +50,15 @@ public class PreGameMenuView implements Screen {
 
         // Characters
         mainTable.add(new Label("Choose Hero:", skin)).colspan(4).padBottom(10).row();
-        mainTable.add(createCharacterSelection()).colspan(8).padBottom(20).row();
+        mainTable.add(createCharacterSelection()).colspan(8).padBottom(50).row();
 
         // Weapons
         mainTable.add(new Label("Choose Weapon:", skin)).colspan(4).padBottom(10).row();
-        mainTable.add(createWeaponSelection()).colspan(4).padBottom(20).row();
+        mainTable.add(createWeaponSelection()).colspan(4).padBottom(50).row();
 
         // Game Duration
         mainTable.add(new Label("Choose Game Duration (min):", skin)).colspan(4).padBottom(10).row();
-        mainTable.add(createTimeSelection()).colspan(4).padBottom(20).row();
+        mainTable.add(createTimeSelection()).colspan(4).padBottom(50).row();
 
         // Start Button
         TextButton startButton = new TextButton("Start Game", skin);
@@ -85,13 +85,17 @@ public class PreGameMenuView implements Screen {
         Table table = new Table();
         for (CharacterType character : CharacterType.values()) {
             TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(character.getPlayerTexture()));
+            drawable.setMinSize(60, 70);
 
             ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
             style.imageUp = drawable;
             style.imageDown = drawable;
             style.imageChecked = new TextureRegionDrawable(drawable.getRegion());
+            style.imageChecked.setMinWidth(60);
+            style.imageChecked.setMinHeight(70);
 
             ImageButton button = new ImageButton(style);
+            button.setSize(100, 100);
 
             Image background = new Image(new Texture("skin/icon.jpg"));
             background.setVisible(false);
@@ -119,7 +123,7 @@ public class PreGameMenuView implements Screen {
                 }
             });
 
-            table.add(stack).size(64).pad(5);
+            table.add(stack).size(100).pad(5);
         }
         return table;
     }
@@ -131,11 +135,14 @@ public class PreGameMenuView implements Screen {
 
         for (WeaponType weapon : WeaponType.values()) {
             TextureRegionDrawable weaponDrawable = new TextureRegionDrawable(new TextureRegion(weapon.getGunTexture()));
+            weaponDrawable.setMinSize(60, 70);
 
             ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
             style.imageUp = weaponDrawable;
             style.imageDown = weaponDrawable;
             style.imageChecked = weaponDrawable;
+            style.imageChecked.setMinWidth(60);
+            style.imageChecked.setMinHeight(70);
 
             ImageButton button = new ImageButton(style);
 
