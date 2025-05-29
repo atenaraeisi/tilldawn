@@ -3,7 +3,7 @@ package com.tilldawn.Model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public enum Character {
+public enum CharacterType {
     SHANA(4, 4, GameAssetManager.getGameAssetManager().getCharacter1_idle_animation(), GameAssetManager.getGameAssetManager().getCharacter1_idle0_tex()),
     DIAMOND(1, 7, GameAssetManager.getGameAssetManager().getCharacter2_idle_frames(), GameAssetManager.getGameAssetManager().getCharacter2_idle0_tex()),
     SCARLET(5, 3, GameAssetManager.getGameAssetManager().getCharacter3_idle_frames(), GameAssetManager.getGameAssetManager().getCharacter3_idle0_tex()),
@@ -15,7 +15,7 @@ public enum Character {
     private final Animation<Texture> animation;
     private final Texture playerTexture;
 
-    Character(int speed, int hp, Animation<Texture> animation, Texture playerTexture) {
+    CharacterType(int speed, int hp, Animation<Texture> animation, Texture playerTexture) {
         this.speed = speed;
         this.hp = hp;
         this.animation = animation;

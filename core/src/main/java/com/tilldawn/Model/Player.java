@@ -5,13 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.util.ArrayList;
 
 public class Player {
     private User user;
-    private Character character;
+    private CharacterType characterType;
     private Weapon equippedWeapon;
     private Texture playerTexture;
     private Sprite playerSprite;
@@ -35,15 +34,15 @@ public class Player {
     private boolean isPlayerIdle = true;
     private boolean isPlayerRunning = false;
 
-    public Player(User user, Character character) {
+    public Player(User user, CharacterType characterType) {
         this.gainAbilities = new ArrayList<>();
         this.user = user;
-        this.character = character;
-        this.animation = character.getAnimation();
-        this.playerTexture = character.getPlayerTexture();
-        this.speed = character.getSpeed();
-        this.maxHp = character.getHp() * 20;
-        this.playerHealth = character.getHp() * 20;
+        this.characterType = characterType;
+        this.animation = characterType.getAnimation();
+        this.playerTexture = characterType.getPlayerTexture();
+        this.speed = characterType.getSpeed();
+        this.maxHp = characterType.getHp() * 20;
+        this.playerHealth = characterType.getHp() * 20;
         playerSprite = new Sprite(playerTexture);
         posX = Gdx.graphics.getWidth() / 2;
         posY = Gdx.graphics.getHeight() / 2;
@@ -172,8 +171,8 @@ public class Player {
         this.xp = xp;
     }
 
-    public Character getCharacter() {
-        return character;
+    public CharacterType getCharacter() {
+        return characterType;
     }
 
     public Animation<Texture> getAnimation() {

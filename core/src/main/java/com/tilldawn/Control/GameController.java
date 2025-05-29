@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
-import com.tilldawn.Model.Character;
-import com.tilldawn.Model.Enemies.AbstractEnemy;
 import com.tilldawn.Model.Enemies.Enemy;
 import com.tilldawn.View.GameOverPage;
 import com.tilldawn.View.GameView;
@@ -19,7 +17,7 @@ public class GameController {
     private WorldController worldController;
     private WeaponController weaponController;
     private EnemyController enemyController;
-    public static final float WIN_TIME = 1200f;
+    public static float WIN_TIME;
     private static float totalGameTime = 0f;
 
 
@@ -59,6 +57,14 @@ public class GameController {
             weaponController.getBullets().removeAll(bulletsToRemove);
 
         }
+    }
+
+    public static void setWinTime(float winTime) {
+        WIN_TIME = winTime;
+    }
+
+    public static void setTotalGameTime(float totalGameTime) {
+        GameController.totalGameTime = totalGameTime;
     }
 
     public static float getTotalGameTime() {

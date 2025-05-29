@@ -18,7 +18,7 @@ public class MainMenuController {
             if (view.getPregameButton().isChecked()) {
                 GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
-                Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
+                Main.getMain().setScreen(new PreGameMenuView(new PreGameMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
             if (view.getExitButton().isChecked()) {
                 GameAssetManager.getGameAssetManager().getClickSound().play();

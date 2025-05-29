@@ -11,7 +11,7 @@ import com.tilldawn.Control.GameController;
 import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
-import com.tilldawn.Model.Character;
+import com.tilldawn.Model.CharacterType;
 import com.tilldawn.View.Menu.MainMenuView;
 
 public class GameOverPage implements Screen {
@@ -50,7 +50,7 @@ public class GameOverPage implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Main.getMain().getScreen().dispose();
                 Game.setGameState(GameState.PLAYING);
-                Game.setCurrentPlayer(new Player(Game.getCurrentUser(), Character.DASHER));
+                Game.setCurrentPlayer(new Player(Game.getCurrentUser(), CharacterType.DASHER));
                 Game.getCurrentPlayer().setEquippedWeapon(new Weapon(WeaponType.REVOLVER));
                 Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
