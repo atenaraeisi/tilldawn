@@ -14,6 +14,7 @@ public class Game {
     private static int rightButton = Input.Keys.D;
     private static int reloadButton = Input.Keys.R;
     private static boolean autoReload = false;
+    private static boolean autoAimEnabled = false;
     private static GameState gameState = GameState.PLAYING;
     private static boolean sfx_enabled = true;
 
@@ -41,6 +42,10 @@ public class Game {
     public static void setCurrentUser(User currentUser) {
         Game.currentUser = currentUser;
     }
+
+    public static boolean isAutoAimEnabled() { return autoAimEnabled; }
+
+    public static void toggleAutoAim() { autoAimEnabled = !autoAimEnabled; }
 
     public static int getRightButton() {
         return rightButton;

@@ -27,7 +27,7 @@ public class GameController {
         this.view = view;
         playerController = new PlayerController(Game.getCurrentPlayer());
         worldController = new WorldController(playerController);
-        weaponController = new WeaponController(Game.getCurrentPlayer().getEquippedWeapon());
+        weaponController = new WeaponController(Game.getCurrentPlayer().getEquippedWeapon(), this);
         enemyController = new EnemyController();
     }
 
@@ -75,6 +75,10 @@ public class GameController {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
                 Game.setGameState(GameState.BOSS_FIGHT);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                Game.toggleAutoAim();
             }
 
         }

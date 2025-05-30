@@ -180,5 +180,25 @@ public class EnemyController {
     public ArrayList<EnemyBullet> getBullets() {
         return bullets;
     }
+
+    public Enemy findNearestEnemy(Vector2 origin) {
+        Enemy closest = null;
+        float bestDist2 = Float.MAX_VALUE;
+
+        for (Enemy e : enemies) {
+            Vector2 center = new Vector2(
+                e.getPosition().x + e.getRect().getWidth()  * 0.5f,
+                e.getPosition().y + e.getRect().getHeight() * 0.5f
+            );
+
+            float d2 = center.dst2(origin);
+            if (d2 < bestDist2) {
+                bestDist2 = d2;
+                closest   = e;
+            }
+        }
+        return closest;
+    }
+
 }
 

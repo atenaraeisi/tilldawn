@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
+import com.tilldawn.Model.Enemies.Enemy;
 import com.tilldawn.View.GameView;
 
 import java.util.ArrayList;
@@ -18,9 +19,11 @@ public class WeaponController {
     private boolean isDamageIncreased = false;
     private float increaseTimer = 0f;
     private ArrayList<Bullet> bullets = new ArrayList<>();
+    private GameController gameController;
 
-    public WeaponController(Weapon weapon){
+    public WeaponController(Weapon weapon, GameController gameController) {
         this.weapon = weapon;
+        this.gameController = gameController;
     }
 
 
@@ -82,58 +85,70 @@ public class WeaponController {
         }
 
         Player player = Game.getCurrentPlayer();
-        float playerX = player.getPosX() + player.getPlayerSprite().getWidth() / 2f;
-        float playerY = player.getPosY() + player.getPlayerSprite().getHeight() / 2f;
+        float playerX = player.getPosX()  + player.getPlayerSprite().getWidth()  * 0.5f;
+        float playerY = player.getPosY()  + player.getPlayerSprite().getHeight() * 0.5f;
         Vector2 origin = new Vector2(playerX, playerY);
 
+        Vector2 target;
+        if (Game.isAutoAimEnabled()) {
+            Enemy nearest = gameController.getEnemyController().findNearestEnemy(origin);
+            if (nearest != null) {
+                target = new Vector2(
+                    nearest.getPosition().x + nearest.getRect().getWidth()  * 0.5f,
+                    nearest.getPosition().y + nearest.getRect().getHeight() * 0.5f
+                );
 
-        Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
-        Vector2 target = new Vector2(worldClick.x, worldClick.y);
-
+                Vector3 screenPos = GameView.camera.project(new Vector3(target.x, target.y, 0));
+                Gdx.input.setCursorPosition((int)screenPos.x, (int)screenPos.y);
+            } else {
+                Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
+                target = new Vector2(worldClick.x, worldClick.y);
+            }
+        } else {
+            Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
+            target = new Vector2(worldClick.x, worldClick.y);
+        }
         WeaponType type = weapon.getType();
 
         if (weapon.getProjectilePerShot() > 1) {
-            int pelletCount = weapon.getProjectilePerShot();
-            float[] angleOffsets = { -5f, 5f, -10f, 10f, 15f, -15f};
+            int pelletCount   = weapon.getProjectilePerShot();
+            float[] offsets   = { -5f, 5f, -10f, 10f, 15f, -15f };
 
-            for (int i = 0; i < Math.min(pelletCount, 6); i++) {
-                Bullet bullet = new Bullet(x, y,
+            for (int i = 0; i < Math.min(pelletCount, offsets.length); i++) {
+                Bullet b = new Bullet(x, y,
                     GameAssetManager.getGameAssetManager().getSmgReload_idle_frames(),
                     GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex());
 
-                Vector2 direction = new Vector2(target.x - origin.x, target.y - origin.y).nor();
-                direction.rotateDeg(angleOffsets[i]);
+                Vector2 dir = new Vector2(target.x - origin.x, target.y - origin.y).nor();
+                dir.rotateDeg(offsets[i]);
 
-                bullet.getSprite().setPosition(origin.x, origin.y);
-                bullet.getRect().move(origin.x, origin.y);
-                bullet.setDirection(direction);
-
-                bullets.add(bullet);
-                if (Game.isSfx_enabled()) {
-                    if (weapon.getType().equals(WeaponType.SHOTGUN)) GameAssetManager.getGameAssetManager().getShotGunSound().play();
-                    else GameAssetManager.getGameAssetManager().getShootSound().play();
-                }
+                b.getSprite().setPosition(origin.x, origin.y);
+                b.getRect().move(origin.x, origin.y);
+                b.setDirection(dir);
+                bullets.add(b);
             }
-            weapon.setAmmo(weapon.getAmmo() - 1);
         } else {
-            Bullet bullet = new Bullet(x, y,
+            Bullet b = new Bullet(x, y,
                 GameAssetManager.getGameAssetManager().getSmgReload_idle_frames(),
                 GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex());
 
-            Vector2 direction = new Vector2(target.x - origin.x, target.y - origin.y).nor();
+            Vector2 dir = new Vector2(target.x - origin.x, target.y - origin.y).nor();
 
-            bullet.getSprite().setPosition(origin.x, origin.y);
-            bullet.getRect().move(origin.x, origin.y);
-            bullet.setDirection(direction);
-
-            bullets.add(bullet);
-            if (Game.isSfx_enabled()) {
-                if (weapon.getType().equals(WeaponType.SHOTGUN)) GameAssetManager.getGameAssetManager().getShotGunSound().play();
-                else GameAssetManager.getGameAssetManager().getShootSound().play();
-            }
-            weapon.setAmmo(weapon.getAmmo() - 1);
+            b.getSprite().setPosition(origin.x, origin.y);
+            b.getRect().move(origin.x, origin.y);
+            b.setDirection(dir);
+            bullets.add(b);
         }
+
+        if (Game.isSfx_enabled()) {
+            if (type == WeaponType.SHOTGUN)
+                GameAssetManager.getGameAssetManager().getShotGunSound().play();
+            else
+                GameAssetManager.getGameAssetManager().getShootSound().play();
+        }
+        weapon.setAmmo(weapon.getAmmo() - 1);
     }
+
 
 
     public void updateBullets() {
