@@ -35,6 +35,11 @@ public class MainMenuController {
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new ProfileMenuView(new ProfileMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
+            if (view.getHintsButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
+                Main.getMain().getScreen().dispose();
+                Main.getMain().setScreen(new talentMenuView(new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+            }
         }
     }
 }

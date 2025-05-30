@@ -164,7 +164,7 @@ public class Player {
     }
 
     public int getXPForNextLevel() {
-        return level * 2;
+        return level * 20;
     }
 
     public void setXp(int xp) {

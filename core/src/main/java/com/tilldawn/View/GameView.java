@@ -135,7 +135,7 @@ public class GameView implements Screen, InputProcessor {
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         Texture whiteTex = new Texture(pixmap);
-        pixmap.dispose(); // پس از ساخت texture دیگه لازم نیست
+        pixmap.dispose();
 
         pauseOverlay = new Image(new TextureRegionDrawable(new TextureRegion(whiteTex)));
         pauseOverlay.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -144,7 +144,7 @@ public class GameView implements Screen, InputProcessor {
 
         pauseMenu = new Table();
         pauseMenu.setFillParent(true);
-        pauseMenu.setVisible(false); // ابتدا مخفی باشد
+        pauseMenu.setVisible(false);
 
         TextButton resumeButton = new TextButton("Resume", skin);
         resumeButton.addListener(new ChangeListener() {
@@ -269,24 +269,20 @@ public class GameView implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         camera.position.set(Game.getCurrentPlayer().getPosX(), Game.getCurrentPlayer().getPosY(), 0);
-        // ابعاد دوربین
         float viewportWidth = camera.viewportWidth;
         float viewportHeight = camera.viewportHeight;
 
-        // ابعاد تصویر پس‌زمینه
         float backgroundWidth = controller.getWorldController().getBackgroundTexture().getWidth();
         float backgroundHeight = controller.getWorldController().getBackgroundTexture().getHeight();
 
-        // محاسبه موقعیت دوربین محدودشده
         float cameraX = MathUtils.clamp(Game.getCurrentPlayer().getPosX(), viewportWidth / 2f, backgroundWidth - viewportWidth / 2f);
         float cameraY = MathUtils.clamp(Game.getCurrentPlayer().getPosY(), viewportHeight / 2f, backgroundHeight - viewportHeight / 2f);
 
-        // تنظیم موقعیت دوربین
         camera.position.set(cameraX, cameraY, 0);
         camera.update();
 
 
-        Main.getBatch().setProjectionMatrix(camera.combined); // اتصال دوربین به Main.getBatch()
+        Main.getBatch().setProjectionMatrix(camera.combined);
 
         if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
             Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
@@ -297,7 +293,7 @@ public class GameView implements Screen, InputProcessor {
         }
 
         Main.getBatch().begin();
-        Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0); // بک‌گراند در (0,0) یا موقعیت واقعی خودش
+        Main.getBatch().draw(controller.getWorldController().getBackgroundTexture(), 0, 0);
 
 
 
@@ -346,7 +342,7 @@ public class GameView implements Screen, InputProcessor {
         }
 
 
-        xpProgressBar.setRange(0, xpForNextLevel); // مقدار مورد نیاز برای لول بعدی
+        xpProgressBar.setRange(0, xpForNextLevel);
         xpProgressBar.setValue(currentXP);
         levelLabel.setText("Level: " + level);
 
