@@ -75,8 +75,15 @@ public class PreGameMenuView implements Screen {
                 }
             }
         });
-
-        mainTable.add(startButton).colspan(4).padTop(20);
+        TextButton savedGame = new TextButton("Saved Game", skin);
+        savedGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //hmm TODO
+            }
+        });
+        mainTable.add(savedGame).padRight(20).padTop(20);
+        mainTable.add(startButton).padTop(20);
 
         stage.addActor(mainTable);
     }
