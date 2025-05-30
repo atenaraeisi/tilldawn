@@ -5,5 +5,6 @@ public enum GameState {
     GAME_OVER,
     WINNING,
     STARTING,
+    BOSS_FIGHT,
     PAUSED;
 }

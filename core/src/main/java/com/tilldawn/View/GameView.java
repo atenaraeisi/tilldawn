@@ -358,7 +358,7 @@ public class GameView implements Screen, InputProcessor {
 
     }
 
-    private void showAbilitySelectionDialog() {
+    public void showAbilitySelectionDialog() {
         isAbilitySelectionActive = true;
 
         List<Ability> abilities = new ArrayList<>(List.of(Ability.values()));

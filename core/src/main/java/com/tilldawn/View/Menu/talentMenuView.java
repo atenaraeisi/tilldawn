@@ -45,34 +45,34 @@ public class talentMenuView implements Screen {
             Table info = new Table();
             info.add(image).size(48).row();
             info.add(label);
-            heroTable.add(info).padRight(25);
+            heroTable.add(info).padRight(40);
         }
         hintTable.add(heroTable).padBottom(30).row();
 
-        // بخش 2: کلیدهای بازی
         Label keyTitle = new Label("Controls:", skin);
         hintTable.add(keyTitle).center().row();
         Table keyTable = new Table();
         keyTable.add(new Label("Move Up: ", skin));
-            keyTable.add(new Label(Input.Keys.toString(Game.getUpButton()), skin)).row();
+            keyTable.add(new Label(Input.Keys.toString(Game.getUpButton()), skin)).padRight(40);
         keyTable.add(new Label("Move Down: ", skin));
-        keyTable.add(new Label(Input.Keys.toString(Game.getDownButton()), skin)).row();
+        keyTable.add(new Label(Input.Keys.toString(Game.getDownButton()), skin)).padRight(40);
         keyTable.add(new Label("Move Left: ", skin));
-        keyTable.add(new Label(Input.Keys.toString(Game.getLeftButton()), skin)).row();
+        keyTable.add(new Label(Input.Keys.toString(Game.getLeftButton()), skin)).padRight(40);
         keyTable.add(new Label("Move Right: ", skin));
-        keyTable.add(new Label(Input.Keys.toString(Game.getRightButton()), skin)).row();
+        keyTable.add(new Label(Input.Keys.toString(Game.getRightButton()), skin)).padRight(40);
         keyTable.add(new Label("Reload: ", skin));
-        keyTable.add(new Label(Input.Keys.toString(Game.getReloadButton()), skin)).row();
+        keyTable.add(new Label(Input.Keys.toString(Game.getReloadButton()), skin)).padRight(40);
         hintTable.add(keyTable).padBottom(30).row();
 
         // بخش 3: کدهای تقلب
         Label cheatTitle = new Label("Cheat Codes:", skin);
         hintTable.add(cheatTitle).center().row();
         Table cheatTable = new Table();
-        cheatTable.add(new Label("- Skip Time (reduce game timer)", skin)).row();
-        cheatTable.add(new Label("- Level Up (play animation if needed)", skin)).row();
-        cheatTable.add(new Label("- Gain HP (only if HP < max)", skin)).row();
-        cheatTable.add(new Label("- Boss Fight (go to boss stage)", skin)).row();
+        cheatTable.add(new Label("- Skip Time (reduce game timer) by BACKSLASH Key", skin)).row();
+        cheatTable.add(new Label("- Level Up (play animation if needed) by L Key", skin)).row();
+        cheatTable.add(new Label("- Gain HP (only if HP < max) by H key", skin)).row();
+        cheatTable.add(new Label("- Increase one projectile by O key", skin)).row();
+        cheatTable.add(new Label("- Boss Fight (go to boss stage) by B key", skin)).row();
         hintTable.add(cheatTable).padBottom(30).row();
 
         // بخش 4: Ability ها

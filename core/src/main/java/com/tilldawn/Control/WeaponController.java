@@ -96,7 +96,7 @@ public class WeaponController {
             int pelletCount = weapon.getProjectilePerShot();
             float[] angleOffsets = { -5f, 5f, -10f, 10f, 15f, -15f};
 
-            for (int i = 0; i < pelletCount; i++) {
+            for (int i = 0; i < Math.min(pelletCount, 6); i++) {
                 Bullet bullet = new Bullet(x, y,
                     GameAssetManager.getGameAssetManager().getSmgReload_idle_frames(),
                     GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex());

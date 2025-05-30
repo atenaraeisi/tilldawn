@@ -1,6 +1,7 @@
 package com.tilldawn.Control;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
@@ -55,6 +56,26 @@ public class GameController {
                 }
             }
             weaponController.getBullets().removeAll(bulletsToRemove);
+            if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+                WIN_TIME--;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.L)) {
+                if (Game.isSfx_enabled()) GameAssetManager.getGameAssetManager().getLevelUpSound().play();
+                Game.getCurrentPlayer().addLevel(1);
+                Game.getCurrentPlayer().setXp(0);
+                Game.setGameState(GameState.PAUSED);
+                view.showAbilitySelectionDialog();
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+                if (Game.getCurrentPlayer().getPlayerHealth() != 0) Game.getCurrentPlayer().setPlayerHealth(10);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
+                Game.getCurrentPlayer().getEquippedWeapon().increaseProjectilePerShot(1);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+                Game.setGameState(GameState.BOSS_FIGHT);
+            }
 
         }
     }

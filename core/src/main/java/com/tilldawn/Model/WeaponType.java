@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum WeaponType {
     REVOLVER(6, 1, 1, 20, GameAssetManager.getGameAssetManager().getSmgTexture()),
-    SHOTGUN(2, 1, 4, 10, GameAssetManager.getGameAssetManager().getShotGunTexture()),
-    SMGS_DUAL(24, 2, 1, 8, GameAssetManager.getGameAssetManager().getSmgDualTexture()),;
+    SHOTGUN(2, 1, 4, 10, GameAssetManager.getGameAssetManager().getSmgDualTexture()),
+    SMGS_DUAL(24, 2, 1, 8, GameAssetManager.getGameAssetManager().getShotGunTexture()),;
 
     private final int ammoMax;
     private final int reloadTimeSeconds;
