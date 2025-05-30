@@ -49,7 +49,6 @@ public class ProfileMenuController {
                     return;
                 }
                 user.setPassword(newPassword);
-                UserDataSQL.getInstance().updatePassword(user.getUsername(), newPassword);
                 view.showError("Password changed!");
                 view.getChangePasswordButton().setChecked(false);
             }
@@ -72,7 +71,6 @@ public class ProfileMenuController {
                     view.getChangeUsernameButton().setChecked(false);
                     return;
                 }
-                UserDataSQL.getInstance().updateUsername(user.getUsername(), newUsername);
                 user.setUsername(newUsername);
                 view.showError("Username changed!");
                 view.getChangeUsernameButton().setChecked(false);

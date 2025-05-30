@@ -11,25 +11,36 @@ public class UserDataSQL {
     private final static String DB_URL = "jdbc:sqlite:data/users.db";
 
     private UserDataSQL() {
-        String sql = "CREATE TABLE IF NOT EXISTS users ("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + "username VARCHAR(255) NOT NULL UNIQUE, "
-            + "password VARCHAR(255) NOT NULL, "
-            + "selectedQuestion TEXT, "
-            + "answer TEXT, "
-            + "score INTEGER DEFAULT 0"
-            + ");";
-
+        String sql = "CREATE TABLE IF NOT EXISTS users (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "username VARCHAR(255) NOT NULL UNIQUE, " +
+            "password VARCHAR(255) NOT NULL, " +
+            "selectedQuestion TEXT, " +
+            "answer TEXT, " +
+            "score INTEGER DEFAULT 0, " +
+            "kills INTEGER DEFAULT 0, " +
+            "timeAlive REAL DEFAULT 0.0" +
+            ");";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println("Can't create a table for SQLite: " + e.getMessage());
             e.printStackTrace();
         }
+
+        // Add missing columns manually (optional safety)
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute("ALTER TABLE users ADD COLUMN kills INTEGER DEFAULT 0");
+        } catch (SQLException ignored) {}
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute("ALTER TABLE users ADD COLUMN timeAlive REAL DEFAULT 0.0");
+        } catch (SQLException ignored) {}
     }
+
 
     public static UserDataSQL getInstance() {
         if (instance == null)
@@ -38,7 +49,7 @@ public class UserDataSQL {
     }
 
     public void addUser(User user) {
-        String sql = "INSERT INTO users (username, password, selectedQuestion, answer, score) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, password, selectedQuestion, answer, score, kills, timeAlive) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -47,6 +58,8 @@ public class UserDataSQL {
             pstmt.setString(3, user.getSelectedQuestion());
             pstmt.setString(4, user.getAnswer());
             pstmt.setInt(5, user.getScore());
+            pstmt.setInt(6, user.getKills());
+            pstmt.setDouble(7, user.getTimeAlive());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Can't save user: " + e.getMessage());
@@ -95,6 +108,9 @@ public class UserDataSQL {
                     rs.getString("answer")
                 );
                 user.setScore(rs.getInt("score"));
+                user.setKills(rs.getInt("kills"));
+                user.setTimeAlive(rs.getDouble("timeAlive"));
+
                 return user;
             }
         } catch (SQLException e) {
@@ -125,6 +141,8 @@ public class UserDataSQL {
             pstmt.setString(1, newUsername);
             pstmt.setString(2, oldUsername);
             pstmt.executeUpdate();
+            List<User> allUsers = getAllUsers();
+            UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
         }
         catch (SQLException e) {
             System.err.println("Can't update username: " + e.getMessage());
@@ -140,6 +158,8 @@ public class UserDataSQL {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, username);
             pstmt.executeUpdate();
+            List<User> allUsers = getAllUsers();
+            UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
         }
         catch (SQLException e) {
             System.err.println("Can't update password: " + e.getMessage());
@@ -155,10 +175,43 @@ public class UserDataSQL {
             pstmt.setInt(1, score);
             pstmt.setString(2, username);
             pstmt.executeUpdate();
+            List<User> allUsers = getAllUsers();
+            UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
         } catch (SQLException e) {
             System.err.println("Can't update score: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+    public void updateKills(String username, int kills) {
+        String sql = "UPDATE users SET kills = ? WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, kills);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            List<User> allUsers = getAllUsers();
+            UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
+        } catch (SQLException e) {
+            System.err.println("Can't update kills: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTimeAlive(String username, double timeAlive) {
+        String sql = "UPDATE users SET timeAlive = ? WHERE username = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, timeAlive);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            List<User> allUsers = getAllUsers();
+            UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
+        } catch (SQLException e) {
+            System.err.println("Can't update timeAlive: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
 }

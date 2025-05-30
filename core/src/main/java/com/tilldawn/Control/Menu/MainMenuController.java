@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tilldawn.Main;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.View.Menu.*;
+import com.tilldawn.View.ScoreboardView;
 
 public class MainMenuController {
     private MainMenuView view;
@@ -39,6 +40,12 @@ public class MainMenuController {
                 GameAssetManager.getGameAssetManager().getClickSound().play();
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new talentMenuView(new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
+            }
+            if (view.getScoreboardButton().isChecked()) {
+                GameAssetManager.getGameAssetManager().getClickSound().play();
+                Main.getMain().getScreen().dispose();
+                Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
+                Main.getMain().setScreen(new ScoreboardView(skin));
             }
         }
     }

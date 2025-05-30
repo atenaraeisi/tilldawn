@@ -98,7 +98,6 @@ public class LoginMenuController {
                     return;
                 }
                 user.setPassword(newPassword);
-                UserDataSQL.getInstance().updatePassword(username, newPassword);
                 Game.setCurrentUser(user);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));

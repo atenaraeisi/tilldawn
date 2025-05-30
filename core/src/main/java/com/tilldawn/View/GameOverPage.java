@@ -41,7 +41,8 @@ public class GameOverPage implements Screen {
         int scoreNumber = (int) (player.getKillCount() * GameController.getTotalGameTime());
         if (player.getUser() != null) {
             player.getUser().addScore(scoreNumber);
-            UserDataSQL.getInstance().updateScore(Game.getCurrentUser().getUsername(), player.getUser().getScore());
+            player.getUser().addKills(player.getKillCount());
+            player.getUser().addTimeAlive(GameController.getTotalGameTime());
         }
         score = new Label("Score: " + scoreNumber, skin);
         int killsCountNumber = player.getKillCount();
@@ -54,8 +55,9 @@ public class GameOverPage implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Main.getMain().getScreen().dispose();
                 Game.setGameState(GameState.PLAYING);
+                WeaponType weaponType = Game.getCurrentPlayer().getEquippedWeapon().getType();
                 Game.setCurrentPlayer(new Player(Game.getCurrentUser(), Game.getCurrentPlayer().getCharacter()));
-                Game.getCurrentPlayer().setEquippedWeapon(Game.getCurrentPlayer().getEquippedWeapon());
+                Game.getCurrentPlayer().setEquippedWeapon(new Weapon(weaponType));
                 GameController.setTotalGameTime(0f);
                 Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }

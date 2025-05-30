@@ -1,6 +1,7 @@
 package com.tilldawn.Model;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.tilldawn.Control.data.UserDataSQL;
 
 import java.util.regex.Pattern;
 
@@ -18,7 +19,9 @@ public class User {
     private String selectedQuestion;
     private String answer;
     private Player player;
-    private int score;
+    private int score = 0;
+    private int kills = 0;
+    private double timeAlive = 0f;
     private transient Image avatar;
 
 
@@ -29,6 +32,35 @@ public class User {
         this.selectedQuestion = selectedQuestion;
         this.answer = answer;
         this.avatar = new Image(GameAssetManager.getGameAssetManager().getAvatarDrawables()[0]);
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void addKills(int kills) {
+        this.kills += kills;
+        UserDataSQL.getInstance().updateKills(username, this.kills);
+    }
+
+    public void addTimeAlive(double timeAlive) {
+        this.timeAlive += timeAlive;
+        UserDataSQL.getInstance().updateTimeAlive(username, this.timeAlive);
+    }
+
+    public double getTimeAlive() {
+        return timeAlive;
+    }
+
+    public void setTimeAlive(double timeAlive) {
+        this.timeAlive = timeAlive;
+        UserDataSQL.getInstance().updateTimeAlive(username, this.timeAlive);
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
+        UserDataSQL.getInstance().updateKills(username, this.kills);
+
     }
 
     public Image getAvatar() {
@@ -60,6 +92,7 @@ public class User {
     }
 
     public void setUsername(String username) {
+        UserDataSQL.getInstance().updateUsername(this.username, username);
         this.username = username;
     }
 
@@ -69,6 +102,7 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        UserDataSQL.getInstance().updatePassword(username, this.password);
     }
 
     public String getSelectedQuestion() {
@@ -89,6 +123,7 @@ public class User {
 
     public void addScore(int score) {
         this.score += score;
+        UserDataSQL.getInstance().updateScore(username, this.score);
     }
 
     public int getScore() {
@@ -97,5 +132,6 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+        UserDataSQL.getInstance().updateScore(username, this.score);
     }
 }

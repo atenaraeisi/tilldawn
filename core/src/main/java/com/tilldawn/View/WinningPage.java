@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.tilldawn.Control.GameController;
 import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Control.data.UserDataSQL;
 import com.tilldawn.Main;
@@ -40,7 +41,8 @@ public class WinningPage implements Screen {
         int scoreNumber = player.getKillCount() * 1200;
         if (player.getUser() != null) {
             player.getUser().addScore(scoreNumber);
-            UserDataSQL.getInstance().updateScore(Game.getCurrentUser().getUsername(), player.getUser().getScore());
+            player.getUser().addKills(player.getKillCount());
+            player.getUser().addTimeAlive(GameController.getTotalGameTime());
         }
         score = new Label("Score: " + scoreNumber, skin);
         int killsCountNumber = player.getKillCount();
