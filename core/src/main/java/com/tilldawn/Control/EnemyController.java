@@ -15,6 +15,7 @@ import static com.tilldawn.Control.GameController.WIN_TIME;
 public class EnemyController {
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<EnemyBullet> bullets = new ArrayList<>();
+    private ElderBoss elderBoss;
     private ArrayList<Seed> seeds = new ArrayList<>();
     private float spawnTentacleTimer = 0;
     private float spawnEyeBatTimer = 0;
@@ -55,7 +56,7 @@ public class EnemyController {
             for (int j = 0; j < count; j++) {
                 spawnTentacleOnly();
             }
-            spawnTentacleTimer = 3f; // هر 3 ثانیه
+            spawnTentacleTimer = 3f;
         }
 
         if (GameController.getTotalGameTime() >= WIN_TIME / 4) {
@@ -71,7 +72,7 @@ public class EnemyController {
         }
 
         if (GameController.getTotalGameTime() >= WIN_TIME / 2) {
-            if (!isElderAttacking) {
+            if (elderBoss == null) {
                 isElderAttacking = true;
                 spawnElderBoss();
             }
@@ -80,7 +81,6 @@ public class EnemyController {
         CollisionRect playerRect = player.getRect();
         playerRect.move(player.getPosX(), player.getPosY());
 
-        // دشمن‌ها
         for (Enemy enemy : enemies) {
             enemy.update(delta);
             enemy.getRect().move(enemy.getPosition().x, enemy.getPosition().y);
@@ -116,7 +116,6 @@ public class EnemyController {
             }
         }
 
-        // تیرها
         for (EnemyBullet b : bullets) {
             b.update(delta);
             if (b.collidesWith(player) && !b.isColliding()) {
@@ -150,12 +149,13 @@ public class EnemyController {
 
     private void spawnElderBoss() {
         Vector2 pos = getRandomEdgePosition();
-        enemies.add(new ElderBoss(pos));
+        elderBoss = new ElderBoss(pos);
+        enemies.add(elderBoss);
     }
 
 
+
     private Vector2 getRandomEdgePosition() {
-        // لبه‌های صفحه
         int side = MathUtils.random(3);
         float x = 0, y = 0;
 

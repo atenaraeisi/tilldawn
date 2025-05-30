@@ -28,11 +28,9 @@ public class ElderBoss extends AbstractEnemy {
     public void update(float delta) {
         super.update(delta);
         if (hp <= 0) return;
-        dashCooldown -= delta;
-        if (dashCooldown <= 0) {
-            dashToPlayer();
-            dashCooldown = 5f;
-        }
+        Vector2 playerPos = Game.getCurrentPlayer().getPosition();
+        velocity = new Vector2(playerPos).sub(position).nor().scl(30 * delta);
+        position.add(velocity);
 
         if (hasShield) {
             shrinkShield(delta);
@@ -46,7 +44,7 @@ public class ElderBoss extends AbstractEnemy {
     }
 
     private void shrinkShield(float delta) {
-        // کم کردن اندازه شیلد با زمان (اگر کشته شه → حذف)
+
     }
 }
 

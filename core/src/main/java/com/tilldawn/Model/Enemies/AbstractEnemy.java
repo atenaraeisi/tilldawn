@@ -122,7 +122,7 @@ public abstract class AbstractEnemy implements Enemy {
         if (hp <= 0) {
             if (!isDying) {
                 isDying = true;
-                time = 0; // شروع از فریم اول انیمیشن مرگ
+                time = 0;
             }
 
             if (time >= 0.6f) {
@@ -130,8 +130,6 @@ public abstract class AbstractEnemy implements Enemy {
                 Game.getCurrentPlayer().addKill();
             }
         }
-
-        // سایر منطق زنده بودن
     }
 
     public boolean hasDroppedSeed() {
