@@ -28,12 +28,10 @@ public class ScoreboardView implements Screen {
     private Table table;
     private List<User> allUsers;
     private Comparator<User> currentComparator;
-    private User loggedInUser;
 
     public ScoreboardView(Skin skin) {
         this.skin = skin;
         this.allUsers = UserDataSQL.getInstance().getAllUsers();
-        this.loggedInUser = Game.getCurrentUser();
         this.currentComparator = Comparator.comparingInt(User::getScore).reversed(); // پیش‌فرض مرتب‌سازی بر اساس score
     }
 
@@ -97,7 +95,8 @@ public class ScoreboardView implements Screen {
                 timeLabel.setColor(Color.valueOf("CD7F32"));
             }
 
-            if (user == loggedInUser) {
+            if (Game.getCurrentUser() != null && user.getUsername().equals(Game.getCurrentUser().getUsername())) {
+                rankLabel.setColor(Color.CYAN);
                 usernameLabel.setColor(Color.CYAN);
                 scoreLabel.setColor(Color.CYAN);
                 killsLabel.setColor(Color.CYAN);
@@ -149,7 +148,6 @@ public class ScoreboardView implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         allUsers = UserDataSQL.getInstance().getAllUsers();
-        loggedInUser = Game.getCurrentUser();
         table = new Table();
         table.setFillParent(true);
         table.add(createScoreboardTable()).expand().fill();

@@ -44,7 +44,7 @@ public class User {
     }
 
     public void addTimeAlive(double timeAlive) {
-        this.timeAlive += timeAlive;
+        if (timeAlive > this.timeAlive) this.timeAlive = timeAlive;
         UserDataSQL.getInstance().updateTimeAlive(username, this.timeAlive);
     }
 

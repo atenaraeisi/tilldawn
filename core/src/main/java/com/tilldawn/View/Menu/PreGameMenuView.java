@@ -198,7 +198,7 @@ public class PreGameMenuView implements Screen {
         Game.setCurrentPlayer(new Player(Game.getCurrentUser(), character));
         Game.getCurrentPlayer().setEquippedWeapon(new Weapon(weapon));
         GameController.setTotalGameTime(0f);
-        GameController.setWinTime(duration * 10); //TODO
+        GameController.setWinTime(duration * 60);
         Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
     }
 
