@@ -54,13 +54,10 @@ public class User {
 
     public void setTimeAlive(double timeAlive) {
         this.timeAlive = timeAlive;
-        UserDataSQL.getInstance().updateTimeAlive(username, this.timeAlive);
     }
 
     public void setKills(int kills) {
         this.kills = kills;
-        UserDataSQL.getInstance().updateKills(username, this.kills);
-
     }
 
     public Image getAvatar() {
@@ -132,6 +129,6 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
-        UserDataSQL.getInstance().updateScore(username, this.score);
+
     }
 }

@@ -62,7 +62,6 @@ public class RegisterMenuController {
                     return;
                 }
                 User user = new User(username, password, selectedQuestion, answer);
-                Game.addUser(user);
                 UserDataSQL.getInstance().addUser(user);
                 Game.setCurrentUser(user);
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));

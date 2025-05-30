@@ -6,7 +6,6 @@ import com.tilldawn.Control.data.UserDataSQL;
 import java.util.ArrayList;
 
 public class Game {
-    private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser;
     private static Player currentPlayer;
     private static int upButton = Input.Keys.W;
@@ -18,14 +17,6 @@ public class Game {
     private static GameState gameState = GameState.PLAYING;
     private static boolean sfx_enabled = true;
 
-    public static ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public static void addUser(User user) {
-        users.add(user);
-    }
-
     public static boolean isUsernameExist(String username) {
         for (User user : UserDataSQL.getInstance().getAllUsers()) {
             if (user.getUsername().equals(username)) {
@@ -33,24 +24,6 @@ public class Game {
             }
         }
         return false;
-    }
-
-    public static boolean isPasswordCorrect(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static User getUser(String username) {
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
     }
 
     public static User getCurrentUser() {

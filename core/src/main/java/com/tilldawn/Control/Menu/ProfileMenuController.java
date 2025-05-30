@@ -84,7 +84,6 @@ public class ProfileMenuController {
                     view.getDeleteAccountButton().setChecked(false);
                     return;
                 }
-                Game.getUsers().remove(user);
                 UserDataSQL.getInstance().deleteUser(user.getUsername());
                 Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
             }

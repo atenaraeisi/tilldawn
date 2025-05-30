@@ -82,7 +82,14 @@ public class UserDataSQL {
                 String password = rs.getString("password");
                 String selectedQuestion = rs.getString("selectedQuestion");
                 String answer = rs.getString("answer");
-                users.add(new User(username, password, selectedQuestion, answer));
+                int score = rs.getInt("score");
+                int kills = rs.getInt("kills");
+                double timeAlive = rs.getDouble("timeAlive");
+                User user = new User(username, password, selectedQuestion, answer);
+                user.setScore(score);
+                user.setKills(kills);
+                user.setTimeAlive(timeAlive);
+                users.add(user);
             }
 
         } catch (SQLException e) {
@@ -212,6 +219,7 @@ public class UserDataSQL {
             e.printStackTrace();
         }
     }
+
 
 
 }
