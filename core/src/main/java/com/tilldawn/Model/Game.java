@@ -1,6 +1,7 @@
 package com.tilldawn.Model;
 
 import com.badlogic.gdx.Input;
+import com.tilldawn.Control.data.UserDataSQL;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class Game {
     }
 
     public static boolean isUsernameExist(String username) {
-        for (User user : users) {
+        for (User user : UserDataSQL.getInstance().getAllUsers()) {
             if (user.getUsername().equals(username)) {
                 return true;
             }

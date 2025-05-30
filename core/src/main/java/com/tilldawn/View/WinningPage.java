@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.MainMenuController;
-import com.tilldawn.Control.UserDataSQL;
+import com.tilldawn.Control.data.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;

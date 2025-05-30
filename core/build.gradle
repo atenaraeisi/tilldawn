@@ -6,6 +6,7 @@ dependencies {
   implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
   implementation 'org.xerial:sqlite-jdbc:3.43.2.2'
   implementation 'org.slf4j:slf4j-simple:2.0.13'
+  implementation 'com.google.code.gson:gson:2.10.1'
 
 
 

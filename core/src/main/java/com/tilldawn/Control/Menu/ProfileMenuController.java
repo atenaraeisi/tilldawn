@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.tilldawn.Control.UserDataSQL;
+import com.tilldawn.Control.data.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;

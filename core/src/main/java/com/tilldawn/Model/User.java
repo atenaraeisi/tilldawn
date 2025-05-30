@@ -19,7 +19,7 @@ public class User {
     private String answer;
     private Player player;
     private int score;
-    private Image avatar;
+    private transient Image avatar;
 
 
 

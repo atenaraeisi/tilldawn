@@ -1,12 +1,14 @@
-package com.tilldawn.Control;
+package com.tilldawn.Control.data;
 
 import com.tilldawn.Model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDataSQL {
     private static UserDataSQL instance;
-    private final static String DBURL = "jdbc:sqlite:data/users.db";
+    private final static String DB_URL = "jdbc:sqlite:data/users.db";
 
     private UserDataSQL() {
         String sql = "CREATE TABLE IF NOT EXISTS users ("
@@ -19,7 +21,7 @@ public class UserDataSQL {
             + ");";
 
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
         }
@@ -38,7 +40,7 @@ public class UserDataSQL {
     public void addUser(User user) {
         String sql = "INSERT INTO users (username, password, selectedQuestion, answer, score) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getUsername());
             pstmt.setString(2, user.getPassword());
@@ -50,12 +52,38 @@ public class UserDataSQL {
             System.err.println("Can't save user: " + e.getMessage());
             e.printStackTrace();
         }
+
+        List<User> allUsers = getAllUsers();
+        UserJsonUtil.saveUsersToJson(allUsers, "data/users.json");
     }
+
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM users")) {
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String selectedQuestion = rs.getString("selectedQuestion");
+                String answer = rs.getString("answer");
+                users.add(new User(username, password, selectedQuestion, answer));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
 
     public User getUser(String username) {
         String sql = "SELECT * FROM users WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
@@ -79,7 +107,7 @@ public class UserDataSQL {
     public void deleteUser(String username) {
         String sql = "DELETE FROM users WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             pstmt.executeUpdate();
@@ -92,7 +120,7 @@ public class UserDataSQL {
 
     public void updateUsername(String oldUsername, String newUsername) {
         String sql = "UPDATE users SET username = ? WHERE username = ?";
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newUsername);
             pstmt.setString(2, oldUsername);
@@ -107,7 +135,7 @@ public class UserDataSQL {
     public void updatePassword(String username, String newPassword) {
         String sql = "UPDATE users SET password = ? WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, username);
@@ -122,7 +150,7 @@ public class UserDataSQL {
     public void updateScore(String username, int score) {
         String sql = "UPDATE users SET score = ? WHERE username = ?";
 
-        try (Connection conn = DriverManager.getConnection(DBURL);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, score);
             pstmt.setString(2, username);

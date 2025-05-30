@@ -2,7 +2,7 @@ package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.tilldawn.Control.UserDataSQL;
+import com.tilldawn.Control.data.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
