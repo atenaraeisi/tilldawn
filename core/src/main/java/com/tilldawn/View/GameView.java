@@ -174,8 +174,14 @@ public class GameView implements Screen, InputProcessor {
         TextButton cheatButton = new TextButton("Cheat Codes", skin);
         cheatButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                //TODO
-                // نمایش دیالوگ یا صفحه‌ی کدهای تقلب
+                Dialog dialog = new Dialog("\nError", skin);
+                dialog.text("\n   - Skip Time by BACKSLASH Key    \n\n" +
+                    "   - Level Up by L Key  \n\n" +
+                    "   - Gain HP by H key   \n\n" +
+                    "   - Increase one projectile by O key  \n\n" +
+                    "   - Boss Fight by B key    ");
+                dialog.button("OK");
+                dialog.show(stage);
             }
         });
         pauseMenu.add(cheatButton).pad(10).fillX().colspan(2).row();
@@ -313,7 +319,6 @@ public class GameView implements Screen, InputProcessor {
 
         Main.getBatch().end();
 
-        // آپدیت زمان
         timeElapsed += delta;
         timeProgressBar.setValue(timeElapsed);
         healthBar.setValue(Game.getCurrentPlayer().getPlayerHealth());

@@ -68,8 +68,8 @@ public class PreGameMenuView implements Screen {
                 if (selectedCharacter != null && selectedWeapon != null) {
                     startGame(selectedCharacter, selectedWeapon, selectedTimeMinutes);
                 } else {
-                    Dialog dialog = new Dialog("Error", skin);
-                    dialog.text("Please select a character and a weapon.");
+                    Dialog dialog = new Dialog("\nError", skin);
+                    dialog.text("\nPlease select a character and a weapon.");
                     dialog.button("OK");
                     dialog.show(stage);
                 }

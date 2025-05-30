@@ -69,10 +69,10 @@ public class talentMenuView implements Screen {
         hintTable.add(cheatTitle).center().row();
         Table cheatTable = new Table();
         cheatTable.add(new Label("- Skip Time (reduce game timer) by BACKSLASH Key", skin)).row();
-        cheatTable.add(new Label("- Level Up (play animation if needed) by L Key", skin)).row();
-        cheatTable.add(new Label("- Gain HP (only if HP < max) by H key", skin)).row();
+        cheatTable.add(new Label("- Level Up by L Key", skin)).row();
+        cheatTable.add(new Label("- Gain HP (only if HP == 0) by H key", skin)).row();
         cheatTable.add(new Label("- Increase one projectile by O key", skin)).row();
-        cheatTable.add(new Label("- Boss Fight (go to boss stage) by B key", skin)).row();
+        cheatTable.add(new Label("- Boss Fight by B key", skin)).row();
         hintTable.add(cheatTable).padBottom(30).row();
 
         // بخش 4: Ability ها
