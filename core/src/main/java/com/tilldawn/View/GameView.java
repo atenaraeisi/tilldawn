@@ -7,13 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
@@ -171,19 +169,7 @@ public class GameView implements Screen, InputProcessor {
 // Buttons
         pauseMenu.add(resumeButton).pad(10).fillX().colspan(2).row();
 
-        TextButton cheatButton = new TextButton("Cheat Codes", skin);
-        cheatButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                Dialog dialog = new Dialog("\nError", skin);
-                dialog.text("\n   - Skip Time by BACKSLASH Key    \n\n" +
-                    "   - Level Up by L Key  \n\n" +
-                    "   - Gain HP by H key   \n\n" +
-                    "   - Increase one projectile by O key  \n\n" +
-                    "   - Boss Fight by B key    ");
-                dialog.button("OK");
-                dialog.show(stage);
-            }
-        });
+        TextButton cheatButton = getTextCheatButton(skin);
         pauseMenu.add(cheatButton).pad(10).fillX().colspan(2).row();
 
         TextButton grayscaleButton = new TextButton("Toggle Grayscale", skin);
@@ -214,6 +200,23 @@ public class GameView implements Screen, InputProcessor {
 
         lastAmmo = Game.getCurrentPlayer().getEquippedWeapon().getAmmo();
 
+    }
+
+    private TextButton getTextCheatButton(Skin skin) {
+        TextButton cheatButton = new TextButton("Cheat Codes", skin);
+        cheatButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                Dialog dialog = new Dialog("\nError", skin);
+                dialog.text("\n   - Skip Time by BACKSLASH Key    \n\n" +
+                    "   - Level Up by L Key  \n\n" +
+                    "   - Gain HP by H key   \n\n" +
+                    "   - Increase one projectile by O key  \n\n" +
+                    "   - Boss Fight by B key    ");
+                dialog.button("OK");
+                dialog.show(stage);
+            }
+        });
+        return cheatButton;
     }
 
     @Override
