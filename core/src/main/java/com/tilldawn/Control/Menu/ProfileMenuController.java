@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.tilldawn.Control.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
@@ -14,8 +15,6 @@ import com.tilldawn.View.Menu.ProfileMenuView;
 
 public class ProfileMenuController {
     private ProfileMenuView view;
-
-
 
     public void setView(ProfileMenuView view) {
         this.view = view;
@@ -50,6 +49,7 @@ public class ProfileMenuController {
                     return;
                 }
                 user.setPassword(newPassword);
+                UserDataSQL.getInstance().updatePassword(user.getUsername(), newPassword);
                 view.showError("Password changed!");
                 view.getChangePasswordButton().setChecked(false);
             }
@@ -72,6 +72,7 @@ public class ProfileMenuController {
                     view.getChangeUsernameButton().setChecked(false);
                     return;
                 }
+                UserDataSQL.getInstance().updateUsername(user.getUsername(), newUsername);
                 user.setUsername(newUsername);
                 view.showError("Username changed!");
                 view.getChangeUsernameButton().setChecked(false);
@@ -86,6 +87,7 @@ public class ProfileMenuController {
                     return;
                 }
                 Game.getUsers().remove(user);
+                UserDataSQL.getInstance().deleteUser(user.getUsername());
                 Main.getMain().setScreen(new EntryMenuView(new EntryMenuController(), GameAssetManager.getGameAssetManager().getSkin()));
             }
 

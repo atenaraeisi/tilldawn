@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.GameController;
 import com.tilldawn.Control.Menu.MainMenuController;
+import com.tilldawn.Control.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.*;
 import com.tilldawn.Model.CharacterType;
@@ -39,6 +40,10 @@ public class GameOverPage implements Screen {
             username = new Label("username: " + player.getUser().getUsername(), skin);
         } else username = new Label("name: guest", skin);
         int scoreNumber = (int) (player.getKillCount() * GameController.getTotalGameTime());
+        if (player.getUser() != null) {
+            player.getUser().addScore(scoreNumber);
+            UserDataSQL.getInstance().updateScore(Game.getCurrentUser().getUsername(), player.getUser().getScore());
+        }
         score = new Label("Score: " + scoreNumber, skin);
         int killsCountNumber = player.getKillCount();
         killsCount = new Label("Kill count: " +  killsCountNumber, skin);
@@ -50,8 +55,9 @@ public class GameOverPage implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 Main.getMain().getScreen().dispose();
                 Game.setGameState(GameState.PLAYING);
-                Game.setCurrentPlayer(new Player(Game.getCurrentUser(), CharacterType.DASHER));
-                Game.getCurrentPlayer().setEquippedWeapon(new Weapon(WeaponType.REVOLVER));
+                Game.setCurrentPlayer(new Player(Game.getCurrentUser(), Game.getCurrentPlayer().getCharacter()));
+                Game.getCurrentPlayer().setEquippedWeapon(Game.getCurrentPlayer().getEquippedWeapon());
+                GameController.setTotalGameTime(0f);
                 Main.getMain().setScreen(new GameView(new GameController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
         });

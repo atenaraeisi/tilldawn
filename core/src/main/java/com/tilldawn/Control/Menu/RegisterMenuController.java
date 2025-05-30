@@ -2,6 +2,7 @@ package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.tilldawn.Control.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
@@ -62,6 +63,7 @@ public class RegisterMenuController {
                 }
                 User user = new User(username, password, selectedQuestion, answer);
                 Game.addUser(user);
+                UserDataSQL.getInstance().addUser(user);
                 Game.setCurrentUser(user);
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }

@@ -2,6 +2,7 @@ package com.tilldawn.Control.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.tilldawn.Control.UserDataSQL;
 import com.tilldawn.Main;
 import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
@@ -32,17 +33,18 @@ public class LoginMenuController {
             else if (view.getLoginButton().isChecked()) {
                 GameAssetManager.getGameAssetManager().getClickSound().play();
 
-                if (!Game.isUsernameExist(username)) {
+                User user = UserDataSQL.getInstance().getUser(username);
+                if (user == null) {
                     view.showError("Username not found");
                     view.getLoginButton().setChecked(false);
                     return;
                 }
-                if (!Game.isPasswordCorrect(username, password)) {
+                if (!user.getPassword().equals(password)) {
                     view.showError("Wrong password");
                     view.getLoginButton().setChecked(false);
                     return;
                 }
-                Game.setCurrentUser(Game.getUser(username));
+                Game.setCurrentUser(user);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
@@ -53,7 +55,7 @@ public class LoginMenuController {
                     view.getForgetPasswordButton().setChecked(false);
                     return;
                 }
-                User user = Game.getUser(username);
+                User user = UserDataSQL.getInstance().getUser(username);
                 if (user == null) {
                     view.showError("User with this username not found");
                     view.getForgetPasswordButton().setChecked(false);
@@ -69,7 +71,7 @@ public class LoginMenuController {
                     view.getConfirmResetButton().setChecked(false);
                     return;
                 }
-                User user = Game.getUser(username);
+                User user = UserDataSQL.getInstance().getUser(username);
                 if (user == null) {
                     view.showError("User with this username not found");
                     view.getConfirmResetButton().setChecked(false);
@@ -96,6 +98,7 @@ public class LoginMenuController {
                     return;
                 }
                 user.setPassword(newPassword);
+                UserDataSQL.getInstance().updatePassword(username, newPassword);
                 Game.setCurrentUser(user);
                 Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));

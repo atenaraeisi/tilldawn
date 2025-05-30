@@ -136,6 +136,10 @@ public class Player {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void addKill() {
         killCount++;
     }
