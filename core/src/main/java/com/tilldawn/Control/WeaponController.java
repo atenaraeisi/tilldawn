@@ -93,18 +93,17 @@ public class WeaponController {
         if (Game.isAutoAimEnabled()) {
             Enemy nearest = gameController.getEnemyController().findNearestEnemy(origin);
             if (nearest != null) {
-                target = new Vector2(
-                    nearest.getPosition().x + nearest.getRect().getWidth()  * 0.5f,
-                    nearest.getPosition().y + nearest.getRect().getHeight() * 0.5f
-                );
-
-                Vector3 screenPos = GameView.camera.project(new Vector3(target.x, target.y, 0));
-                Gdx.input.setCursorPosition((int)screenPos.x, (int)screenPos.y);
+                float enemyCenterX = nearest.getPosition().x + nearest.getRect().getWidth() * 0.5f;
+                float enemyCenterY = nearest.getPosition().y + nearest.getRect().getHeight() * 0.5f;
+                target = new Vector2(enemyCenterX, enemyCenterY);
+                Vector3 screenCoords = GameView.camera.project(new Vector3(enemyCenterX, enemyCenterY, 0));
+                Gdx.input.setCursorPosition((int)screenCoords.x, (int)(Gdx.graphics.getHeight() - screenCoords.y));
             } else {
                 Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
                 target = new Vector2(worldClick.x, worldClick.y);
             }
-        } else {
+        }
+        else {
             Vector3 worldClick = GameView.camera.unproject(new Vector3(x, y, 0));
             target = new Vector2(worldClick.x, worldClick.y);
         }

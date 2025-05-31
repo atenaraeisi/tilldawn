@@ -1,8 +1,8 @@
 package com.tilldawn.Model;
 
 public class CollisionRect {
-    float x, y;
-    float width, height;
+    public float x, y;
+    public float width, height;
     public CollisionRect(float x, float y, float width, float height){
         this.x = x;
         this.y = y;

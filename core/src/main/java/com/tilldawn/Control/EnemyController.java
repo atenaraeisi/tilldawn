@@ -16,6 +16,7 @@ public class EnemyController {
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<EnemyBullet> bullets = new ArrayList<>();
     private ElderBoss elderBoss;
+    private Barrier barrier;
     private ArrayList<Seed> seeds = new ArrayList<>();
     private float spawnTentacleTimer = 0;
     private float spawnEyeBatTimer = 0;
@@ -46,6 +47,9 @@ public class EnemyController {
         enemies.add(new TreeEnemy(new Vector2(3100, 1950)));
         enemies.add(new TreeEnemy(new Vector2(3450, 2300)));
         enemies.add(new TreeEnemy(new Vector2(3700, 2600)));
+
+        barrier = new Barrier(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
     }
 
     public void update(float delta) {
@@ -103,6 +107,10 @@ public class EnemyController {
             if (enemy.isDead() && Game.isSfx_enabled()) {
                 GameAssetManager.getGameAssetManager().getExplosionSound().play();
             }
+            if (enemy instanceof ElderBoss && enemy.isDead()) {
+                barrier.deactivate();
+                break;
+            }
         }
         enemies.removeIf(Enemy::isDead);
 
@@ -124,6 +132,23 @@ public class EnemyController {
             }
         }
         bullets.removeIf(EnemyBullet::isDestroyed);
+
+
+        barrier.update(delta);
+        if (barrier.isActive() && barrier.collidesWith(player)) {
+            timeSinceLastHit += delta;
+            if (timeSinceLastHit >= damageCooldown) {
+                player.takeDamage(1);
+                timeSinceLastHit = 0;
+                if (Game.isSfx_enabled()) {
+                    GameAssetManager.getGameAssetManager().getDamageSound().play();
+                }
+            }
+        }
+        if (barrier.getRect().width <= 1 || barrier.getRect().height <= 1) {
+            Game.setGameState(GameState.GAME_OVER);
+        }
+
     }
 
     public void render(SpriteBatch batch) {
@@ -134,6 +159,7 @@ public class EnemyController {
         for (Seed s : seeds) {
             s.render(batch);
         }
+        barrier.render(batch);
 
     }
 
@@ -151,6 +177,7 @@ public class EnemyController {
         Vector2 pos = getRandomEdgePosition();
         elderBoss = new ElderBoss(pos);
         enemies.add(elderBoss);
+        barrier.activate();
     }
 
 
