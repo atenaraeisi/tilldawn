@@ -65,9 +65,9 @@ public class RegisterMenuView implements Screen {
         root.add(title).colspan(3).center().padBottom(100);
         root.row();
 
-        root.add().width(70); // ستون خالی برای مرکز کردن
+        root.add().width(70);
         root.add(usernameField).width(500).height(100).padBottom(20);
-        root.add(); // ستون خالی دیگر
+        root.add();
         root.row();
 
         root.add().width(70);
@@ -86,12 +86,12 @@ public class RegisterMenuView implements Screen {
         root.add(errorLabel).colspan(3).center().padBottom(10);
         root.row();
 
-        root.add(); // ستون خالی چپ
+        root.add();
         Table buttonRow = new Table();
         buttonRow.add(registerButton).width(240).padRight(20);
         buttonRow.add(goBackButton).width(240);
-        root.add(buttonRow).colspan(1).padBottom(20); // ستون وسط برای دکمه‌ها
-        root.add(); // ستون خالی راست
+        root.add(buttonRow).colspan(1).padBottom(20);
+        root.add();
         root.row();
 
         root.row();
@@ -103,14 +103,7 @@ public class RegisterMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -140,7 +133,7 @@ public class RegisterMenuView implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public TextButton getRegisterButton() {

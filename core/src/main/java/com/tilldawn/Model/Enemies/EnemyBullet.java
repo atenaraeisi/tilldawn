@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.tilldawn.Control.EnemyController;
 import com.tilldawn.Model.CollisionRect;
-import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 import com.tilldawn.Model.Player;
 
@@ -28,7 +26,7 @@ public class EnemyBullet {
 
     public EnemyBullet(Vector2 position, Vector2 direction) {
         this.position = new Vector2(position);
-        this.direction = new Vector2(direction).nor(); // نرمال‌سازی جهت
+        this.direction = new Vector2(direction).nor();
         this.sprite = new Sprite(texture);
         sprite.setSize(15, 15);
         sprite.setPosition(position.x, position.y);
@@ -68,10 +66,6 @@ public class EnemyBullet {
 
     public int getDamage() {
         return damage;
-    }
-
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
     }
 
     public void setColliding(boolean colliding) {

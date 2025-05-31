@@ -38,26 +38,6 @@ public abstract class AbstractEnemy implements Enemy {
         this.deathAnimation = GameAssetManager.getGameAssetManager().getFireExplosion_idle_frames();
     }
 
-    public boolean isEnemyIdle() {
-        return isEnemyIdle;
-    }
-
-    public void setEnemyIdle(boolean enemyIdle) {
-        isEnemyIdle = enemyIdle;
-    }
-
-    public boolean isEnemyRunning() {
-        return isEnemyRunning;
-    }
-
-    public void setEnemyRunning(boolean enemyRunning) {
-        isEnemyRunning = enemyRunning;
-    }
-
-    public float getTime() {
-        return time;
-    }
-
     public void setTime(float time) {
         this.time = time;
     }

@@ -61,6 +61,21 @@ public class PreGameMenuView implements Screen {
         mainTable.add(createTimeSelection()).colspan(4).padBottom(50).row();
 
         // Start Button
+        TextButton startButton = getStartButton(skin);
+        TextButton savedGame = new TextButton("Saved Game", skin);
+        savedGame.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                //hmm TODO
+            }
+        });
+        mainTable.add(savedGame).padRight(20).padTop(20);
+        mainTable.add(startButton).padTop(20);
+
+        stage.addActor(mainTable);
+    }
+
+    private TextButton getStartButton(Skin skin) {
         TextButton startButton = new TextButton("Start Game", skin);
         startButton.addListener(new ChangeListener() {
             @Override
@@ -75,17 +90,7 @@ public class PreGameMenuView implements Screen {
                 }
             }
         });
-        TextButton savedGame = new TextButton("Saved Game", skin);
-        savedGame.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                //hmm TODO
-            }
-        });
-        mainTable.add(savedGame).padRight(20).padTop(20);
-        mainTable.add(startButton).padTop(20);
-
-        stage.addActor(mainTable);
+        return startButton;
     }
 
     private Table createCharacterSelection() {

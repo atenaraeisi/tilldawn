@@ -51,20 +51,8 @@ public class Player {
         rect = new CollisionRect((float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2, playerTexture.getWidth() , playerTexture.getHeight() );
     }
 
-    public Texture getPlayerTexture() {
-        return playerTexture;
-    }
-
-    public void setPlayerTexture(Texture playerTexture) {
-        this.playerTexture = playerTexture;
-    }
-
     public Sprite getPlayerSprite() {
         return playerSprite;
-    }
-
-    public void setPlayerSprite(Sprite playerSprite) {
-        this.playerSprite = playerSprite;
     }
 
     public float getPosX() {

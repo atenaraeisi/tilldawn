@@ -25,7 +25,6 @@ public class EnemyController {
     private float timeSinceLastHit = 0f;
 
     public EnemyController() {
-        // ساخت Tree Enemies در موقعیت‌های مشخص
         enemies.add(new TreeEnemy(new Vector2(300, 400)));
         enemies.add(new TreeEnemy(new Vector2(600, 800)));
         enemies.add(new TreeEnemy(new Vector2(950, 1100)));
@@ -202,10 +201,6 @@ public class EnemyController {
 
     public ArrayList<Enemy> getEnemies() {
         return enemies;
-    }
-
-    public ArrayList<EnemyBullet> getBullets() {
-        return bullets;
     }
 
     public Enemy findNearestEnemy(Vector2 origin) {

@@ -58,7 +58,6 @@ public class ScoreboardView implements Screen {
 
         // Header row
         userTable.add(new Label("Rank", skin)).padRight(40);
-        //userTable.add(new Label("Avatar", skin)).padRight(40);
         userTable.add(new Label("Username", skin)).padRight(40);
         userTable.add(new Label("Score", skin)).padRight(40);
         userTable.add(new Label("Kills", skin)).padRight(40);
@@ -104,7 +103,6 @@ public class ScoreboardView implements Screen {
             }
 
             userTable.add(rankLabel).padRight(40);
-            //userTable.add(user.getAvatar()).size(32, 32).padRight(40);
             userTable.add(usernameLabel).padRight(40);
             userTable.add(scoreLabel).padRight(40);
             userTable.add(killsLabel).padRight(40);

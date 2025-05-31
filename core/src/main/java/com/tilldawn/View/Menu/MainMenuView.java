@@ -46,16 +46,15 @@ public class MainMenuView implements Screen {
 
         Table root = new Table();
         root.setFillParent(true);
-        root.top().padTop(30); // فاصله از بالا
+        root.top().padTop(30);
 
-        root.add(gameTitle).colspan(3).center().padBottom(100); // عنوان وسط
+        root.add(gameTitle).colspan(3).center().padBottom(100);
         root.row();
 
         TextButton[] buttons = {settingsButton, profileButton, pregameButton, hintsButton, scoreboardButton, exitButton};
-        // ایجاد دکمه‌ها و چیدن در ۲ سطر و ۳ ستون
         for (int i = 0; i < 6; i++) {
             root.add(buttons[i]).width(400).height(150).pad(30);
-            if (i % 2 == 1) root.row(); // بعد از هر ۳ دکمه، سطر جدید
+            if (i % 2 == 1) root.row();
         }
 
         stage.addActor(root);
@@ -63,6 +62,15 @@ public class MainMenuView implements Screen {
 
     @Override
     public void render(float delta) {
+        initialRender(stage);
+        Main.getBatch().begin();
+        Main.getBatch().end();
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
+        controller.handleMainMenuButtons();
+    }
+
+    public static void initialRender(Stage stage) {
         ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
         if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
             Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
@@ -71,11 +79,6 @@ public class MainMenuView implements Screen {
             Main.getBatch().setShader(null);
             stage.getBatch().setShader(null);
         }
-        Main.getBatch().begin();
-        Main.getBatch().end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
-        controller.handleMainMenuButtons();
     }
 
     @Override
@@ -100,7 +103,7 @@ public class MainMenuView implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public TextButton getSettingsButton() {

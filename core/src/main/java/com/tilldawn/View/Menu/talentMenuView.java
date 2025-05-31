@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
@@ -35,7 +34,6 @@ public class talentMenuView implements Screen {
         Label title = new Label("Hint Menu", skin.get("title", Label.LabelStyle.class));
         hintTable.add(title).padBottom(50).row();
 
-        // بخش 1: معرفی hero ها
         Label heroTitle = new Label("Heroes:", skin);
         hintTable.add(heroTitle).center().row();
         Table heroTable = new Table();
@@ -64,7 +62,6 @@ public class talentMenuView implements Screen {
         keyTable.add(new Label(Input.Keys.toString(Game.getReloadButton()), skin)).padRight(40);
         hintTable.add(keyTable).padBottom(30).row();
 
-        // بخش 3: کدهای تقلب
         Label cheatTitle = new Label("Cheat Codes:", skin);
         hintTable.add(cheatTitle).center().row();
         Table cheatTable = new Table();
@@ -75,7 +72,6 @@ public class talentMenuView implements Screen {
         cheatTable.add(new Label("- Boss Fight by B key", skin)).row();
         hintTable.add(cheatTable).padBottom(30).row();
 
-        // بخش 4: Ability ها
         Label abilityTitle = new Label("Abilities:", skin);
         hintTable.add(abilityTitle).center().row();
         Table abilityTable = new Table();
@@ -113,14 +109,7 @@ public class talentMenuView implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -149,6 +138,6 @@ public class talentMenuView implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

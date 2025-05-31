@@ -297,55 +297,6 @@ public class GameAssetManager {
         return skin;
     }
 
-
-    public Texture getAvatar12Texture() {
-        return avatar12Texture;
-    }
-
-    public Texture getAvatar11Texture() {
-        return avatar11Texture;
-    }
-
-    public Texture getAvatar10Texture() {
-        return avatar10Texture;
-    }
-
-    public Texture getAvatar9Texture() {
-        return avatar9Texture;
-    }
-
-    public Texture getAvatar8Texture() {
-        return avatar8Texture;
-    }
-
-    public Texture getAvatar6Texture() {
-        return avatar6Texture;
-    }
-
-    public Texture getAvatar7Texture() {
-        return avatar7Texture;
-    }
-
-    public Texture getAvatar5Texture() {
-        return avatar5Texture;
-    }
-
-    public Texture getAvatar4Texture() {
-        return avatar4Texture;
-    }
-
-    public Texture getAvatar3Texture() {
-        return avatar3Texture;
-    }
-
-    public Texture getAvatar2Texture() {
-        return avatar2Texture;
-    }
-
-    public Texture getAvatar1Texture() {
-        return avatar1Texture;
-    }
-
     public Sound getReloadingSound() {
         return reloadingSound;
     }
@@ -402,28 +353,12 @@ public class GameAssetManager {
         return character1_idle_frames;
     }
 
-    public String getCharacter1_idle0(){
-        return character1_idle0;
-    }
-
-    public String getTentacleEnemy_idle0() {
-        return tentacleEnemy_idle0;
-    }
-
     public Animation<Texture> getTentacleEnemy_idle_frames() {
         return tentacleEnemy_idle_frames;
     }
 
-    public String getTreeEnemy_idle0() {
-        return treeEnemy_idle0;
-    }
-
     public Animation<Texture> getTreeEnemy_idle_frames() {
         return treeEnemy_idle_frames;
-    }
-
-    public String getCharacter1_idle1() {
-        return character1_idle1;
     }
 
     public Texture getTentacleEnemy_idle0_tex() {
@@ -452,10 +387,6 @@ public class GameAssetManager {
 
     public Animation<Texture> getSmgReload_idle_frames() {
         return smgReload_idle_frames;
-    }
-
-    public String getCharacter1_idle3() {
-        return character1_idle3;
     }
 
     public Animation<Texture> getCharacter3_idle_frames() {
@@ -506,10 +437,6 @@ public class GameAssetManager {
         return fireExplosion_idle_frames;
     }
 
-    public String getCharacter1_idle4() {
-        return character1_idle4;
-    }
-
     public Texture getAmoCreaseTexture() {
         return amoCreaseTexture;
     }
@@ -530,10 +457,6 @@ public class GameAssetManager {
         return speedyTexture;
     }
 
-    public String getCharacter1_idle2() {
-        return character1_idle2;
-    }
-
     public Texture getFlash_idle0_tex() {
         return flash_idle0_tex;
     }
@@ -544,10 +467,6 @@ public class GameAssetManager {
 
     public Texture getSmgTexture(){
         return smgTexture;
-    }
-
-    public String getSmg(){
-        return smg;
     }
 
     public Texture getShotGunTexture() {

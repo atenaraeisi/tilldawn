@@ -170,14 +170,7 @@ public class SettingsMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

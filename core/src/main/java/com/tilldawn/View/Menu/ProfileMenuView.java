@@ -131,14 +131,7 @@ public class ProfileMenuView implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         if (Game.getCurrentUser() != null) {
             username.setText("Username: " + Game.getCurrentUser().getUsername());
             score.setText("Score: " + Game.getCurrentUser().getScore());
@@ -151,7 +144,6 @@ public class ProfileMenuView implements Screen {
         stage.draw();
         controller.handleProfileMenuButtons();
     }
-
 
 
     @Override
@@ -176,7 +168,7 @@ public class ProfileMenuView implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     public Stage getStage() {

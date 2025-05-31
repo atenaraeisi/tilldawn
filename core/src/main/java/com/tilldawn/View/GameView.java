@@ -61,7 +61,7 @@ public class GameView implements Screen, InputProcessor {
         this.skin = skin;
         this.controller = controller;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600); // ابعاد دوربین
+        camera.setToOrtho(false, 800, 600);
         controller.setView(this);
 
         ProgressBar.ProgressBarStyle style = skin.get("mana", ProgressBar.ProgressBarStyle.class);
@@ -223,8 +223,8 @@ public class GameView implements Screen, InputProcessor {
     public void show() {
         stage = new Stage(new ScreenViewport());
         InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);       // برای دیالوگ و دکمه‌ها
-        multiplexer.addProcessor(this);        // برای کنترل شلیک، موس، کیبورد
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
 
         timeProgressBar.setPosition(0 , stage.getHeight() - 50);
@@ -232,16 +232,15 @@ public class GameView implements Screen, InputProcessor {
         killCountLabel.setPosition(640, stage.getHeight() - 50);
         killCount.setPosition(690, stage.getHeight() - 35);
 
-        // موقعیت نوار XP و لول
         xpProgressBar.setPosition(stage.getWidth() - 320, stage.getHeight() - 60);
         levelLabel.setPosition(stage.getWidth() - 320, stage.getHeight() - 40);
 
         pauseButton.setPosition(stage.getWidth() - 220, 50);
 
 
-        bulletIcons.clear(); // برای اطمینان از پاک شدن لیست قبلی
+        bulletIcons.clear();
         bulletTable = new Table();
-        bulletTable.setName("bulletTable"); // برای یافتن راحت در Stage
+        bulletTable.setName("bulletTable");
 
         bulletTexture = GameAssetManager.getGameAssetManager().getSmgReload_idle0_tex();
         for (int i = 0; i < Game.getCurrentPlayer().getEquippedWeapon().getAmmo(); i++) {
@@ -336,7 +335,6 @@ public class GameView implements Screen, InputProcessor {
             refillBulletIcons(Game.getCurrentPlayer().getEquippedWeapon().getAmmo());
         }
 
-        // به‌روزرسانی نوار XP و لول
         int currentXP = Game.getCurrentPlayer().getXp();
         int level = Game.getCurrentPlayer().getLevel();
         int xpForNextLevel = Game.getCurrentPlayer().getXPForNextLevel();
@@ -414,12 +412,11 @@ public class GameView implements Screen, InputProcessor {
         }
 
 
-        // جلوگیری از بسته‌شدن دیالوگ با کلیک بیرون
         abilityDialog.setModal(true);
         abilityDialog.setMovable(false);
         abilityDialog.setResizable(false);
 
-        abilityDialog.show(stage); // نمایش دیالوگ
+        abilityDialog.show(stage);
     }
 
     private void applyAbility(Ability ability) {
@@ -459,7 +456,7 @@ public class GameView implements Screen, InputProcessor {
     public void removeBulletIconOnShoot() {
         int childrenCount = bulletTable.getChildren().size;
         if (childrenCount > 0) {
-            bulletTable.removeActorAt(childrenCount - 1, true); // حذف آخرین آیکون
+            bulletTable.removeActorAt(childrenCount - 1, true);
         }
     }
 
@@ -495,6 +492,7 @@ public class GameView implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
+        stage.dispose();
     }
 
     @Override

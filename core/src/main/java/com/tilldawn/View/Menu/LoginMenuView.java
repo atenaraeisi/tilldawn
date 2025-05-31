@@ -68,9 +68,9 @@ public class LoginMenuView implements Screen {
         root.add(errorLabel).colspan(3).center().padBottom(10);
         root.row();
 
-        root.add().width(70); // ستون خالی برای مرکز کردن
+        root.add().width(70);
         root.add(usernameField).width(600).height(80).padBottom(20);
-        root.add(); // ستون خالی دیگر
+        root.add();
         root.row();
 
         root.add().width(70);
@@ -78,7 +78,7 @@ public class LoginMenuView implements Screen {
         root.add();
         root.row();
 
-        root.add(); // ستون خالی چپ
+        root.add();
         root.add(loginButton).width(600).height(90);
         root.add();
         root.row();
@@ -88,8 +88,8 @@ public class LoginMenuView implements Screen {
         buttonRow.padTop(20);
         buttonRow.add(forgetPasswordButton).width(315).height(100).padRight(20);
         buttonRow.add(goBackButton).width(265).height(100);
-        root.add(buttonRow).colspan(1); // ستون وسط برای دکمه‌ها
-        root.add(); // ستون خالی راست
+        root.add(buttonRow).colspan(1);
+        root.add();
         root.row();
         root.add();
         root.add(securityQuestionLabel).padTop(10);
@@ -111,14 +111,7 @@ public class LoginMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         Main.getBatch().begin();
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -148,6 +141,7 @@ public class LoginMenuView implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
 
     }
 

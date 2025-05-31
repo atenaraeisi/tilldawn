@@ -31,7 +31,7 @@ public class EntryMenuView implements Screen {
         this.skin = skin;
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PressStart2P-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 32; // سایز دلخواه
+        parameter.size = 32;
         BitmapFont bigFont = generator.generateFont(parameter);
         generator.dispose();
         TextButton.TextButtonStyle  textOnlyStyle = new TextButton.TextButtonStyle();
@@ -57,7 +57,6 @@ public class EntryMenuView implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        // تنظیم موس
         Pixmap pixmap = new Pixmap(Gdx.files.internal("Sprite/T/T_Cursor.png"));
         Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
         Gdx.graphics.setCursor(cursor);
@@ -67,7 +66,6 @@ public class EntryMenuView implements Screen {
         table.setFillParent(true);
         table.center();
 
-        // دکمه‌ها
         table.add(signUpButton).width(500).padTop(250f).padBottom(60f).row();
         table.add(loginButton).width(500).padBottom(60f).row();
         table.add(guestButton).width(500).padBottom(60f).row();
@@ -79,14 +77,7 @@ public class EntryMenuView implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0.05f, 0.05f, 0.1f, 1);
-        if (GameAssetManager.getGameAssetManager().isBlackAndWhiteEnabled()) {
-            Main.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-            stage.getBatch().setShader(GameAssetManager.getGameAssetManager().getGrayscaleShader());
-        } else {
-            Main.getBatch().setShader(null);
-            stage.getBatch().setShader(null);
-        }
+        MainMenuView.initialRender(stage);
         stage.getBatch().begin();
         stage.getBatch().draw(logo, 551, 580, 818, 450);
         stage.getBatch().draw(leftSide, 0, 0, 590, Gdx.graphics.getHeight());
