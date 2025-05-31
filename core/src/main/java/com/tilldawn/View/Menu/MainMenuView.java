@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.tilldawn.Control.Menu.MainMenuController;
 import com.tilldawn.Main;
+import com.tilldawn.Model.Game;
 import com.tilldawn.Model.GameAssetManager;
 
 public class MainMenuView implements Screen {
@@ -63,11 +64,16 @@ public class MainMenuView implements Screen {
     @Override
     public void render(float delta) {
         initialRender(stage);
+        setBackground(stage);
+        controller.handleMainMenuButtons();
+    }
+
+    public static void setBackground(Stage stage) {
         Main.getBatch().begin();
+        Main.getBatch().draw(GameAssetManager.getGameAssetManager().getBackground(), 0, 0);
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-        controller.handleMainMenuButtons();
     }
 
     public static void initialRender(Stage stage) {

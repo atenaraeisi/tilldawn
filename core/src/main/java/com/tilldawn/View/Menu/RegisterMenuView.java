@@ -104,10 +104,7 @@ public class RegisterMenuView implements Screen {
     @Override
     public void render(float delta) {
         MainMenuView.initialRender(stage);
-        Main.getBatch().begin();
-        Main.getBatch().end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        MainMenuView.setBackground(stage);
         controller.handleRegisterMenuButtons();
     }
 

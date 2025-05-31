@@ -14,6 +14,9 @@ public class GameAssetManager {
     private static GameAssetManager gameAssetManager;
     private final Skin skin = new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"));
 
+
+    private final Texture background = new Texture(Gdx.files.internal("images/back4.jpg"));
+
     private final String character1_idle0 = "1/Idle_0.png";
     private final String character1_idle1 = "1/Idle_1.png";
     private final String character1_idle2 = "1/Idle_2.png";
@@ -249,6 +252,10 @@ public class GameAssetManager {
         new TextureRegionDrawable(new TextureRegion(avatar12Texture)),
     };
 
+
+    public Texture getBackground() {
+        return background;
+    }
 
     public TextureRegionDrawable[] getAvatarDrawables() {
         return avatarDrawables;

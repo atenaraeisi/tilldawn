@@ -138,10 +138,7 @@ public class ProfileMenuView implements Screen {
             selectedAvatarImage = Game.getCurrentUser().getAvatar();
 
         }
-        Main.getBatch().begin();
-        Main.getBatch().end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        MainMenuView.setBackground(stage);
         controller.handleProfileMenuButtons();
     }
 
