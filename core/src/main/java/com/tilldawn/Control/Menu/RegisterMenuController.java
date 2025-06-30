@@ -27,7 +27,6 @@ public class RegisterMenuController {
             }
             else if (view.getRegisterButton().isChecked()) {
                 GameAssetManager.getGameAssetManager().getClickSound().play();
-                Main.getMain().getScreen().dispose();
                 String username = view.getUsernameField().getText();
                 String password = view.getPasswordField().getText();
                 String selectedQuestion = view.getSelectedQuestion();
@@ -64,6 +63,7 @@ public class RegisterMenuController {
                 User user = new User(username, password, selectedQuestion, answer);
                 UserDataSQL.getInstance().addUser(user);
                 Game.setCurrentUser(user);
+                Main.getMain().getScreen().dispose();
                 Main.getMain().setScreen(new MainMenuView(new MainMenuController(), new Skin(Gdx.files.internal("skin/pixthulhu-ui.json"))));
             }
         }

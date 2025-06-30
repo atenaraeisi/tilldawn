@@ -46,7 +46,7 @@ public class WinningPage implements Screen {
         score = new Label("Score: " + scoreNumber, skin);
         int killsCountNumber = player.getKillCount();
         killsCount = new Label("Kill count: " +  killsCountNumber, skin);
-        int time = 20;
+        int time = (int) GameController.WIN_TIME / 60;
         timeAlive = new Label("time being alive: " + time + " minute", skin);
         TextButton backButton = new TextButton("Back to Menu", skin);
 

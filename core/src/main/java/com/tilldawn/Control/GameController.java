@@ -67,7 +67,7 @@ public class GameController {
                 view.showAbilitySelectionDialog();
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
-                if (Game.getCurrentPlayer().getPlayerHealth() != 0) Game.getCurrentPlayer().setPlayerHealth(10);
+                if (Game.getCurrentPlayer().getPlayerHealth() < Game.getCurrentPlayer().getMaxHp()) Game.getCurrentPlayer().setPlayerHealth(Game.getCurrentPlayer().getPlayerHealth() + 10);
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
                 Game.getCurrentPlayer().getEquippedWeapon().increaseProjectilePerShot(1);
